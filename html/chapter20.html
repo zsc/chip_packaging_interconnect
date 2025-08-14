@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="./">
+    <title>第20章：AMD Infinity架构演进</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/highlight.css">
+    <script src="assets/script.js" defer></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                processEscapes: false,
+                packages: {'[+]': ['noerrors', 'ams']}
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            loader: {
+                load: ['[tex]/noerrors', '[tex]/ams']
+            }
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h3>目录</h3>
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <div class="sidebar-search">
+                <input type="text" id="sidebar-search-input" placeholder="搜索..." autocomplete="off">
+            </div>
+            <div id="tree-container">
+                <nav class="tree-nav" role="tree">
+                    <div class="tree-item " >
+                        <a href="index.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">芯片互联与封装技术教程</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter1.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第1章：NoC架构概述</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter2.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第2章：路由算法与流控</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter3.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第3章：NoC性能建模与优化</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter4.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第4章：2.5D封装技术</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter5.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第5章：3D封装与异构集成</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter6.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第6章：Chiplet设计理念与经济学</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter7.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第7章：Die-to-Die接口标准</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter8.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第8章：Chiplet物理层设计</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter9.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第9章：Chiplet系统架构</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter10.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第10章：Chiplet集成与验证</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter11.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第11章：HBM架构基础</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter12.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第12章：HBM物理实现</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter13.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第13章：HBM系统设计</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter14.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第14章：HBM编程模型与软件栈</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter15.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第15章：近存储计算架构</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter16.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第16章：CXL与内存扩展</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter17.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第17章：数据中心规模互联</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter18.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第18章：AI加速器互联</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter19.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第19章：移动与边缘芯片互联</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item active" >
+                        <a href="chapter20.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第20章：AMD Infinity架构演进</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter21.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第21章：光电混合互联</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter22.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第22章：量子互联初探</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="CLAUDE.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">Untitled</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </nav>
+        
+        <main class="content">
+            <article>
+                <h1 id="20amd-infinity">第20章：AMD Infinity架构演进</h1>
+<p>本章深入探讨AMD Infinity架构的设计理念、技术演进和实现细节。从Zen架构的模块化设计到MI300的异构集成，我们将分析AMD如何通过创新的互联技术实现高性能、可扩展的处理器设计。重点关注Infinity Fabric的协议栈、EPYC的NUMA拓扑、Chiplet互联策略，以及最新的CPU-GPU统一架构创新。</p>
+<h2 id="201-infinity-fabric">20.1 Infinity Fabric概述</h2>
+<h3 id="2011">20.1.1 架构起源与设计理念</h3>
+<p>AMD Infinity Fabric（IF）首次出现在2017年的Zen架构中，是AMD实现Chiplet战略的核心技术。其设计理念包括：</p>
+<p><strong>模块化扩展性</strong>：通过标准化的互联协议，实现从消费级到数据中心的产品线覆盖。不同于Intel的monolithic设计，AMD选择了更灵活的多die策略。</p>
+<p><strong>协议分层架构</strong>：</p>
+<div class="codehilite"><pre><span></span><code>┌─────────────────────────────────┐
+│     Coherent HyperTransport     │ ← 缓存一致性层
+├─────────────────────────────────┤
+│        Infinity Scalable        │ ← 可扩展数据层
+│         Data Fabric (SDF)       │
+├─────────────────────────────────┤
+│    Infinity Scalable Control    │ ← 控制平面
+│         Fabric (SCF)            │
+├─────────────────────────────────┤
+│      Physical Layer (PHY)       │ ← 物理层
+└─────────────────────────────────┘
+</code></pre></div>
+
+<h3 id="2012-infinity-fabric">20.1.2 Infinity Fabric协议栈</h3>
+<p><strong>数据平面（SDF - Scalable Data Fabric）</strong>：</p>
+<ul>
+<li>负责数据传输和路由</li>
+<li>支持多种传输粒度：32B、64B、128B</li>
+<li>实现NUMA感知的数据路由</li>
+<li>带宽规格：</li>
+<li>IF1: 42GB/s双向（10.67GT/s）</li>
+<li>IF2: 50GB/s双向（12.8GT/s）</li>
+<li>IF3: 64GB/s双向（16GT/s）</li>
+<li>IF4: 96GB/s双向（18GT/s）</li>
+</ul>
+<p><strong>控制平面（SCF - Scalable Control Fabric）</strong>：</p>
+<ul>
+<li>管理系统配置和初始化</li>
+<li>处理中断和异常</li>
+<li>功耗管理协调</li>
+<li>安全功能实现</li>
+</ul>
+<h3 id="2013">20.1.3 物理层实现</h3>
+<p>Infinity Fabric物理层支持多种实现方式：</p>
+<p><strong>片内互联（On-die）</strong>：</p>
+<ul>
+<li>采用宽并行总线</li>
+<li>512位数据通道</li>
+<li>工作频率：1.6-2.0GHz</li>
+<li>延迟：&lt;5ns</li>
+</ul>
+<p><strong>片间互联（Die-to-die）</strong>：</p>
+<ul>
+<li>SERDES接口</li>
+<li>差分信号传输</li>
+<li>支持PCB和封装内布线</li>
+<li>自适应均衡</li>
+</ul>
+<p><strong>芯片间互联（Socket-to-socket）</strong>：</p>
+<ul>
+<li>xGMI（AMD专有）</li>
+<li>兼容PCIe物理层</li>
+<li>支持光纤扩展</li>
+</ul>
+<h3 id="2014">20.1.4 路由机制</h3>
+<p>Infinity Fabric采用分布式路由架构：</p>
+<div class="codehilite"><pre><span></span><code>目标地址解析流程：
+Physical Address → Node ID → Die ID → Target
+     ↓               ↓          ↓        ↓
+  [47:0 bits]    [7:0 bits] [3:0 bits] Local
+</code></pre></div>
+
+<p>路由表配置示例：</p>
+<div class="codehilite"><pre><span></span><code>Node 0: Local Memory [0x0000_0000 - 0x7FFF_FFFF]
+Node 1: Remote Memory [0x8000_0000 - 0xFFFF_FFFF]
+Node 2: IO Space [0x1_0000_0000 - 0x1_FFFF_FFFF]
+</code></pre></div>
+
+<h2 id="202-epyc">20.2 EPYC服务器互联拓扑</h2>
+<h3 id="2021-epycnaples">20.2.1 第一代EPYC（Naples）</h3>
+<p>采用MCM（Multi-Chip Module）设计，4个Zeppelin die通过Infinity Fabric互联：</p>
+<div class="codehilite"><pre><span></span><code><span class="w">        </span>┌─────────┐<span class="w">     </span>┌─────────┐
+<span class="w">        </span>│<span class="w">  </span><span class="nv">Die</span><span class="w"> </span><span class="mi">0</span><span class="w">  </span>│─────│<span class="w">  </span><span class="nv">Die</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span>│
+<span class="w">        </span>│<span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="nv">Cores</span><span class="w"> </span>│<span class="w"> </span><span class="k">IF</span><span class="w">  </span>│<span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="nv">Cores</span><span class="w"> </span>│
+<span class="w">        </span>│<span class="w"> </span><span class="mi">2</span><span class="nv">ch</span><span class="w"> </span><span class="nv">DDR</span><span class="w"> </span>│<span class="w">     </span>│<span class="w"> </span><span class="mi">2</span><span class="nv">ch</span><span class="w"> </span><span class="nv">DDR</span><span class="w"> </span>│
+<span class="w">        </span>└────┬────┘<span class="w">     </span>└────┬────┘
+<span class="w">             </span>│<span class="k">IF</span><span class="w">            </span><span class="k">IF</span>│
+<span class="w">        </span>┌────┴────┐<span class="w">     </span>┌────┴────┐
+<span class="w">        </span>│<span class="w">  </span><span class="nv">Die</span><span class="w"> </span><span class="mi">2</span><span class="w">  </span>│─────│<span class="w">  </span><span class="nv">Die</span><span class="w"> </span><span class="mi">3</span><span class="w">  </span>│
+<span class="w">        </span>│<span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="nv">Cores</span><span class="w"> </span>│<span class="w"> </span><span class="k">IF</span><span class="w">  </span>│<span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="nv">Cores</span><span class="w"> </span>│
+<span class="w">        </span>│<span class="w"> </span><span class="mi">2</span><span class="nv">ch</span><span class="w"> </span><span class="nv">DDR</span><span class="w"> </span>│<span class="w">     </span>│<span class="w"> </span><span class="mi">2</span><span class="nv">ch</span><span class="w"> </span><span class="nv">DDR</span><span class="w"> </span>│
+<span class="w">        </span>└─────────┘<span class="w">     </span>└─────────┘
+</code></pre></div>
+
+<p>关键特性：</p>
+<ul>
+<li>每个die包含8个核心、2个DDR4通道</li>
+<li>die间带宽：42GB/s双向</li>
+<li>NUMA节点：4个</li>
+<li>跨die延迟：~100ns</li>
+</ul>
+<h3 id="2022-epycrome">20.2.2 第二代EPYC（Rome）</h3>
+<p>引入chiplet架构，分离计算和IO功能：</p>
+<div class="codehilite"><pre><span></span><code>     CCD0    CCD1    CCD2    CCD3
+    ┌────┐  ┌────┐  ┌────┐  ┌────┐
+    │8C  │  │8C  │  │8C  │  │8C  │
+    └──┬─┘  └──┬─┘  └──┬─┘  └──┬─┘
+       │IF2    │IF2    │IF2    │IF2
+    ┌──┴───────┴───────┴───────┴──┐
+    │                              │
+    │         IO Die (14nm)        │
+    │   8ch DDR4 + 128 PCIe Gen4  │
+    │                              │
+    └──┬───────┬───────┬───────┬──┘
+       │IF2    │IF2    │IF2    │IF2
+    ┌──┴─┐  ┌──┴─┐  ┌──┴─┐  ┌──┴─┐
+    │8C  │  │8C  │  │8C  │  │8C  │
+    └────┘  └────┘  └────┘  └────┘
+     CCD4    CCD5    CCD6    CCD7
+</code></pre></div>
+
+<p>改进点：</p>
+<ul>
+<li>CCD（Core Complex Die）：7nm工艺</li>
+<li>IOD（IO Die）：14nm工艺</li>
+<li>统一内存访问延迟</li>
+<li>单跳访问所有资源</li>
+</ul>
+<h3 id="2023-epycmilan">20.2.3 第三代EPYC（Milan）</h3>
+<p>优化缓存层次结构：</p>
+<div class="codehilite"><pre><span></span><code>每CCD配置：
+┌──────────────────────────┐
+│     Core Complex Die     │
+├──────────────────────────┤
+│  ┌────┐ ┌────┐ ... ×8   │
+│  │Core│ │Core│           │
+│  │32KB│ │32KB│           │
+│  │L1  │ │L1  │           │
+│  └──┬─┘ └──┬─┘           │
+│     │      │             │
+│  ┌──┴──────┴──┐          │
+│  │   512KB    │ ×8       │
+│  │   L2 Cache │          │
+│  └──────┬─────┘          │
+│         │                │
+│  ┌──────┴──────┐         │
+│  │   32MB      │         │
+│  │   L3 Cache  │ Shared  │
+│  └─────────────┘         │
+└──────────────────────────┘
+</code></pre></div>
+
+<p>关键优化：</p>
+<ul>
+<li>统一32MB L3缓存（vs Rome的2×16MB）</li>
+<li>降低核心间通信延迟</li>
+<li>改进分支预测器</li>
+<li>IPC提升19%</li>
+</ul>
+<h3 id="2024-epycgenoa">20.2.4 第四代EPYC（Genoa）</h3>
+<p>支持最多12个CCD，96核心配置：</p>
+<div class="codehilite"><pre><span></span><code>双路系统拓扑：
+Socket 0                    Socket 1
+┌─────────────────┐       ┌─────────────────┐
+│  12×CCD (96C)   │ xGMI  │  12×CCD (96C)   │
+│  12ch DDR5      │◄─────►│  12ch DDR5      │
+│  128 PCIe Gen5  │       │  128 PCIe Gen5  │
+└─────────────────┘       └─────────────────┘
+        │                          │
+        └──────────┬───────────────┘
+                   │
+              CXL 2.0 Memory Pool
+</code></pre></div>
+
+<p>新特性：</p>
+<ul>
+<li>DDR5支持：4800MT/s</li>
+<li>PCIe 5.0：128通道</li>
+<li>CXL 2.0内存扩展</li>
+<li>增强的安全功能（SEV-SNP）</li>
+</ul>
+<h2 id="203-ryzenccdiod">20.3 Ryzen桌面处理器CCD/IOD设计</h2>
+<h3 id="2031-chiplet">20.3.1 消费级Chiplet策略</h3>
+<p>Ryzen采用与EPYC相似但简化的设计：</p>
+<div class="codehilite"><pre><span></span><code>Ryzen 5000系列架构：
+    ┌─────────────┐     ┌─────────────┐
+    │    CCD 0    │     │    CCD 1    │
+    │  8 Cores    │     │  8 Cores    │
+    │  32MB L3    │     │  32MB L3    │
+    └──────┬──────┘     └──────┬──────┘
+           │ IF               IF │
+    ┌──────┴────────────────────┴──────┐
+    │            IO Die (12nm)          │
+    │   2ch DDR4 + 24 PCIe Gen4        │
+    │      Integrated Graphics*         │
+    └───────────────────────────────────┘
+    *仅APU型号
+</code></pre></div>
+
+<h3 id="2032">20.3.2 内存访问优化</h3>
+<p>针对游戏和桌面应用的优化：</p>
+<p><strong>统一内存访问（UMA）模式</strong>：</p>
+<ul>
+<li>所有核心访问内存延迟一致</li>
+<li>简化操作系统调度</li>
+<li>适合游戏工作负载</li>
+</ul>
+<p><strong>缓存优先模式</strong>：</p>
+<ul>
+<li>优先使用本地CCD的L3缓存</li>
+<li>减少跨CCD流量</li>
+<li>降低平均延迟</li>
+</ul>
+<h3 id="2033">20.3.3 功耗管理策略</h3>
+<p>精细化的功耗控制：</p>
+<div class="codehilite"><pre><span></span><code>功耗状态转换：
+C0 (Active) → C1 (Halt) → C2 (Stop) → C6 (Deep Sleep)
+     ↓            ↓           ↓            ↓
+   ~100W        ~80W        ~20W         &lt;5W
+
+每CCD独立控制：
+
+- 电压调节（0.2V - 1.5V）
+- 频率调节（800MHz - 5.0GHz）
+- 电源门控
+</code></pre></div>
+
+<h3 id="2034-3d-v-cache">20.3.4 3D V-Cache集成</h3>
+<p>Ryzen 7 5800X3D引入垂直缓存堆叠：</p>
+<div class="codehilite"><pre><span></span><code><span class="mf">3</span><span class="n">D</span><span class="w"> </span><span class="n">V</span><span class="o">-</span><span class="n">Cache结构</span><span class="err">：</span>
+<span class="w">         </span><span class="err">┌─────────────┐</span>
+<span class="w">         </span><span class="err">│</span><span class="w">  </span><span class="mf">64</span><span class="n">MB</span><span class="w"> </span><span class="n">SRAM</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">←</span><span class="w"> </span><span class="mf">3</span><span class="n">D堆叠层</span>
+<span class="w">         </span><span class="err">│</span><span class="w">   </span><span class="n">V</span><span class="o">-</span><span class="n">Cache</span><span class="w">   </span><span class="err">│</span>
+<span class="w">         </span><span class="err">└──────┬──────┘</span>
+<span class="w">              </span><span class="n">TSV</span><span class="err">│</span>
+<span class="w">         </span><span class="err">┌──────┴──────┐</span>
+<span class="w">         </span><span class="err">│</span><span class="w">  </span><span class="mf">32</span><span class="n">MB</span><span class="w"> </span><span class="n">L3</span><span class="w">    </span><span class="err">│</span><span class="w"> </span><span class="err">←</span><span class="w"> </span><span class="n">基础die</span>
+<span class="w">         </span><span class="err">│</span><span class="w">  </span><span class="n">Base</span><span class="w"> </span><span class="n">Cache</span><span class="w"> </span><span class="err">│</span>
+<span class="w">         </span><span class="err">└─────────────┘</span>
+<span class="w">         </span><span class="kr">To</span><span class="n">tal</span><span class="p">:</span><span class="w"> </span><span class="mf">96</span><span class="n">MB</span><span class="w"> </span><span class="n">L3</span>
+</code></pre></div>
+
+<p>技术特点：</p>
+<ul>
+<li>通过TSV连接</li>
+<li>带宽：2TB/s</li>
+<li>延迟增加：~4周期</li>
+<li>游戏性能提升：15-25%</li>
+</ul>
+<h2 id="204-mi300">20.4 MI300异构集成</h2>
+<h3 id="2041-mi300a">20.4.1 MI300A统一架构</h3>
+<p>MI300A是业界首个真正的CPU-GPU统一封装处理器：</p>
+<div class="codehilite"><pre><span></span><code>MI300A架构概览：
+┌───────────────────────────────────────┐
+│          Active Interposer            │
+├───────────────────────────────────────┤
+│ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐    │
+│ │CPU  │ │GPU  │ │GPU  │ │CPU  │     │
+│ │Tile │ │XCD  │ │XCD  │ │Tile │     │
+│ └──┬──┘ └──┬──┘ └──┬──┘ └──┬──┘     │
+│    │       │       │       │         │
+│ ┌──┴───────┴───────┴───────┴──┐      │
+│ │    Unified Memory Fabric     │      │
+│ └──┬───────┬───────┬───────┬──┘      │
+│    │       │       │       │         │
+│ ┌──┴──┐ ┌──┴──┐ ┌──┴──┐ ┌──┴──┐    │
+│ │HBM3 │ │HBM3 │ │HBM3 │ │HBM3 │     │
+│ │Stack│ │Stack│ │Stack│ │Stack│     │
+│ └─────┘ └─────┘ └─────┘ └─────┘     │
+└───────────────────────────────────────┘
+</code></pre></div>
+
+<p>关键规格：</p>
+<ul>
+<li>24个Zen 4核心（3个CPU chiplet）</li>
+<li>6个GFX940 GPU chiplet</li>
+<li>128GB HBM3内存</li>
+<li>5.3TB/s内存带宽</li>
+<li>统一内存空间</li>
+</ul>
+<h3 id="2042">20.4.2 统一内存模型</h3>
+<p>MI300A实现真正的共享内存：</p>
+<p><strong>地址空间映射</strong>：</p>
+<div class="codehilite"><pre><span></span><code>Virtual Address Space (64-bit)
+├── CPU Accessible Region
+│   ├── Code Segment
+│   ├── Data Segment
+│   └── Shared Memory
+└── GPU Accessible Region
+    ├── Global Memory
+    ├── Local Memory
+    └── Shared Memory (同CPU)
+</code></pre></div>
+
+<p><strong>缓存一致性协议</strong>：</p>
+<ul>
+<li>CPU和GPU共享相同的内存控制器</li>
+<li>硬件维护缓存一致性</li>
+<li>支持原子操作</li>
+<li>零拷贝数据共享</li>
+</ul>
+<h3 id="2043">20.4.3 片间互联设计</h3>
+<p>MI300采用先进的die-to-die互联：</p>
+<div class="codehilite"><pre><span></span><code>互联层次：
+
+1. Chiplet内部：Infinity Fabric on-die
+   - 带宽：&gt;1TB/s
+   - 延迟：&lt;10ns
+
+2. Chiplet之间：Elevated Fanout Bridge
+   - 带宽：64GB/s per link
+   - 延迟：&lt;20ns
+
+3. HBM接口：2.5D TSV
+   - 带宽：665GB/s per stack
+   - 延迟：~100ns
+</code></pre></div>
+
+<h3 id="2044">20.4.4 功耗与散热设计</h3>
+<p>异构集成带来的挑战：</p>
+<p><strong>功耗分配</strong>：</p>
+<ul>
+<li>CPU chiplet：~50W each</li>
+<li>GPU chiplet：~100W each  </li>
+<li>HBM3：~15W per stack</li>
+<li>总功耗包络：750W</li>
+</ul>
+<p><strong>散热方案</strong>：</p>
+<div class="codehilite"><pre><span></span><code>      Liquid Cooling
+           │
+    ┌──────▼──────┐
+    │   Cold Plate │
+    ├─────────────┤
+    │     TIM     │
+    ├─────────────┤
+    │   Chiplets  │ ← 热密度：&gt;500W/cm²
+    ├─────────────┤
+    │  Interposer │
+    └─────────────┘
+</code></pre></div>
+
+<h2 id="205-infinity-cache">20.5 Infinity Cache实现</h2>
+<h3 id="2051">20.5.1 架构设计</h3>
+<p>Infinity Cache是AMD在RDNA2中引入的大容量片上缓存：</p>
+<div class="codehilite"><pre><span></span><code>内存层次结构：
+┌────────────────┐
+│   L0 Cache     │ 16KB per CU
+├────────────────┤
+│   L1 Cache     │ 128KB per SA
+├────────────────┤
+│   L2 Cache     │ 4-8MB Total
+├────────────────┤
+│ Infinity Cache │ 32-128MB
+├────────────────┤
+│   GDDR6/HBM    │ System Memory
+└────────────────┘
+</code></pre></div>
+
+<h3 id="2052">20.5.2 缓存组织</h3>
+<p><strong>物理布局</strong>：</p>
+<div class="codehilite"><pre><span></span><code>GPU Die平面图：
+┌─────────────────────────────┐
+│  ┌───┐  Shader Arrays  ┌───┐│
+│  │IC │ ┌─┐┌─┐┌─┐┌─┐  │IC ││
+│  │   │ │C││C││C││C│  │   ││
+│  │32 │ │U││U││U││U│  │32 ││
+│  │MB │ └─┘└─┘└─┘└─┘  │MB ││
+│  └───┘                └───┘│
+│  ┌───┐ Memory Ctrlr  ┌───┐│
+│  │IC │ ┌──────────┐  │IC ││
+│  │32 │ │   L2     │  │32 ││
+│  │MB │ │  Cache   │  │MB ││
+│  └───┘ └──────────┘  └───┘│
+└─────────────────────────────┘
+IC = Infinity Cache Slice
+</code></pre></div>
+
+<h3 id="2053">20.5.3 性能优化</h3>
+<p><strong>缓存命中率优化</strong>：</p>
+<ul>
+<li>时间局部性利用</li>
+<li>空间预取算法</li>
+<li>自适应替换策略</li>
+<li>典型命中率：&gt;60%（4K游戏）</li>
+</ul>
+<p><strong>带宽放大效应</strong>：</p>
+<div class="codehilite"><pre><span></span><code>有效带宽计算：
+Effective BW = DRAM BW + (IC BW × Hit Rate)
+
+示例（RX 6900 XT）：
+DRAM: 512GB/s
+IC: 1.94TB/s × 65% = 1.26TB/s
+Total: 1.77TB/s有效带宽
+</code></pre></div>
+
+<h3 id="2054">20.5.4 功耗效益</h3>
+<p>Infinity Cache的能效优势：</p>
+<div class="codehilite"><pre><span></span><code>访问能耗对比（pJ/bit）：
+L0 Cache:    0.5
+L1 Cache:    1.0
+L2 Cache:    2.5
+Infinity Cache: 5.0
+GDDR6:       15.0
+System DRAM: 50.0
+
+功耗节省：~40%（vs 纯GDDR6）
+</code></pre></div>
+
+<h2 id="206-xgmipcie">20.6 XGMI与PCIe共存</h2>
+<h3 id="2061-xgmi">20.6.1 xGMI协议</h3>
+<p>xGMI（inter-chip Global Memory Interconnect）是AMD的高速互联协议：</p>
+<p><strong>协议特性</strong>：</p>
+<ul>
+<li>基于PCIe PHY层</li>
+<li>专有数据链路层</li>
+<li>支持缓存一致性</li>
+<li>低延迟优化</li>
+</ul>
+<p><strong>性能规格</strong>：</p>
+<div class="codehilite"><pre><span></span><code>xGMI代际演进：
+xGMI 1.0: 23GB/s per link
+xGMI 2.0: 50GB/s per link
+xGMI 3.0: 64GB/s per link
+xGMI 4.0: 96GB/s per link（规划中）
+</code></pre></div>
+
+<h3 id="2062-gpu">20.6.2 多GPU互联拓扑</h3>
+<p><strong>4-GPU全连接</strong>：</p>
+<div class="codehilite"><pre><span></span><code>     GPU0 ═══════ GPU1
+      ║ ╲       ╱ ║
+      ║   ╲   ╱   ║
+      ║     ╳     ║
+      ║   ╱   ╲   ║
+      ║ ╱       ╲ ║
+     GPU2 ═══════ GPU3
+
+═══ : xGMI 3-link (192GB/s)
+║/╲ : xGMI 1-link (64GB/s)
+</code></pre></div>
+
+<p><strong>8-GPU立方体拓扑</strong>：</p>
+<div class="codehilite"><pre><span></span><code>        ┌─────┐       ┌─────┐
+        │GPU4 │───────│GPU5 │
+        └──┬──┘       └──┬──┘
+           │   ╲     ╱   │
+        ┌──┴──┐  ╲ ╱  ┌──┴──┐
+        │GPU6 │───╳───│GPU7 │
+        └──┬──┘  ╱ ╲  └──┬──┘
+           │   ╱     ╲   │
+        ┌──┴──┐       ┌──┴──┐
+        │GPU0 │───────│GPU1 │
+        └──┬──┘       └──┬──┘
+           │   ╲     ╱   │
+        ┌──┴──┐  ╲ ╱  ┌──┴──┐
+        │GPU2 │───╳───│GPU3 │
+        └─────┘  ╱ ╲  └─────┘
+</code></pre></div>
+
+<h3 id="2063-pcie">20.6.3 PCIe通道分配</h3>
+<p>灵活的PCIe/xGMI复用：</p>
+<div class="codehilite"><pre><span></span><code>MI250X配置示例：
+Total 128 PCIe Gen4 lanes
+├── 64 lanes as xGMI (4×16)
+│   └── GPU-to-GPU互联
+└── 64 lanes as PCIe
+    ├── 16× to CPU
+    ├── 16× to NVMe
+    ├── 16× to Network
+    └── 16× Reserved
+</code></pre></div>
+
+<h3 id="2064">20.6.4 统一编程模型</h3>
+<p>ROCm软件栈支持：</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// HIP代码示例：多GPU点对点通信</span>
+<span class="n">hipError_t</span><span class="w"> </span><span class="nf">enableP2P</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">deviceCount</span><span class="p">;</span>
+<span class="w">    </span><span class="n">hipGetDeviceCount</span><span class="p">(</span><span class="o">&amp;</span><span class="n">deviceCount</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">deviceCount</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">deviceCount</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">hipDeviceEnablePeerAccess</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">hipSuccess</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 直接内存访问</span>
+<span class="n">__global__</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">p2pKernel</span><span class="p">(</span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">localData</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                          </span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">remoteData</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">blockDim</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// 直接访问远程GPU内存</span>
+<span class="w">    </span><span class="n">localData</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">remoteData</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="207-mi300a">20.7 深度分析：MI300A架构创新</h2>
+<h3 id="2071">20.7.1 技术突破点</h3>
+<p>MI300A代表了几个关键技术突破：</p>
+<ol>
+<li><strong>真正的统一内存架构</strong></li>
+</ol>
+<p>传统的CPU-GPU系统需要显式数据拷贝：</p>
+<div class="codehilite"><pre><span></span><code>传统模型：
+CPU Memory ──copy──&gt; PCIe ──copy──&gt; GPU Memory
+延迟：~10μs，带宽受限于PCIe
+
+MI300A模型：
+Unified HBM3 ←─direct access─→ CPU/GPU
+延迟：~100ns，带宽：5.3TB/s
+</code></pre></div>
+
+<ol start="2">
+<li><strong>chiplet级别的异构集成</strong></li>
+</ol>
+<p>不同于其他厂商的封装级集成，MI300A在chiplet级别实现异构：</p>
+<ul>
+<li>CPU和GPU chiplet采用相同的互联协议</li>
+<li>共享内存控制器</li>
+<li>统一的缓存一致性域</li>
+</ul>
+<ol start="3">
+<li><strong>灵活的资源配置</strong></li>
+</ol>
+<div class="codehilite"><pre><span></span><code>配置选项：
+├── Compute Mode
+│   ├── CPU-only：24核心全速运行
+│   ├── GPU-only：6个XCD全速运行
+│   └── Hybrid：动态功耗分配
+└── Memory Mode
+    ├── Unified：所有HBM作为统一池
+    ├── Partitioned：CPU/GPU独立分区
+    └── NUMA：细粒度NUMA控制
+</code></pre></div>
+
+<h3 id="2072">20.7.2 性能分析</h3>
+<p><strong>大模型训练性能</strong>：</p>
+<p>训练GPT-3规模模型的性能对比：</p>
+<div class="codehilite"><pre><span></span><code>通信开销分析（175B参数）：
+传统GPU集群：
+
+- All-Reduce：45%时间
+- 数据加载：15%时间
+- 计算：40%时间
+
+MI300A系统：
+
+- All-Reduce：25%时间（统一内存减少拷贝）
+- 数据加载：5%时间（CPU预处理）
+- 计算：70%时间
+
+性能提升：1.75×
+</code></pre></div>
+
+<p><strong>科学计算应用</strong>：</p>
+<p>分子动力学模拟（GROMACS）：</p>
+<div class="codehilite"><pre><span></span><code>传统加速方案：
+CPU部分（力场计算）→ 数据传输 → GPU部分（短程力）
+瓶颈：数据传输占30%时间
+
+MI300A优化：
+CPU/GPU并行计算，零拷贝共享
+性能提升：2.1×
+</code></pre></div>
+
+<h3 id="2073">20.7.3 编程模型创新</h3>
+<p><strong>统一地址空间编程</strong>：</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// MI300A统一内存编程示例</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">UnifiedTensor</span><span class="w"> </span><span class="p">{</span>
+<span class="k">private</span><span class="o">:</span>
+<span class="w">    </span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w">  </span><span class="c1">// 统一地址</span>
+<span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">;</span>
+
+<span class="k">public</span><span class="o">:</span>
+<span class="w">    </span><span class="c1">// CPU函数</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">preprocessCPU</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="cp">#pragma omp parallel for</span>
+<span class="w">        </span><span class="k">for</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">size</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">normalize</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// GPU kernel</span>
+<span class="w">    </span><span class="n">__global__</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">processGPU</span><span class="p">(</span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">blockDim</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">idx</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">activation</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">]);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// 无缝切换</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">hybridProcess</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">preprocessCPU</span><span class="p">();</span><span class="w">  </span><span class="c1">// CPU预处理</span>
+<span class="w">        </span><span class="n">hipLaunchKernel</span><span class="p">(</span><span class="n">processGPU</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span><span class="w">  </span><span class="c1">// GPU计算</span>
+<span class="w">        </span><span class="c1">// 无需数据传输！</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div>
+
+<h3 id="2074">20.7.4 未来展望</h3>
+<p>MI300系列的技术路线图：</p>
+<p><strong>MI300X（纯GPU）</strong>：</p>
+<ul>
+<li>8个GPU chiplet</li>
+<li>192GB HBM3</li>
+<li>专注AI训练</li>
+</ul>
+<p><strong>MI300C（规划中）</strong>：</p>
+<ul>
+<li>增强CPU性能</li>
+<li>支持CXL 3.0</li>
+<li>内存池化</li>
+</ul>
+<p><strong>下一代Infinity架构</strong>：</p>
+<ul>
+<li>3nm工艺节点</li>
+<li>光互联集成</li>
+<li>1000+TOPS AI性能</li>
+</ul>
+<h2 id="208">20.8 本章小结</h2>
+<p>AMD Infinity架构通过创新的chiplet设计和互联技术，实现了从消费级到数据中心的全产品线覆盖。关键技术创新包括：</p>
+<p><strong>架构层面</strong>：</p>
+<ul>
+<li>Infinity Fabric提供统一的片内、片间、芯片间互联</li>
+<li>分离式IO die设计降低成本，提高良率</li>
+<li>灵活的NUMA拓扑适应不同工作负载</li>
+</ul>
+<p><strong>性能优化</strong>：</p>
+<ul>
+<li>Infinity Cache大幅提升有效带宽</li>
+<li>3D V-Cache垂直扩展缓存容量</li>
+<li>xGMI实现高带宽GPU互联</li>
+</ul>
+<p><strong>异构集成</strong>：</p>
+<ul>
+<li>MI300A实现真正的CPU-GPU统一架构</li>
+<li>共享HBM3内存消除数据拷贝开销</li>
+<li>硬件级缓存一致性简化编程模型</li>
+</ul>
+<p><strong>关键公式总结</strong>：</p>
+<p>有效带宽计算：
+$$BW_{effective} = BW_{DRAM} + BW_{cache} \times HR_{cache}$$
+NUMA访问延迟：
+$$Latency_{total} = Latency_{local} + Hops \times Latency_{IF}$$
+功耗效率：
+$$Energy_{per_bit} = \frac{P_{dynamic} + P_{static}}{Throughput}$$
+Chiplet良率提升：
+$$Yield_{chiplet} = \left(Yield_{monolithic}\right)^{Area_{ratio}}$$</p>
+<h2 id="209">20.9 练习题</h2>
+<h3 id="_1">基础题</h3>
+<p><strong>练习20.1</strong>：计算Infinity Fabric带宽
+一个EPYC 7763处理器有8个CCD，每个CCD通过Infinity Fabric 2连接到IO Die。如果每个链路提供50GB/s双向带宽，计算：
+a) 总聚合带宽
+b) 任意两个CCD之间的最大带宽
+c) 所有CCD同时访问内存的理论峰值带宽</p>
+<p><em>Hint</em>：考虑IO Die的内部交换能力和内存控制器数量。</p>
+<details>
+<summary>答案</summary>
+<p>a) 总聚合带宽：8 × 50GB/s = 400GB/s（单向）
+b) CCD间带宽：50GB/s（通过IO Die中转）
+c) 内存带宽受限于8通道DDR4-3200：8 × 25.6GB/s = 204.8GB/s</p>
+</details>
+<p><strong>练习20.2</strong>：3D V-Cache性能分析
+Ryzen 7 5800X3D拥有96MB L3缓存（32MB基础+64MB V-Cache）。假设：</p>
+<ul>
+<li>基础L3延迟：40周期</li>
+<li>V-Cache额外延迟：4周期</li>
+<li>工作集大小：80MB</li>
+<li>无V-Cache时L3命中率：60%</li>
+</ul>
+<p>计算V-Cache带来的平均访问延迟改善。</p>
+<p><em>Hint</em>：考虑更大缓存容量对命中率的影响。</p>
+<details>
+<summary>答案</summary>
+<p>无V-Cache：平均延迟 = 40 × 0.6 + 200 × 0.4 = 104周期
+有V-Cache：假设命中率提升到85%
+平均延迟 = 44 × 0.85 + 200 × 0.15 = 67.4周期
+改善：(104-67.4)/104 = 35.2%</p>
+</details>
+<p><strong>练习20.3</strong>：MI300A内存带宽利用
+MI300A配备8个HBM3 stack，每个提供665GB/s带宽。在运行混合CPU-GPU工作负载时：</p>
+<ul>
+<li>CPU需求：200GB/s</li>
+<li>GPU需求：4TB/s</li>
+<li>共享数据比例：30%</li>
+</ul>
+<p>计算实际所需的内存带宽。</p>
+<p><em>Hint</em>：共享数据不需要重复传输。</p>
+<details>
+<summary>答案</summary>
+<p>独立数据带宽：</p>
+<ul>
+<li>CPU独立：200 × 0.7 = 140GB/s</li>
+<li>GPU独立：4000 × 0.7 = 2800GB/s</li>
+<li>共享数据：max(200 × 0.3, 4000 × 0.3) = 1200GB/s
+总需求：140 + 2800 + 1200 = 4140GB/s
+可用带宽：8 × 665 = 5320GB/s
+利用率：77.8%</li>
+</ul>
+</details>
+<h3 id="_2">挑战题</h3>
+<p><strong>练习20.4</strong>：EPYC NUMA优化
+设计一个64核EPYC系统的NUMA亲和性策略，运行数据库应用：</p>
+<ul>
+<li>工作集：256GB</li>
+<li>热点数据：32GB</li>
+<li>查询并发度：128</li>
+<li>跨NUMA访问延迟：1.8×本地访问</li>
+</ul>
+<p>提出最优的进程和内存布局方案。</p>
+<p><em>Hint</em>：考虑将热点数据复制到多个NUMA节点。</p>
+<details>
+<summary>答案</summary>
+<p>优化策略：</p>
+<ol>
+<li>8个NUMA节点，每节点8核心、32GB内存</li>
+<li>热点数据复制到所有节点（8×4GB）</li>
+<li>冷数据按需分配（224GB分散）</li>
+<li>进程绑定：每节点16个查询线程</li>
+<li>内存分配策略：优先本地，溢出到最近节点
+预期性能提升：减少60%的跨NUMA访问</li>
+</ol>
+</details>
+<p><strong>练习20.5</strong>：Infinity Cache优化
+为4K游戏渲染优化Infinity Cache配置：</p>
+<ul>
+<li>帧缓冲：32MB</li>
+<li>纹理工作集：256MB</li>
+<li>几何数据：64MB</li>
+<li>Infinity Cache：128MB</li>
+</ul>
+<p>设计缓存分配和替换策略。</p>
+<p><em>Hint</em>：不同数据类型有不同的访问模式。</p>
+<details>
+<summary>答案</summary>
+<p>缓存分配策略：</p>
+<ol>
+<li>帧缓冲：32MB固定分配（频繁读写）</li>
+<li>纹理：64MB，LRU替换（空间局部性）</li>
+<li>几何：32MB，流式预取（顺序访问）
+预期命中率：</li>
+</ol>
+<ul>
+<li>帧缓冲：100%</li>
+<li>纹理：~50%（64/256）</li>
+<li>几何：~70%（预取效果）
+综合命中率：~68%</li>
+</ul>
+</details>
+<p><strong>练习20.6</strong>：xGMI拓扑设计
+设计一个8-GPU MI250X系统的互联拓扑，要求：</p>
+<ul>
+<li>任意两GPU最多2跳</li>
+<li>均衡的二分带宽</li>
+<li>最小化线缆数量</li>
+</ul>
+<p>绘制拓扑图并计算关键指标。</p>
+<p><em>Hint</em>：考虑超立方体或蝶形网络。</p>
+<details>
+<summary>答案</summary>
+<p>最优方案：3D超立方体拓扑</p>
+<ul>
+<li>每GPU 3个xGMI链路</li>
+<li>总链路数：12条</li>
+<li>最大跳数：3（可优化到2）</li>
+<li>二分带宽：6×64GB/s = 384GB/s</li>
+<li>平均跳数：1.75
+优化：添加对角线连接减少到2跳</li>
+</ul>
+</details>
+<p><strong>练习20.7</strong>：MI300A编程优化
+优化以下矩阵乘法代码以充分利用MI300A的统一内存：</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// 原始代码</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">matmul</span><span class="p">(</span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// CPU: 数据准备</span>
+<span class="w">    </span><span class="n">prepare_data</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// 拷贝到GPU</span>
+<span class="w">    </span><span class="n">hipMemcpy</span><span class="p">(</span><span class="n">d_A</span><span class="p">,</span><span class="w"> </span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">hipMemcpyHostToDevice</span><span class="p">);</span>
+<span class="w">    </span><span class="n">hipMemcpy</span><span class="p">(</span><span class="n">d_B</span><span class="p">,</span><span class="w"> </span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">hipMemcpyHostToDevice</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// GPU: 计算</span>
+<span class="w">    </span><span class="n">matmul_kernel</span><span class="o">&lt;&lt;&lt;</span><span class="p">...</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">d_A</span><span class="p">,</span><span class="w"> </span><span class="n">d_B</span><span class="p">,</span><span class="w"> </span><span class="n">d_C</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// 拷贝回CPU</span>
+<span class="w">    </span><span class="n">hipMemcpy</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">d_C</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">hipMemcpyDeviceToHost</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// CPU: 后处理</span>
+<span class="w">    </span><span class="n">postprocess</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><em>Hint</em>：利用统一内存避免显式拷贝。</p>
+<details>
+<summary>答案</summary>
+<div class="codehilite"><pre><span></span><code><span class="c1">// MI300A优化版本</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">matmul_unified</span><span class="p">(</span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 统一内存分配</span>
+<span class="w">    </span><span class="n">hipMallocManaged</span><span class="p">(</span><span class="o">&amp;</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+<span class="w">    </span><span class="n">hipMallocManaged</span><span class="p">(</span><span class="o">&amp;</span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+<span class="w">    </span><span class="n">hipMallocManaged</span><span class="p">(</span><span class="o">&amp;</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// CPU预处理（直接操作）</span>
+<span class="w">    </span><span class="cp">#pragma omp parallel for</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">N</span><span class="o">*</span><span class="n">N</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">normalize</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">        </span><span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">normalize</span><span class="p">(</span><span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// GPU计算（无需拷贝）</span>
+<span class="w">    </span><span class="n">matmul_kernel</span><span class="o">&lt;&lt;&lt;</span><span class="p">...</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">);</span>
+<span class="w">    </span><span class="n">hipDeviceSynchronize</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// CPU后处理（直接操作）</span>
+<span class="w">    </span><span class="cp">#pragma omp parallel for</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">N</span><span class="o">*</span><span class="n">N</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">activation</span><span class="p">(</span><span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">// 性能提升：消除2×N²拷贝开销</span>
+</code></pre></div>
+
+</details>
+<p><strong>练习20.8</strong>：功耗优化策略
+为MI300A设计动态功耗管理策略：</p>
+<ul>
+<li>TDP：760W</li>
+<li>CPU最大：150W</li>
+<li>GPU最大：600W</li>
+<li>HBM：60W</li>
+</ul>
+<p>在混合工作负载下优化功耗分配。</p>
+<p><em>Hint</em>：考虑工作负载特征和热约束。</p>
+<details>
+<summary>答案</summary>
+<p>动态功耗管理策略：</p>
+<ol>
+<li>
+<p>监控阶段（每100ms）：
+   - CPU利用率和IPC
+   - GPU占用率和内存带宽
+   - 温度和热节流</p>
+</li>
+<li>
+<p>功耗分配算法：</p>
+</li>
+</ol>
+<div class="codehilite"><pre><span></span><code>if (CPU_bound) {
+    CPU: 200W, GPU: 400W
+} else if (GPU_bound) {
+    CPU: 100W, GPU: 600W
+} else if (Memory_bound) {
+    CPU: 150W, GPU: 450W, HBM_boost
+} else { // Balanced
+    CPU: 150W, GPU: 500W
+}
+</code></pre></div>
+
+<ol start="3">
+<li>转换策略：
+   - 渐进式调整（25W/步）
+   - 预测性boost（基于历史）
+   - 热量感知限流</li>
+</ol>
+<p>预期效果：性能功耗比提升15-20%</p>
+</details>
+<h2 id="2010">20.10 常见陷阱与错误</h2>
+<h3 id="1-numa">1. NUMA配置错误</h3>
+<p><strong>问题</strong>：随机的内存分配导致大量跨NUMA访问
+<strong>解决</strong>：使用numactl绑定进程和内存</p>
+<h3 id="2-infinity-fabric">2. Infinity Fabric拥塞</h3>
+<p><strong>问题</strong>：热点访问模式导致IF饱和
+<strong>解决</strong>：数据分片和负载均衡</p>
+<h3 id="3">3. 缓存一致性开销</h3>
+<p><strong>问题</strong>：过度的原子操作导致性能下降
+<strong>解决</strong>：批量处理和本地累加</p>
+<h3 id="4-gpu">4. GPU互联配置</h3>
+<p><strong>问题</strong>：xGMI链路未正确初始化
+<strong>解决</strong>：检查BIOS设置和拓扑验证</p>
+<h3 id="5">5. 功耗限制</h3>
+<p><strong>问题</strong>：未预料的功耗节流
+<strong>解决</strong>：合理的TDP配置和散热设计</p>
+<h3 id="6">6. 内存带宽瓶颈</h3>
+<p><strong>问题</strong>：HBM通道利用不均
+<strong>解决</strong>：交织访问和通道优化</p>
+<h2 id="2011_1">20.11 最佳实践检查清单</h2>
+<h3 id="_3">系统配置</h3>
+<ul>
+<li>[ ] NUMA节点正确配置</li>
+<li>[ ] Infinity Fabric频率优化（FCLK=MCLK）</li>
+<li>[ ] xGMI链路全部启用</li>
+<li>[ ] 功耗和散热预算合理</li>
+<li>[ ] BIOS设置优化（禁用不必要的节能）</li>
+</ul>
+<h3 id="_4">软件优化</h3>
+<ul>
+<li>[ ] 进程亲和性正确设置</li>
+<li>[ ] 内存分配策略NUMA感知</li>
+<li>[ ] 避免跨CCD/die频繁通信</li>
+<li>[ ] 利用Infinity Cache局部性</li>
+<li>[ ] 批量化远程内存访问</li>
+</ul>
+<h3 id="_5">性能调优</h3>
+<ul>
+<li>[ ] 监控IF带宽利用率</li>
+<li>[ ] 检查缓存命中率</li>
+<li>[ ] 分析NUMA访问模式</li>
+<li>[ ] 优化数据布局</li>
+<li>[ ] 使用性能计数器定位瓶颈</li>
+</ul>
+<h3 id="_6">可靠性</h3>
+<ul>
+<li>[ ] ECC内存启用</li>
+<li>[ ] 冗余链路配置</li>
+<li>[ ] 温度监控和限制</li>
+<li>[ ] 定期检查链路健康</li>
+<li>[ ] 故障切换机制就绪</li>
+</ul>
+            </article>
+            
+            <nav class="page-nav"><a href="chapter19.html" class="nav-link prev">← 第19章：移动与边缘芯片互联</a><a href="chapter21.html" class="nav-link next">第21章：光电混合互联 →</a></nav>
+        </main>
+    </div>
+</body>
+</html>

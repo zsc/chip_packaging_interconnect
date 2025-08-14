@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="./">
+    <title>第7章：Die-to-Die接口标准</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/highlight.css">
+    <script src="assets/script.js" defer></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                processEscapes: false,
+                packages: {'[+]': ['noerrors', 'ams']}
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            loader: {
+                load: ['[tex]/noerrors', '[tex]/ams']
+            }
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h3>目录</h3>
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <div class="sidebar-search">
+                <input type="text" id="sidebar-search-input" placeholder="搜索..." autocomplete="off">
+            </div>
+            <div id="tree-container">
+                <nav class="tree-nav" role="tree">
+                    <div class="tree-item " >
+                        <a href="index.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">芯片互联与封装技术教程</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter1.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第1章：NoC架构概述</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter2.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第2章：路由算法与流控</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter3.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第3章：NoC性能建模与优化</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter4.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第4章：2.5D封装技术</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter5.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第5章：3D封装与异构集成</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter6.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第6章：Chiplet设计理念与经济学</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item active" >
+                        <a href="chapter7.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第7章：Die-to-Die接口标准</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter8.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第8章：Chiplet物理层设计</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter9.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第9章：Chiplet系统架构</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter10.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第10章：Chiplet集成与验证</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter11.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第11章：HBM架构基础</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter12.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第12章：HBM物理实现</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter13.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第13章：HBM系统设计</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter14.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第14章：HBM编程模型与软件栈</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter15.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第15章：近存储计算架构</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter16.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第16章：CXL与内存扩展</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter17.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第17章：数据中心规模互联</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter18.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第18章：AI加速器互联</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter19.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第19章：移动与边缘芯片互联</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter20.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第20章：AMD Infinity架构演进</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter21.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第21章：光电混合互联</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter22.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第22章：量子互联初探</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="CLAUDE.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">Untitled</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </nav>
+        
+        <main class="content">
+            <article>
+                <h1 id="7die-to-die">第7章：Die-to-Die接口标准</h1>
+<h2 id="_1">本章概述</h2>
+<p>随着Chiplet技术的兴起，Die-to-Die（D2D）互联成为突破单片芯片限制的关键技术。不同于传统的芯片间通信，D2D接口需要在极短的距离内实现超高带宽、超低延迟和极低功耗的数据传输。本章深入剖析当前主流的D2D接口标准，包括UCIe、BoW、OpenHBI和XSR，理解它们的设计理念、技术特点和应用场景。通过学习本章，您将掌握选择和实现D2D接口的关键考量因素。</p>
+<h3 id="_2">学习目标</h3>
+<ul>
+<li>理解UCIe协议栈架构及其分层设计</li>
+<li>掌握不同封装类型下的物理层规范差异</li>
+<li>熟悉BoW/AIB接口的演进历程和实现细节</li>
+<li>了解OpenHBI和XSR等新兴标准的特点</li>
+<li>能够对比分析各标准的带宽、功耗、延迟权衡</li>
+<li>掌握D2D接口选择的决策框架</li>
+</ul>
+<h2 id="71-ucieuniversal-chiplet-interconnect-express">7.1 UCIe（Universal Chiplet Interconnect Express）</h2>
+<h3 id="711-ucie">7.1.1 UCIe的诞生背景</h3>
+<p>UCIe联盟成立于2022年3月，由Intel、AMD、ARM、TSMC、Samsung等行业巨头共同发起。其目标是建立开放的Chiplet互联标准，实现不同厂商芯片的互操作性。UCIe 1.0规范于2022年3月发布，1.1版本于2023年更新，增加了更多高级特性。</p>
+<p>UCIe的设计理念：</p>
+<ul>
+<li><strong>开放性</strong>：避免供应商锁定，促进生态系统发展</li>
+<li><strong>兼容性</strong>：支持多种上层协议（PCIe、CXL、自定义）</li>
+<li><strong>可扩展性</strong>：适配不同封装技术，从标准封装到先进封装</li>
+<li><strong>经济性</strong>：优化成本/性能比，支持不同市场需求</li>
+</ul>
+<h3 id="712">7.1.2 协议栈架构</h3>
+<p>UCIe采用分层架构设计，包含三个主要层次：</p>
+<div class="codehilite"><pre><span></span><code>┌─────────────────────────────────────┐
+│     Protocol Layer (协议层)          │
+│  PCIe | CXL | Streaming | Custom    │
+├─────────────────────────────────────┤
+│   Die-to-Die Adapter (D2D适配层)    │
+│  - Arbitration &amp; Mux                │
+│  - Link Management                  │
+│  - Parameter Negotiation            │
+├─────────────────────────────────────┤
+│    Physical Layer (物理层)           │
+│  - Electrical PHY                   │
+│  - Logical PHY                      │
+│  - Sideband Channel                 │
+└─────────────────────────────────────┘
+</code></pre></div>
+
+<p><strong>协议层特性</strong>：</p>
+<ul>
+<li>支持标准协议（PCIe 6.0、CXL 3.0）</li>
+<li>流协议用于原始数据传输</li>
+<li>自定义协议支持专有实现</li>
+</ul>
+<p><strong>D2D适配层功能</strong>：</p>
+<ul>
+<li>链路状态管理（L0、L1、L2电源状态）</li>
+<li>参数协商（速率、宽度、功能）</li>
+<li>错误处理和重试机制</li>
+<li>信用流控管理</li>
+</ul>
+<p><strong>物理层实现</strong>：</p>
+<ul>
+<li>逻辑PHY：编码、加扰、训练状态机</li>
+<li>电气PHY：驱动器、接收器、时钟恢复</li>
+</ul>
+<h3 id="713-standard-package">7.1.3 物理层规范：Standard Package</h3>
+<p>标准封装（Standard Package）适用于传统的有机基板封装，特点是：</p>
+<p><strong>电气参数</strong>：</p>
+<ul>
+<li>数据速率：4 GT/s、8 GT/s、12 GT/s、16 GT/s</li>
+<li>信号电平：单端信令，电压摆幅0.4V</li>
+<li>通道宽度：16、32、64、128、256位</li>
+<li>凸点间距：≥110μm</li>
+</ul>
+<p><strong>时钟架构</strong>：</p>
+<div class="codehilite"><pre><span></span><code>        ┌──────────┐      ┌──────────┐
+        │   Die A  │      │   Die B  │
+        │          │      │          │
+        │  TX CLK ─┼──────┼─&gt; RX CLK │
+        │          │      │          │
+        │  TX Data─┼──────┼─&gt; RX Data│
+        │          │      │          │
+        └──────────┘      └──────────┘
+
+        转发时钟（Forwarded Clock）架构
+</code></pre></div>
+
+<p><strong>功耗优化</strong>：</p>
+<ul>
+<li>动态电压频率调节（DVFS）</li>
+<li>多级电源状态（L0s、L1、L2）</li>
+<li>选择性通道关闭</li>
+<li>目标：&lt;0.5 pJ/bit @ 16GT/s</li>
+</ul>
+<h3 id="714-advanced-package">7.1.4 物理层规范：Advanced Package</h3>
+<p>先进封装（Advanced Package）用于2.5D/3D封装，如CoWoS、EMIB：</p>
+<p><strong>增强特性</strong>：</p>
+<ul>
+<li>数据速率：最高32 GT/s、64 GT/s（路线图）</li>
+<li>凸点间距：≤55μm（高密度）</li>
+<li>差分信令选项（用于长距离）</li>
+<li>更低的功耗目标：&lt;0.25 pJ/bit</li>
+</ul>
+<p><strong>信号完整性优化</strong>：</p>
+<div class="codehilite"><pre><span></span><code>     眼图要求（32GT/s）：
+
+     ↑ 电压
+     │    ╱────────╲
+     │   ╱          ╲
+     │  │   有效眼高  │  &gt; 50mV
+     │   ╲          ╱
+     │    ╲────────╱
+     └───────────────────→ 时间
+          有效眼宽 &gt; 0.3 UI
+</code></pre></div>
+
+<h3 id="715-die-to-die">7.1.5 Die-to-Die适配层详解</h3>
+<p>D2D适配层是UCIe的核心创新，提供协议无关的链路管理：</p>
+<p><strong>链路初始化流程</strong>：</p>
+<ol>
+<li>检测（Detect）：物理连接检测</li>
+<li>链路训练（LinkInit）：位锁定、符号锁定、去偏斜</li>
+<li>参数交换（Parameter Exchange）：协商速率、宽度</li>
+<li>链路激活（L0）：正常数据传输</li>
+</ol>
+<p><strong>重试缓冲区（Retry Buffer）</strong>：</p>
+<ul>
+<li>大小：256-512个FLITs（Flow Control Units）</li>
+<li>CRC保护：每个FLIT 8-bit CRC</li>
+<li>重试延迟：&lt;100ns（目标）</li>
+</ul>
+<p><strong>虚拟通道映射</strong>：</p>
+<div class="codehilite"><pre><span></span><code>Protocol Layer VCs    D2D Adapter    Physical Layer
+┌──────────────┐     ┌─────────┐    ┌──────────┐
+│  PCIe VC0    ├────&gt;│         │    │          │
+│  PCIe VC1    ├────&gt;│  VC     ├───&gt;│ Physical │
+│  CXL.io VC0  ├────&gt;│ Arbiter │    │ Channel  │
+│  CXL.cache   ├────&gt;│         │    │          │
+└──────────────┘     └─────────┘    └──────────┘
+</code></pre></div>
+
+<h3 id="716">7.1.6 协议层支持</h3>
+<p><strong>PCIe模式</strong>：</p>
+<ul>
+<li>完整PCIe 6.0功能集</li>
+<li>FLIT模式：256B数据包</li>
+<li>延迟优化：比PCIe over SerDes低50%</li>
+</ul>
+<p><strong>CXL模式</strong>：</p>
+<ul>
+<li>CXL.io：PCIe语义</li>
+<li>CXL.cache：缓存一致性协议</li>
+<li>CXL.mem：内存语义</li>
+<li>偏差容限（Bias）支持：主机偏向/设备偏向</li>
+</ul>
+<p><strong>流模式（Streaming）</strong>：</p>
+<ul>
+<li>原始数据传输</li>
+<li>无协议开销</li>
+<li>适用于：加速器间通信、内存访问</li>
+<li>延迟：&lt;5ns（典型值）</li>
+</ul>
+<h2 id="72-bowbunch-of-wiresaib">7.2 BoW（Bunch of Wires）与AIB演进</h2>
+<h3 id="721-aib">7.2.1 AIB的历史与发展</h3>
+<p>Advanced Interface Bus (AIB)最初由Intel开发，用于FPGA的die-to-die互联。</p>
+<p><strong>AIB 1.0特性</strong>（2017年）：</p>
+<ul>
+<li>单端信令</li>
+<li>数据速率：2 Gbps/pin</li>
+<li>凸点间距：55μm</li>
+<li>功耗：0.85 pJ/bit</li>
+<li>应用：Intel Stratix 10 FPGA</li>
+</ul>
+<p><strong>AIB 2.0改进</strong>（2019年）：</p>
+<ul>
+<li>数据速率：4 Gbps/pin</li>
+<li>功耗优化：0.5 pJ/bit</li>
+<li>增强时钟架构</li>
+<li>DFT（Design for Test）增强</li>
+</ul>
+<h3 id="722-bow">7.2.2 BoW架构原理</h3>
+<p>BoW简化了传统SerDes的复杂性，适合短距离互联：</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">传统SerDes架构</span><span class="err">：</span><span class="w">              </span><span class="nx">BoW架构</span><span class="err">：</span>
+<span class="err">┌────────────┐</span><span class="w">               </span><span class="err">┌────────────┐</span>
+<span class="err">│</span><span class="nx">Serializer</span><span class="w">  </span><span class="err">│</span><span class="w">               </span><span class="err">│</span><span class="w">            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="nx">PLL</span><span class="w">      </span><span class="err">│</span><span class="w">               </span><span class="err">│</span><span class="w">  </span><span class="nx">Simple</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="nx">CDR</span><span class="w">      </span><span class="err">│</span><span class="w">               </span><span class="err">│</span><span class="w">  </span><span class="nx">Driver</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w"> </span><span class="nx">Equalizer</span><span class="w">  </span><span class="err">│</span><span class="w">               </span><span class="err">│</span><span class="w">            </span><span class="err">│</span>
+<span class="err">└────────────┘</span><span class="w">               </span><span class="err">└────────────┘</span>
+<span class="nx">复杂度</span><span class="err">：</span><span class="nx">高</span><span class="w">                    </span><span class="nx">复杂度</span><span class="err">：</span><span class="nx">低</span>
+<span class="nx">功耗</span><span class="err">：</span><span class="p">&gt;</span><span class="mi">5</span><span class="w"> </span><span class="nx">pJ</span><span class="o">/</span><span class="nx">bit</span><span class="w">              </span><span class="nx">功耗</span><span class="err">：</span><span class="p">&lt;</span><span class="mi">1</span><span class="w"> </span><span class="nx">pJ</span><span class="o">/</span><span class="nx">bit</span>
+</code></pre></div>
+
+<p><strong>关键简化</strong>：</p>
+<ul>
+<li>无需时钟数据恢复（CDR）</li>
+<li>无需均衡器</li>
+<li>简单的单端驱动器</li>
+<li>源同步时钟</li>
+</ul>
+<h3 id="723">7.2.3 物理层实现细节</h3>
+<p><strong>IO单元设计</strong>：</p>
+<div class="codehilite"><pre><span></span><code>         ┌─────────────────────┐
+    TX───│  Driver             │
+         │  - Impedance: 50Ω   │───&gt; Bump
+         │  - Slew Rate Control│
+         └─────────────────────┘
+
+         ┌─────────────────────┐
+    RX&lt;──│  Receiver           │&lt;─── Bump
+         │  - Comparator       │
+         │  - Hysteresis: 20mV │
+         └─────────────────────┘
+</code></pre></div>
+
+<p><strong>时钟分发网络</strong>：</p>
+<ul>
+<li>H-tree结构最小化偏斜</li>
+<li>每16个数据位配1个时钟</li>
+<li>相位插值器用于去偏斜</li>
+<li>最大偏斜：&lt;50ps</li>
+</ul>
+<h3 id="724">7.2.4 时钟架构深度分析</h3>
+<p><strong>转发时钟 vs 嵌入式时钟</strong>：</p>
+<p>转发时钟（AIB/BoW选择）：</p>
+<ul>
+<li>优点：简单、低功耗、确定性延迟</li>
+<li>缺点：需要额外的时钟引脚</li>
+<li>适用：Chiplet等确定性连接</li>
+</ul>
+<p>嵌入式时钟：</p>
+<ul>
+<li>优点：无需时钟引脚、灵活</li>
+<li>缺点：需要CDR、功耗高</li>
+<li>适用：板级互联、光通信</li>
+</ul>
+<p><strong>多时钟域处理</strong>：</p>
+<div class="codehilite"><pre><span></span><code>Die A (1GHz)          Die B (1.5GHz)
+    │                      │
+    ├──&gt; Async FIFO &lt;──────┤
+    │                      │
+    └──&gt; Clock Domain ─────┘
+         Crossing (CDC)
+</code></pre></div>
+
+<h2 id="73-openhbiopen-high-bandwidth-interconnect">7.3 OpenHBI（Open High Bandwidth Interconnect）</h2>
+<h3 id="731-openhbi">7.3.1 OpenHBI设计理念</h3>
+<p>OpenHBI由OIF（Optical Internetworking Forum）开发，目标是超短距离的高带宽互联：</p>
+<p><strong>应用场景</strong>：</p>
+<ul>
+<li>Co-packaged Optics (CPO)</li>
+<li>交换芯片到光引擎</li>
+<li>距离：&lt;50mm</li>
+<li>带宽密度：&gt;1 Tbps/mm</li>
+</ul>
+<h3 id="732">7.3.2 并行接口架构</h3>
+<p><strong>通道组织</strong>：</p>
+<div class="codehilite"><pre><span></span><code>┌─────────────────────────────┐
+│   Logical Channel (1.6T)     │
+├──────────┬─────────┬─────────┤
+│ PHY Lane │PHY Lane │PHY Lane │
+│  (50G)   │  (50G)  │  (50G)  │
+│    x32 lanes = 1.6 Tbps      │
+└─────────────────────────────┘
+</code></pre></div>
+
+<p><strong>Lane绑定</strong>：</p>
+<ul>
+<li>自动lane反转检测</li>
+<li>动态lane降级（故障容错）</li>
+<li>虚拟lane支持（带宽共享）</li>
+</ul>
+<h3 id="733">7.3.3 信号映射与编码</h3>
+<p><strong>FEC（前向纠错）选项</strong>：</p>
+<ul>
+<li>RS(544,514)：低延迟，&lt;50ns</li>
+<li>RS(528,514)：标准选项</li>
+<li>无FEC模式：超低延迟应用</li>
+</ul>
+<p><strong>Gray映射优化</strong>：</p>
+<div class="codehilite"><pre><span></span><code>PAM4 Gray码：
+Symbol  Binary  Gray   电平
+  0      00     00    -3
+  1      01     01    -1
+  2      10     11    +1
+  3      11     10    +3
+
+优势：相邻电平仅1bit差异
+</code></pre></div>
+
+<h2 id="74-xsrextra-short-reach">7.4 XSR（Extra Short Reach）标准</h2>
+<h3 id="741-xsr">7.4.1 XSR定位与特点</h3>
+<p>XSR专注于极短距离（&lt;10cm）的高速互联：</p>
+<p><strong>关键指标</strong>：</p>
+<ul>
+<li>距离：3-10cm（典型）</li>
+<li>速率：25-112 Gbps/lane</li>
+<li>功耗：&lt;3 mW/Gbps</li>
+<li>BER：&lt;1e-15（无FEC）</li>
+</ul>
+<h3 id="742">7.4.2 电气规范</h3>
+<p><strong>发送端规范</strong>：</p>
+<ul>
+<li>差分输出摆幅：400-800 mVppd</li>
+<li>上升/下降时间：&gt;12 ps</li>
+<li>抖动：&lt;0.15 UI p-p</li>
+<li>共模电压：0.5±0.1V</li>
+</ul>
+<p><strong>接收端要求</strong>：</p>
+<ul>
+<li>灵敏度：&lt;100 mVppd</li>
+<li>带宽：&gt;0.7×波特率</li>
+<li>回波损耗：&gt;10 dB</li>
+<li>CDR范围：±300 ppm</li>
+</ul>
+<h3 id="743">7.4.3 应用实例</h3>
+<p><strong>光模块应用</strong>：</p>
+<div class="codehilite"><pre><span></span><code>  ASIC          XSR           光引擎
+┌──────┐    ┌────────┐    ┌──────────┐
+│      │───&gt;│ 28G x4 │───&gt;│ QSFP-DD  │
+│Switch│    │  XSR   │    │  400G    │
+│ Chip │&lt;───│  Link  │&lt;───│  Module  │
+└──────┘    └────────┘    └──────────┘
+         距离：5cm       
+</code></pre></div>
+
+<h2 id="75">7.5 标准对比分析</h2>
+<h3 id="751">7.5.1 带宽密度比较</h3>
+<div class="codehilite"><pre><span></span><code>标准        带宽密度      凸点间距    适用封装
+UCIe Std    2 Gbps/bump   110μm      Organic
+UCIe Adv    4 Gbps/bump   55μm       Silicon
+AIB 2.0     4 Gbps/bump   55μm       EMIB
+BoW         2 Gbps/bump   45μm       Generic
+OpenHBI     8 Gbps/bump   45μm       CPO
+XSR         N/A           N/A        PCB级
+</code></pre></div>
+
+<h3 id="752">7.5.2 功耗效率分析</h3>
+<p>不同标准的能效对比（pJ/bit）：</p>
+<div class="codehilite"><pre><span></span><code>      功耗 (pJ/bit)
+         │
+    10 ──┤ PCIe SerDes
+         │
+     5 ──┤ XSR
+         │
+     2 ──┤ 
+         │ UCIe Std
+     1 ──┤ BoW
+         │ UCIe Adv
+    0.5──┤ AIB 2.0
+         │ OpenHBI
+     0 ──└──────────────────────
+         1    10   100   1000
+              距离 (mm)
+</code></pre></div>
+
+<h3 id="753">7.5.3 延迟特性</h3>
+<p>端到端延迟分解：</p>
+<div class="codehilite"><pre><span></span><code>组件                UCIe    BoW     OpenHBI
+物理层编码          2ns     0.5ns   1ns
+SerDes (如有)       5ns     N/A     3ns
+链路传播            1ns     1ns     2ns
+接收处理            2ns     0.5ns   1ns
+总计                10ns    2ns     7ns
+</code></pre></div>
+
+<h3 id="754">7.5.4 应用场景映射</h3>
+<p><strong>决策矩阵</strong>：</p>
+<p>| 场景 | 推荐标准 | 关键考虑 |</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>推荐标准</th>
+<th>关键考虑</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU-GPU Chiplet</td>
+<td>UCIe</td>
+<td>生态系统、协议支持</td>
+</tr>
+<tr>
+<td>FPGA Tiles</td>
+<td>AIB/BoW</td>
+<td>低延迟、简单性</td>
+</tr>
+<tr>
+<td>光电集成</td>
+<td>OpenHBI</td>
+<td>带宽密度、距离</td>
+</tr>
+<tr>
+<td>机架内互联</td>
+<td>XSR</td>
+<td>成本、功耗</td>
+</tr>
+<tr>
+<td>内存扩展</td>
+<td>UCIe/CXL</td>
+<td>一致性、带宽</td>
+</tr>
+</tbody>
+</table>
+<h3 id="755">7.5.5 成本考量</h3>
+<p><strong>实现成本因素</strong>：</p>
+<ol>
+<li><strong>IP授权费</strong>：UCIe (开放) &lt; 专有协议</li>
+<li><strong>硅面积</strong>：BoW &lt; AIB &lt; UCIe &lt; XSR SerDes</li>
+<li><strong>封装成本</strong>：Standard &lt; Advanced &lt; 2.5D &lt; 3D</li>
+<li><strong>验证复杂度</strong>：BoW &lt; AIB &lt; UCIe &lt; OpenHBI</li>
+<li><strong>生态系统</strong>：UCIe &gt; AIB &gt; Others</li>
+</ol>
+<p><strong>TCO模型</strong>：</p>
+<div class="codehilite"><pre><span></span><code>总成本 = IP成本 + 硅片面积成本 + 封装成本 + 
+         验证成本 + 功耗运营成本
+
+示例（相对值）：
+UCIe Standard:  1.0x (基准)
+UCIe Advanced:  1.5x
+AIB 2.0:        0.8x
+BoW:            0.6x
+XSR SerDes:     2.0x
+</code></pre></div>
+
+<h2 id="76">7.6 实现考虑与设计权衡</h2>
+<h3 id="761">7.6.1 信号完整性设计</h3>
+<p><strong>通道建模</strong>：</p>
+<div class="codehilite"><pre><span></span><code><span class="nv">S</span>参数模型（典型<span class="mi">2</span>.<span class="mi">5</span><span class="nv">D</span>封装）：
+
+插入损耗<span class="w"> </span>@<span class="w"> </span><span class="mi">16</span><span class="nv">GHz</span>:<span class="w"> </span><span class="o">-</span><span class="mi">3</span><span class="nv">dB</span>
+回波损耗<span class="w"> </span>@<span class="w"> </span><span class="mi">16</span><span class="nv">GHz</span>:<span class="w"> </span><span class="o">-</span><span class="mi">15</span><span class="nv">dB</span>
+串扰<span class="w"> </span><span class="ss">(</span><span class="k">NEXT</span><span class="ss">)</span>:<span class="w"> </span><span class="o">-</span><span class="mi">30</span><span class="nv">dB</span>
+串扰<span class="w"> </span><span class="ss">(</span><span class="nv">FEXT</span><span class="ss">)</span>:<span class="w"> </span><span class="o">-</span><span class="mi">35</span><span class="nv">dB</span>
+
+设计规则：
+
+<span class="o">-</span><span class="w"> </span>差分对内偏斜:<span class="w"> </span><span class="o">&lt;</span><span class="mi">5</span><span class="nv">ps</span>
+<span class="o">-</span><span class="w"> </span>差分阻抗:<span class="w"> </span><span class="mi">100</span>Ω<span class="w"> </span>±<span class="mi">10</span><span class="o">%</span>
+<span class="o">-</span><span class="w"> </span>过孔残桩:<span class="w"> </span><span class="o">&lt;</span><span class="mi">50</span>μ<span class="nv">m</span>
+</code></pre></div>
+
+<h3 id="762">7.6.2 电源完整性</h3>
+<p><strong>PDN设计要求</strong>：</p>
+<div class="codehilite"><pre><span></span><code>电源噪声预算：
+
+- Die内噪声: 30mV
+- 封装噪声: 20mV
+- 板级噪声: 50mV
+- 总预算: 100mV (10% Vdd)
+
+去耦策略：
+
+- Die上电容: 100nF/mm²
+- 封装电容: 10μF (total)
+- 板级电容: 100μF (total)
+</code></pre></div>
+
+<h3 id="763">7.6.3 测试与调试</h3>
+<p><strong>DFT特性对比</strong>：</p>
+<p>| 特性 | UCIe | AIB | BoW | OpenHBI |</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>UCIe</th>
+<th>AIB</th>
+<th>BoW</th>
+<th>OpenHBI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BIST</td>
+<td>✓</td>
+<td>✓</td>
+<td>选配</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>环回测试</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>眼图监控</td>
+<td>✓</td>
+<td>-</td>
+<td>-</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>PRBS生成</td>
+<td>✓</td>
+<td>✓</td>
+<td>选配</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>边界扫描</td>
+<td>✓</td>
+<td>选配</td>
+<td>-</td>
+<td>选配</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_3">本章小结</h2>
+<p>Die-to-Die接口标准是实现Chiplet愿景的关键技术基础。本章深入分析了主流D2D标准的技术特点：</p>
+<p><strong>关键要点</strong>：</p>
+<ol>
+<li><strong>UCIe</strong>提供了完整的协议栈和广泛的生态系统支持，是未来Chiplet互联的主流选择</li>
+<li><strong>BoW/AIB</strong>以简单性和低功耗见长，适合确定性的短距离互联</li>
+<li><strong>OpenHBI</strong>针对超高带宽密度优化，是光电集成的理想选择</li>
+<li><strong>XSR</strong>填补了芯片到模块的互联空白</li>
+</ol>
+<p><strong>设计决策框架</strong>：</p>
+<ul>
+<li>距离&lt;5mm：优先考虑BoW/AIB</li>
+<li>需要协议支持：选择UCIe</li>
+<li>超高带宽需求：评估OpenHBI</li>
+<li>跨板连接：使用XSR</li>
+</ul>
+<p><strong>未来展望</strong>：</p>
+<ul>
+<li>标准融合趋势：UCIe可能成为统一标准</li>
+<li>光电集成：CPO将推动新标准发展</li>
+<li>功耗优化：向sub-0.1 pJ/bit演进</li>
+<li>带宽提升：单lane 100Gbps+成为标准</li>
+</ul>
+<h2 id="_4">练习题</h2>
+<h3 id="_5">基础题</h3>
+<p><strong>练习7.1</strong>：计算UCIe Standard Package在16 GT/s、256位宽配置下的总带宽。考虑8b/10b编码开销。</p>
+<details>
+<summary>提示</summary>
+<p>先计算原始带宽，然后考虑编码效率。UCIe使用128b/130b编码。</p>
+</details>
+<details>
+<summary>答案</summary>
+<p>计算过程：</p>
+<ul>
+<li>原始带宽 = 16 GT/s × 256 bits = 4096 Gb/s</li>
+<li>编码效率 = 128/130 = 0.985</li>
+<li>有效带宽 = 4096 × 0.985 = 4034.5 Gb/s ≈ 504.3 GB/s</li>
+</ul>
+<p>注意：UCIe实际使用256b/257b编码在高速率下，效率更高。</p>
+</details>
+<p><strong>练习7.2</strong>：某Chiplet系统需要800 GB/s的die-to-die带宽，功耗预算为2W。请选择合适的D2D标准并说明理由。</p>
+<details>
+<summary>提示</summary>
+<p>计算每个标准所需的通道数和功耗，考虑功耗效率（pJ/bit）。</p>
+</details>
+<details>
+<summary>答案</summary>
+<p>分析各选项：</p>
+<p>UCIe Advanced (32GT/s, 512-bit):</p>
+<ul>
+<li>单通道带宽：32 × 512 × (256/257) / 8 = 2039 GB/s</li>
+<li>功耗：0.25 pJ/bit × 800 GB/s × 8 = 1.6W ✓</li>
+</ul>
+<p>UCIe Standard (16GT/s, 256-bit):</p>
+<ul>
+<li>需要2个通道</li>
+<li>功耗：0.5 pJ/bit × 800 GB/s × 8 = 3.2W ✗</li>
+</ul>
+<p>推荐：UCIe Advanced，满足带宽需求且功耗在预算内。</p>
+</details>
+<p><strong>练习7.3</strong>：解释为什么BoW不需要CDR而传统SerDes需要？这带来什么优势和限制？</p>
+<details>
+<summary>提示</summary>
+<p>考虑信号传输距离、时钟分发方式、抖动累积。</p>
+</details>
+<details>
+<summary>答案</summary>
+<p>BoW不需要CDR的原因：</p>
+<ol>
+<li>使用转发时钟，时钟与数据同路径传输</li>
+<li>传输距离短（&lt;10mm），抖动累积小</li>
+<li>无需从数据中恢复时钟</li>
+</ol>
+<p>优势：</p>
+<ul>
+<li>功耗降低80%以上</li>
+<li>延迟降低（无CDR锁定时间）</li>
+<li>面积减小（无PLL/CDR电路）</li>
+<li>确定性延迟</li>
+</ul>
+<p>限制：</p>
+<ul>
+<li>传输距离受限（&lt;10mm）</li>
+<li>需要额外的时钟引脚</li>
+<li>对工艺偏差敏感</li>
+<li>不适合跨板传输</li>
+</ul>
+</details>
+<h3 id="_6">挑战题</h3>
+<p><strong>练习7.4</strong>：设计一个混合D2D系统，CPU die通过UCIe连接到IO die，IO die通过OpenHBI连接到光引擎。画出系统架构图并分析关键设计挑战。</p>
+<details>
+<summary>提示</summary>
+<p>考虑协议转换、时钟域交叉、功耗分配、物理布局约束。</p>
+</details>
+<details>
+<summary>答案</summary>
+<p>系统架构：</p>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────┐</span><span class="w"> </span><span class="nx">UCIe</span><span class="w">  </span><span class="err">┌─────────┐</span><span class="w"> </span><span class="nx">OpenHBI</span><span class="w"> </span><span class="err">┌──────────┐</span>
+<span class="err">│</span><span class="w"> </span><span class="nx">CPU</span><span class="w"> </span><span class="nx">Die</span><span class="w"> </span><span class="err">│</span><span class="p">&lt;</span><span class="o">-----&gt;</span><span class="err">│</span><span class="w"> </span><span class="nx">IO</span><span class="w"> </span><span class="nx">Die</span><span class="w">  </span><span class="err">│</span><span class="p">&lt;</span><span class="o">-------&gt;</span><span class="err">│</span><span class="w"> </span><span class="nx">Optical</span><span class="w">  </span><span class="err">│</span>
+<span class="err">│</span><span class="w"> </span><span class="mi">7</span><span class="nx">nm</span><span class="w">     </span><span class="err">│</span><span class="mi">32</span><span class="nx">GT</span><span class="o">/</span><span class="nx">s</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="mi">7</span><span class="nx">nm</span><span class="w">     </span><span class="err">│</span><span class="w"> </span><span class="mi">50</span><span class="nx">Gbps</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="nx">Engine</span><span class="w">   </span><span class="err">│</span>
+<span class="err">└─────────┘</span><span class="mi">256</span><span class="nx">bit</span><span class="w"> </span><span class="err">└─────────┘</span><span class="w"> </span><span class="nx">x32lane</span><span class="err">└──────────┘</span>
+<span class="w">     </span><span class="err">↓</span><span class="w">                 </span><span class="err">↓</span><span class="w">                    </span><span class="err">↓</span>
+<span class="w">   </span><span class="nx">PCIe</span><span class="o">/</span><span class="nx">CXL</span><span class="w">      </span><span class="nx">Bridge</span><span class="o">/</span><span class="nx">Buffer</span><span class="w">         </span><span class="nx">Silicon</span>
+<span class="w">   </span><span class="nx">Protocol</span><span class="w">         </span><span class="nx">Logic</span><span class="w">              </span><span class="nx">Photonics</span>
+
+<span class="nx">关键设计挑战</span><span class="err">：</span>
+
+<span class="mi">1</span><span class="p">.</span><span class="w"> </span><span class="nx">协议转换延迟</span><span class="err">：</span>
+<span class="w">   </span><span class="o">-</span><span class="w"> </span><span class="nx">UCIe到OpenHBI需要协议适配</span>
+<span class="w">   </span><span class="o">-</span><span class="w"> </span><span class="nx">增加2</span><span class="o">-</span><span class="mi">3</span><span class="nx">ns延迟</span>
+<span class="w">   </span><span class="o">-</span><span class="w"> </span><span class="nx">需要缓冲区管理</span>
+
+<span class="mi">2</span><span class="p">.</span><span class="w"> </span><span class="nx">时钟架构</span><span class="err">：</span>
+<span class="w">   </span><span class="o">-</span><span class="w"> </span><span class="nx">UCIe</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span><span class="nx">GHz转发时钟</span>
+<span class="w">   </span><span class="o">-</span><span class="w"> </span><span class="nx">OpenHBI</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="nx">GHz参考时钟</span>
+<span class="w">   </span><span class="o">-</span><span class="w"> </span><span class="nx">需要异步FIFO和CDC</span>
+
+<span class="mi">3</span><span class="p">.</span><span class="w"> </span><span class="nx">功耗分配</span><span class="err">：</span>
+<span class="w">   </span><span class="o">-</span><span class="w"> </span><span class="nx">CPU</span><span class="o">-</span><span class="nx">IO</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="nx">W</span><span class="w"> </span><span class="p">(</span><span class="nx">UCIe</span><span class="p">)</span>
+<span class="w">   </span><span class="o">-</span><span class="w"> </span><span class="nx">IO</span><span class="o">-</span><span class="nx">Optical</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="nx">W</span><span class="w"> </span><span class="p">(</span><span class="nx">OpenHBI</span><span class="p">)</span>
+<span class="w">   </span><span class="o">-</span><span class="w"> </span><span class="nx">光引擎</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="nx">W</span>
+<span class="w">   </span><span class="o">-</span><span class="w"> </span><span class="nx">需要多电压域设计</span>
+
+<span class="mi">4</span><span class="p">.</span><span class="w"> </span><span class="nx">物理实现</span><span class="err">：</span>
+<span class="w">   </span><span class="o">-</span><span class="w"> </span><span class="nx">UCIe侧</span><span class="err">：</span><span class="m m-Double">2.5</span><span class="nx">D硅中介层</span>
+<span class="w">   </span><span class="o">-</span><span class="w"> </span><span class="nx">OpenHBI侧</span><span class="err">：</span><span class="nx">co</span><span class="o">-</span><span class="nx">packaged</span>
+<span class="w">   </span><span class="o">-</span><span class="w"> </span><span class="nx">热管理复杂</span>
+</code></pre></div>
+
+</details>
+<p><strong>练习7.5</strong>：某AI加速器公司计划采用Chiplet架构，包含4个计算die和1个IO die。每个计算die需要200GB/s到IO die的带宽，以及die间50GB/s的直接通信。请设计D2D互联方案，包括拓扑选择、标准选择、引脚分配。</p>
+<details>
+<summary>提示</summary>
+<p>考虑星型vs网格拓扑、带宽需求、引脚数限制、路由复杂度。</p>
+</details>
+<details>
+<summary>答案</summary>
+<p>互联方案设计：</p>
+<p>拓扑选择：Hub-and-Spoke + Mesh混合</p>
+<div class="codehilite"><pre><span></span><code>      Compute0 ←──→ Compute1
+          ↓     ╳     ↓
+          ↓   ╱   ╲   ↓
+          ↓ ╱       ╲ ↓
+      Compute2 ←──→ Compute3
+           ╲       ╱
+             ╲   ╱
+               ↓
+            IO Die
+</code></pre></div>
+
+<p>D2D标准分配：</p>
+<ul>
+<li>Compute到IO: UCIe Advanced (200GB/s each)</li>
+<li>Compute间: BoW (50GB/s, 低延迟)</li>
+</ul>
+<p>引脚计算：
+Compute die:</p>
+<ul>
+<li>到IO: 256 pins (UCIe)</li>
+<li>到其他Compute: 3 × 128 pins (BoW)</li>
+<li>总计: 640 data pins + 80 control</li>
+</ul>
+<p>IO die:</p>
+<ul>
+<li>4 × 256 pins (UCIe) = 1024 pins</li>
+<li>外部IO: 500 pins</li>
+<li>总计: 1524 data pins</li>
+</ul>
+<p>设计理由：</p>
+<ol>
+<li>UCIe用于高带宽需求</li>
+<li>BoW用于低延迟compute间通信</li>
+<li>混合拓扑平衡带宽和复杂度</li>
+</ol>
+</details>
+<p><strong>练习7.6</strong>：分析UCIe和CXL.io over UCIe相比传统PCIe over SerDes的延迟优势。假设：PCIe 5.0 x16，传输64B数据包，SerDes延迟100ns，UCIe物理层延迟10ns。</p>
+<details>
+<summary>提示</summary>
+<p>分解延迟组成：序列化、物理传输、协议处理。考虑FLIT模式的影响。</p>
+</details>
+<details>
+<summary>答案</summary>
+<p>延迟分析：</p>
+<p>传统PCIe 5.0 over SerDes:</p>
+<ul>
+<li>序列化: 64B / (32GT/s × 16 / 8) = 1ns</li>
+<li>SerDes延迟: 100ns</li>
+<li>协议处理: 20ns</li>
+<li>总延迟: 121ns</li>
+</ul>
+<p>CXL.io over UCIe:</p>
+<ul>
+<li>FLIT封装: 5ns</li>
+<li>UCIe物理层: 10ns</li>
+<li>协议处理: 10ns (优化路径)</li>
+<li>总延迟: 25ns</li>
+</ul>
+<p>延迟改善: (121-25)/121 = 79.3%</p>
+<p>关键优势来源：</p>
+<ol>
+<li>无SerDes延迟 (-100ns)</li>
+<li>FLIT模式减少协议开销 (-10ns)</li>
+<li>物理层简化 (-90ns)</li>
+<li>但增加FLIT封装开销 (+5ns)</li>
+</ol>
+<p>实际系统中，考虑往返延迟(RTT)，优势更明显。</p>
+</details>
+<p><strong>练习7.7</strong>：开放性思考：随着Chiplet生态系统的发展，你认为D2D接口标准会如何演进？考虑光电集成、3D堆叠、异构集成等趋势。</p>
+<details>
+<summary>提示</summary>
+<p>考虑技术趋势、市场需求、标准化进程、成本因素。</p>
+</details>
+<details>
+<summary>答案</summary>
+<p>D2D接口标准演进预测：</p>
+<p>近期（2024-2026）：</p>
+<ol>
+<li>
+<p>UCIe主导地位确立
+   - 2.0规范支持光互联
+   - 带宽提升到64GT/s
+   - 功耗降至0.1 pJ/bit</p>
+</li>
+<li>
+<p>光电混合接口出现
+   - UCIe-Optical变体
+   - 支持电/光自适应切换
+   - 距离扩展到30cm</p>
+</li>
+</ol>
+<p>中期（2026-2028）：</p>
+<ol>
+<li>
+<p>3D原生接口标准
+   - 垂直互联优化
+   - 混合键合支持
+   - 热感知路由</p>
+</li>
+<li>
+<p>认知D2D接口
+   - ML驱动的链路优化
+   - 自适应编码/调制
+   - 预测性功耗管理</p>
+</li>
+</ol>
+<p>远期（2028+）：</p>
+<ol>
+<li>量子-经典混合接口</li>
+<li>神经形态互联协议</li>
+<li>自组装Chiplet接口</li>
+</ol>
+<p>关键驱动因素：</p>
+<ul>
+<li>AI工作负载需求</li>
+<li>能效极限追求</li>
+<li>供应链全球化</li>
+<li>开源硬件运动</li>
+</ul>
+</details>
+<h2 id="gotchas">常见陷阱与错误 (Gotchas)</h2>
+<h3 id="_7">信号完整性陷阱</h3>
+<ol>
+<li>
+<p><strong>过度设计问题</strong>
+   - 错误：为5mm互联使用SerDes
+   - 后果：功耗增加10倍，延迟增加
+   - 正解：使用BoW或UCIe Standard</p>
+</li>
+<li>
+<p><strong>时钟偏斜忽视</strong>
+   - 错误：假设转发时钟无偏斜
+   - 后果：高速时采样错误
+   - 正解：始终预留去偏斜训练</p>
+</li>
+<li>
+<p><strong>串扰低估</strong>
+   - 错误：2.5D封装中忽略串扰
+   - 后果：BER恶化，性能下降
+   - 正解：保持3倍线宽间距</p>
+</li>
+</ol>
+<h3 id="_8">协议集成陷阱</h3>
+<ol start="4">
+<li>
+<p><strong>缓冲区大小错配</strong>
+   - 错误：UCIe retry buffer过小
+   - 后果：频繁重传，带宽损失
+   - 正解：根据RTT计算buffer深度</p>
+</li>
+<li>
+<p><strong>功耗状态转换</strong>
+   - 错误：频繁L0/L1切换
+   - 后果：延迟尖峰，功耗反增
+   - 正解：实现迟滞控制</p>
+</li>
+</ol>
+<h3 id="_9">验证盲点</h3>
+<ol start="6">
+<li>
+<p><strong>跨die时钟域</strong>
+   - 错误：同步设计假设
+   - 后果：亚稳态，数据损坏
+   - 正解：完整CDC验证</p>
+</li>
+<li>
+<p><strong>温度梯度影响</strong>
+   - 错误：忽略die间温差
+   - 后果：时序违例
+   - 正解：多温度角验证</p>
+</li>
+</ol>
+<h2 id="_10">最佳实践检查清单</h2>
+<h3 id="_11">标准选择决策</h3>
+<ul>
+<li>[ ] 明确带宽需求（当前和未来3年）</li>
+<li>[ ] 评估功耗预算（运行和待机）</li>
+<li>[ ] 确定延迟要求（平均和最坏情况）</li>
+<li>[ ] 分析成本约束（NRE和量产）</li>
+<li>[ ] 考虑生态系统（IP可用性、工具支持）</li>
+<li>[ ] 评估技术风险（成熟度、验证复杂度）</li>
+</ul>
+<h3 id="_12">物理实现审查</h3>
+<ul>
+<li>[ ] 信号完整性仿真完成</li>
+<li>[ ] 电源完整性分析通过</li>
+<li>[ ] 热仿真验证散热方案</li>
+<li>[ ] ESD保护措施到位</li>
+<li>[ ] DFT覆盖率&gt;95%</li>
+<li>[ ] 引脚分配优化（最小化交叉）</li>
+</ul>
+<h3 id="_13">协议层设计</h3>
+<ul>
+<li>[ ] 错误处理机制完备</li>
+<li>[ ] 流控信用计算正确</li>
+<li>[ ] QoS策略定义清晰</li>
+<li>[ ] 死锁场景全部覆盖</li>
+<li>[ ] 功耗管理状态机验证</li>
+<li>[ ] 热插拔支持（如需要）</li>
+</ul>
+<h3 id="_14">验证完备性</h3>
+<ul>
+<li>[ ] 协议一致性测试通过</li>
+<li>[ ] 压力测试（最大带宽）完成</li>
+<li>[ ] 错误注入测试覆盖</li>
+<li>[ ] 多die互操作验证</li>
+<li>[ ] PVT扫描完成</li>
+<li>[ ] EMI/EMC合规测试</li>
+</ul>
+<h3 id="_15">软件就绪</h3>
+<ul>
+<li>[ ] 驱动程序开发完成</li>
+<li>[ ] 性能调优工具可用</li>
+<li>[ ] 监控和诊断接口</li>
+<li>[ ] 固件更新机制</li>
+<li>[ ] 文档和培训材料</li>
+<li>[ ] 客户支持流程确立</li>
+</ul>
+<hr />
+<p><em>下一章预告：第8章将深入探讨Chiplet物理层设计，包括PHY架构、信号完整性、电源设计等关键实现细节。</em></p>
+            </article>
+            
+            <nav class="page-nav"><a href="chapter6.html" class="nav-link prev">← 第6章：Chiplet设计理念与经济学</a><a href="chapter8.html" class="nav-link next">第8章：Chiplet物理层设计 →</a></nav>
+        </main>
+    </div>
+</body>
+</html>

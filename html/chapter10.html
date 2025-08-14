@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="./">
+    <title>第10章：Chiplet集成与验证</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/highlight.css">
+    <script src="assets/script.js" defer></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                processEscapes: false,
+                packages: {'[+]': ['noerrors', 'ams']}
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            loader: {
+                load: ['[tex]/noerrors', '[tex]/ams']
+            }
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h3>目录</h3>
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <div class="sidebar-search">
+                <input type="text" id="sidebar-search-input" placeholder="搜索..." autocomplete="off">
+            </div>
+            <div id="tree-container">
+                <nav class="tree-nav" role="tree">
+                    <div class="tree-item " >
+                        <a href="index.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">芯片互联与封装技术教程</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter1.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第1章：NoC架构概述</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter2.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第2章：路由算法与流控</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter3.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第3章：NoC性能建模与优化</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter4.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第4章：2.5D封装技术</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter5.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第5章：3D封装与异构集成</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter6.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第6章：Chiplet设计理念与经济学</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter7.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第7章：Die-to-Die接口标准</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter8.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第8章：Chiplet物理层设计</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter9.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第9章：Chiplet系统架构</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item active" >
+                        <a href="chapter10.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第10章：Chiplet集成与验证</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter11.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第11章：HBM架构基础</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter12.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第12章：HBM物理实现</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter13.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第13章：HBM系统设计</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter14.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第14章：HBM编程模型与软件栈</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter15.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第15章：近存储计算架构</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter16.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第16章：CXL与内存扩展</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter17.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第17章：数据中心规模互联</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter18.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第18章：AI加速器互联</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter19.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第19章：移动与边缘芯片互联</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter20.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第20章：AMD Infinity架构演进</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter21.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第21章：光电混合互联</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter22.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第22章：量子互联初探</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="CLAUDE.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">Untitled</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </nav>
+        
+        <main class="content">
+            <article>
+                <h1 id="10chiplet">第10章：Chiplet集成与验证</h1>
+<p>在Chiplet系统设计中，集成与验证是将多个芯粒（die）成功组合成完整系统的关键环节。本章深入探讨从协同设计到系统验证的完整流程，涵盖接口定义、集成策略选择、验证方法论以及可靠性保障等核心主题。我们将学习如何在复杂的多芯粒系统中确保功能正确性、性能目标达成和长期可靠性。</p>
+<h2 id="_1">学习目标</h2>
+<p>完成本章学习后，您将能够：</p>
+<ol>
+<li>建立完整的Chiplet协同设计流程，包括接口规范定义和验证策略</li>
+<li>根据系统需求选择合适的2.5D或3D集成方案</li>
+<li>制定多层次的验证策略，从仿真到后硅验证</li>
+<li>设计高可靠性的Chiplet系统，包括冗余设计和故障管理</li>
+<li>使用业界主流EDA工具进行Chiplet设计与验证</li>
+<li>识别并避免Chiplet集成中的常见问题</li>
+</ol>
+<h2 id="101">10.1 协同设计流程</h2>
+<p>Chiplet系统的成功很大程度上依赖于良好的协同设计流程。与单片SoC不同，Chiplet系统需要在早期就明确定义各个芯粒之间的接口、时序要求和功耗分配。</p>
+<h3 id="1011">10.1.1 接口定义与验证</h3>
+<p>接口定义是Chiplet协同设计的基石。一个完整的接口规范需要涵盖物理层、协议层和系统层的各个方面。</p>
+<p><strong>物理层接口定义</strong></p>
+<p>物理层定义包括电气特性、时序参数和封装约束：</p>
+<div class="codehilite"><pre><span></span><code>接口参数规范示例：
+
+- 信号电平：1.0V CMOS
+- 数据率：16 Gbps/lane
+- 通道数量：16 lanes × 2（双向）
+- 时钟方案：源同步，4:1 quarter-rate
+- 终端电阻：100Ω差分
+- 抖动预算：
+  - Tx随机抖动（RJ）：&lt; 0.5ps RMS
+  - Tx确定性抖动（DJ）：&lt; 10ps p-p
+  - Rx抖动容限：&gt; 0.3 UI
+</code></pre></div>
+
+<p>时序约束的精确定义对于接口正常工作至关重要：</p>
+<div class="codehilite"><pre><span></span><code>        ┌─────────┐  tsetup  ┌─────────┐
+CLK ────┤         ├──────────┤         ├────
+        └─────────┘          └─────────┘
+           ┌─────────────────────┐
+DATA ──────┤      Valid Data     ├──────────
+           └─────────────────────┘
+        ←─→                   ←─→
+        thold                tsetup
+
+时序参数：
+
+- Setup时间（tsetup）：150ps min
+- Hold时间（thold）：100ps min  
+- Clock-to-output延迟（tco）：200ps max
+- 传播延迟预算：500ps
+</code></pre></div>
+
+<p><strong>协议层验证策略</strong></p>
+<p>协议层验证需要确保不同芯粒之间的通信协议兼容性。这通常通过形式化验证和协议检查器实现：</p>
+<ol>
+<li>
+<p><strong>事务级建模（TLM）</strong>
+   - 构建高层次的事务模型
+   - 验证协议状态机的正确性
+   - 检查死锁和活锁条件</p>
+</li>
+<li>
+<p><strong>协议一致性检查</strong>
+   - 请求-响应配对验证
+   - 流控信用管理
+   - 错误处理和恢复机制</p>
+</li>
+<li>
+<p><strong>互操作性测试</strong>
+   - 不同vendor芯粒之间的兼容性
+   - 协议版本协商
+   - 功能降级模式</p>
+</li>
+</ol>
+<h3 id="1012">10.1.2 时序收敛策略</h3>
+<p>在Chiplet系统中，时序收敛面临跨芯粒边界的额外挑战。需要考虑封装引入的延迟变化和多个时钟域之间的同步。</p>
+<p><strong>跨芯粒时序分析</strong></p>
+<p>时序路径可能跨越多个芯粒，需要精确的延迟建模：</p>
+<div class="codehilite"><pre><span></span><code>芯粒A → Interposer → 芯粒B 时序路径分析：
+
+Stage               Min Delay   Max Delay   Variation
+---------------------------------------------------------
+Chiplet A output    150ps       200ps       50ps
+Microbump A        20ps        30ps        10ps
+Interposer route   100ps       150ps       50ps
+Microbump B        20ps        30ps        10ps
+Chiplet B input    150ps       200ps       50ps
+---------------------------------------------------------
+Total path         440ps       610ps       170ps
+
+时序裕量计算：
+周期 = 1000ps (1GHz)
+Setup裕量 = 周期 - Max_delay - Setup_time = 1000 - 610 - 150 = 240ps
+Hold裕量 = Min_delay - Hold_time = 440 - 100 = 340ps
+</code></pre></div>
+
+<p><strong>时钟域交叉（CDC）处理</strong></p>
+<p>Chiplet系统通常包含多个异步时钟域，需要可靠的CDC设计：</p>
+<ol>
+<li>
+<p><strong>同步器设计</strong>
+   - 双触发器同步器用于单bit信号
+   - Gray码+同步器用于多bit计数器
+   - 异步FIFO用于数据流传输</p>
+</li>
+<li>
+<p><strong>亚稳态管理</strong>
+   - MTBF（平均故障间隔时间）计算
+   - 同步器级数优化
+   - 时钟频率比约束</p>
+</li>
+</ol>
+<p>亚稳态窗口和MTBF的关系：</p>
+<p>$$MTBF = \frac{e^{t_{res}/\tau}}{T_w \cdot f_{clk} \cdot f_{data}}$$
+其中：</p>
+<ul>
+<li>$t_{res}$：分辨时间（同步器延迟）</li>
+<li>$\tau$：亚稳态时间常数</li>
+<li>$T_w$：亚稳态窗口</li>
+<li>$f_{clk}$：时钟频率</li>
+<li>$f_{data}$：数据变化率</li>
+</ul>
+<h3 id="1013">10.1.3 功耗预算与管理</h3>
+<p>Chiplet系统的功耗管理需要在系统级进行协调，确保各个芯粒的功耗之和不超过封装的散热能力。</p>
+<p><strong>功耗预算分配</strong></p>
+<p>典型的AI加速器Chiplet系统功耗分配：</p>
+<div class="codehilite"><pre><span></span><code>总功耗预算：400W
+
+芯粒类型        数量    单芯粒功耗    总功耗    占比
+------------------------------------------------------
+计算芯粒        8       35W          280W      70%
+HBM内存         4       15W          60W       15%
+IO芯粒          2       20W          40W       10%
+Interposer损耗  -       -            20W       5%
+------------------------------------------------------
+系统总功耗                           400W      100%
+
+动态功耗管理策略：
+
+1. 全局功耗上限（Power Cap）：400W
+2. 突发功耗裕量：+10%（40W）持续时间 &lt; 100ms
+3. 热设计功耗（TDP）：350W（持续工作）
+</code></pre></div>
+
+<p><strong>供电网络设计（PDN）</strong></p>
+<p>多芯粒系统的PDN设计需要考虑电流分布和电压降：</p>
+<div class="codehilite"><pre><span></span><code><span class="w">         </span><span class="n">VRM输出</span>
+<span class="w">            </span><span class="err">│</span>
+<span class="w">      </span><span class="err">┌─────┴─────┐</span>
+<span class="w">      </span><span class="err">│</span><span class="w"> </span><span class="n">PCB</span><span class="w"> </span><span class="n">PDN</span><span class="w">   </span><span class="err">│</span>
+<span class="w">      </span><span class="err">└─────┬─────┘</span>
+<span class="w">            </span><span class="err">│</span>
+<span class="w">    </span><span class="err">┌───────┴───────┐</span>
+<span class="w">    </span><span class="err">│</span><span class="w">  </span><span class="n">Package</span><span class="w"> </span><span class="n">PDN</span><span class="w">  </span><span class="err">│</span>
+<span class="w">    </span><span class="err">└───────┬───────┘</span>
+<span class="w">            </span><span class="err">│</span>
+<span class="w">    </span><span class="err">┌───────┴───────────────┐</span>
+<span class="w">    </span><span class="err">│</span><span class="w">                        </span><span class="err">│</span>
+<span class="err">┌───┴───┐</span><span class="w">  </span><span class="err">┌────┴────┐</span><span class="w">  </span><span class="err">┌───┴───┐</span>
+<span class="err">│</span><span class="n">Die</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="n">Die</span><span class="w"> </span><span class="mi">2</span><span class="w">   </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="n">Die</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="err">│</span>
+<span class="err">│</span><span class="n">PDN</span><span class="w">    </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="n">PDN</span><span class="w">     </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="n">PDN</span><span class="w">   </span><span class="err">│</span>
+<span class="err">└───────┘</span><span class="w">  </span><span class="err">└─────────┘</span><span class="w">  </span><span class="err">└───────┘</span>
+
+<span class="n">PDN阻抗目标</span><span class="err">：</span>
+
+<span class="o">-</span><span class="w"> </span><span class="n">DC阻抗</span><span class="err">：</span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.5</span><span class="n">mΩ</span>
+<span class="o">-</span><span class="w"> </span><span class="n">目标阻抗</span><span class="mi">@100</span><span class="n">MHz</span><span class="err">：</span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="n">mΩ</span>
+<span class="o">-</span><span class="w"> </span><span class="n">谐振峰值抑制</span><span class="err">：</span><span class="o">&lt;</span><span class="w"> </span><span class="mi">2</span><span class="err">×</span><span class="n">目标阻抗</span>
+</code></pre></div>
+
+<p>电压降（IR Drop）分析：
+$$V_{drop} = I_{peak} \times (R_{PCB} + R_{pkg} + R_{die})$$
+对于100A峰值电流：</p>
+<ul>
+<li>PCB贡献：100A × 0.2mΩ = 20mV</li>
+<li>封装贡献：100A × 0.15mΩ = 15mV</li>
+<li>芯粒内部：100A × 0.15mΩ = 15mV</li>
+<li>总压降：50mV（需小于5%电源电压）</li>
+</ul>
+<p><strong>功耗状态协调</strong></p>
+<p>Chiplet系统需要协调各芯粒的功耗状态转换：</p>
+<div class="codehilite"><pre><span></span><code>功耗状态转换协议：
+State   描述           功耗    唤醒延迟   适用场景
+-----------------------------------------------------------
+P0      全速运行       100%    -          正常工作
+P1      降频运行       70%     10ns       轻负载
+P2      低频待机       30%     100ns      空闲等待
+C1      时钟门控       20%     1μs        短暂空闲
+C2      电源门控       5%      10μs       中等空闲
+C3      深度睡眠       1%      100μs      长时间空闲
+</code></pre></div>
+
+<h2 id="102-3d25d">10.2 3D/2.5D集成选择</h2>
+<p>选择合适的集成技术是Chiplet系统设计的关键决策，需要在性能、成本、制造可行性之间找到最佳平衡点。</p>
+<h3 id="1021">10.2.1 性能需求分析</h3>
+<p>不同的集成技术提供不同的互联密度和带宽：</p>
+<p><strong>互联密度对比</strong></p>
+<div class="codehilite"><pre><span></span><code>技术类型          凸点间距    互联密度      带宽密度
+----------------------------------------------------------
+有机基板（2D）    150μm      44/mm²        0.5 Gbps/mm²
+EMIB（2.5D）      55μm       330/mm²       10 Gbps/mm²
+Silicon Interposer 40μm      625/mm²       20 Gbps/mm²
+3D（F2F）         10μm       10000/mm²     200 Gbps/mm²
+Hybrid Bonding    1μm        1000000/mm²   5000 Gbps/mm²
+</code></pre></div>
+
+<p><strong>延迟特性分析</strong></p>
+<p>不同集成技术的信号传播延迟：
+$$t_{prop} = \frac{L}{\nu} = \frac{L}{c/\sqrt{\epsilon_r}}$$
+其中：</p>
+<ul>
+<li>$L$：互联长度</li>
+<li>$\nu$：信号传播速度</li>
+<li>$c$：光速</li>
+<li>$\epsilon_r$：相对介电常数</li>
+</ul>
+<div class="codehilite"><pre><span></span><code>集成类型        互联长度    介电常数    传播延迟    能量/bit
+------------------------------------------------------------
+PCB基板         50mm       4.0         333ps       10pJ
+Silicon Inter.  10mm       11.9        97ps        2pJ
+3D TSV          0.1mm      11.9        0.97ps      0.1pJ
+</code></pre></div>
+
+<h3 id="1022">10.2.2 成本分析模型</h3>
+<p>Chiplet系统的总成本包括多个组成部分：</p>
+<p><strong>成本构成分析</strong></p>
+<p>总成本 = 芯粒成本 + 封装成本 + 测试成本 + 良率损失</p>
+<ol>
+<li><strong>芯粒成本模型</strong>
+$$Cost_{die} = \frac{Cost_{wafer}}{N_{die} \times Y_{die}}$$
+其中良率模型（Murphy模型）：
+$$Y_{die} = \left[\frac{1 - e^{-D_0 \times A}}{D_0 \times A}\right]^2$$</li>
+</ol>
+<ul>
+<li>$D_0$：缺陷密度（defects/cm²）</li>
+<li>$A$：芯粒面积（cm²）</li>
+</ul>
+<ol start="2">
+<li><strong>封装成本对比</strong></li>
+</ol>
+<div class="codehilite"><pre><span></span><code>封装类型          成本($/cm²)   良率    适用规模
+-------------------------------------------------
+标准BGA           10           99%     &lt; 400mm²
+2.5D CoWoS-S      150          95%     &lt; 2500mm²
+2.5D CoWoS-L      100          96%     &lt; 3500mm²
+3D with TSV       200          90%     &lt; 800mm²
+Hybrid Bonding    300          85%     &lt; 400mm²
+</code></pre></div>
+
+<h3 id="1023">10.2.3 制造可行性评估</h3>
+<p>选择集成技术时必须考虑制造能力和供应链成熟度：</p>
+<p><strong>关键制造参数对比</strong></p>
+<div class="codehilite"><pre><span></span><code>技术参数              2.5D CoWoS    3D TSV      Hybrid Bonding
+----------------------------------------------------------------
+最小TSV直径           5μm          3μm         不适用
+TSV深宽比             10:1         20:1        不适用
+对准精度              ±1μm         ±0.5μm      ±0.1μm
+热预算                250°C        200°C       150°C
+堆叠层数              1            4-8         2-4
+KGD要求               高           极高        极高
+产能（wafers/月）     &gt;10K         &lt;5K         &lt;1K
+</code></pre></div>
+
+<p><strong>供应链成熟度分析</strong></p>
+<ol>
+<li>
+<p><strong>2.5D封装生态系统</strong>
+   - TSMC：CoWoS-S/R/L全系列
+   - Intel：EMIB + Foveros混合
+   - Samsung：I-Cube和X-Cube
+   - 供应充足，交期6-8周</p>
+</li>
+<li>
+<p><strong>3D封装供应链挑战</strong>
+   - 产能受限，主要集中在先进节点
+   - 需要专门的TSV工艺线
+   - 测试设备昂贵且稀缺
+   - 交期12-16周</p>
+</li>
+</ol>
+<p><strong>技术选择决策树</strong></p>
+<div class="codehilite"><pre><span></span><code>                    系统需求
+                       │
+              ┌────────┴────────┐
+              │带宽 &gt; 1TB/s？    │
+              └────────┬────────┘
+                 Yes ↓     ↓ No
+            ┌──────────┐  ┌──────────┐
+            │功耗受限？ │  │成本敏感？ │
+            └──────────┘  └──────────┘
+              Yes↓ ↓No      Yes↓ ↓No
+              3D TSV     2.5D CoWoS  2D MCM
+</code></pre></div>
+
+<h2 id="103">10.3 系统级验证</h2>
+<p>Chiplet系统的验证需要覆盖从单个芯粒到完整系统的多个层次，采用渐进式验证策略确保设计正确性。</p>
+<h3 id="1031">10.3.1 分层验证策略</h3>
+<p><strong>验证层次架构</strong></p>
+<div class="codehilite"><pre><span></span><code>Level 5: 系统级验证
+    ├── 完整系统功能测试
+    ├── 性能benchmarks
+    └── 应用场景验证
+
+Level 4: 子系统验证  
+    ├── 多芯粒协同
+    ├── 缓存一致性
+    └── QoS验证
+
+Level 3: 接口验证
+    ├── Die-to-die协议
+    ├── 时序验证
+    └── 信号完整性
+
+Level 2: 芯粒级验证
+    ├── 单芯粒功能
+    ├── DFT验证
+    └── BIST测试
+
+Level 1: IP块验证
+    ├── 单元测试
+    ├── 接口验证
+    └── 覆盖率分析
+</code></pre></div>
+
+<h3 id="1032">10.3.2 混合抽象级别仿真</h3>
+<p>为了平衡仿真精度和速度，采用混合抽象级别的仿真方法：</p>
+<p><strong>仿真模型层次</strong></p>
+<div class="codehilite"><pre><span></span><code>抽象级别        精度      速度        适用场景
+--------------------------------------------------------
+RTL            周期精确   1-10 Hz     关键路径验证
+Cycle-accurate 周期精确   1-10 KHz    时序验证
+TLM-AT         近似时序   100 KHz     性能评估
+TLM-LT         松散时序   1-10 MHz    功能验证
+Behavioral     功能级     100+ MHz    系统探索
+</code></pre></div>
+
+<p><strong>混合仿真环境构建</strong></p>
+<div class="codehilite"><pre><span></span><code>┌─────────────────────────────────────────┐
+│         SystemC/TLM仿真环境              │
+├─────────────────────────────────────────┤
+│  ┌─────────┐  ┌─────────┐  ┌─────────┐ │
+│  │Chiplet A│  │Chiplet B│  │Chiplet C│ │
+│  │  (RTL)  │  │(C-Model)│  │  (TLM)  │ │
+│  └────┬────┘  └────┬────┘  └────┬────┘ │
+│       │            │            │       │
+│  ┌────┴────────────┴────────────┴────┐ │
+│  │     Interconnect Model (TLM-AT)    │ │
+│  └────────────────────────────────────┘ │
+└─────────────────────────────────────────┘
+
+仿真加速技术：
+
+- 关键模块用RTL，其他用高层模型
+- 使用事务级接口桥接不同抽象级别
+- 动态切换仿真精度
+</code></pre></div>
+
+<h3 id="1033-fpga">10.3.3 FPGA原型验证</h3>
+<p>FPGA原型提供接近真实硬件的验证环境：</p>
+<p><strong>多FPGA分割策略</strong></p>
+<p>大型Chiplet系统通常需要多片FPGA实现：</p>
+<div class="codehilite"><pre><span></span><code>分割原则：
+
+1. 最小化跨FPGA信号数量
+2. 平衡各FPGA资源利用率
+3. 保持功能模块完整性
+
+示例：8-Chiplet系统映射到4-FPGA平台
+
+FPGA-1              FPGA-2
+┌──────────┐        ┌──────────┐
+│Chiplet 0 │←──────→│Chiplet 2 │
+│Chiplet 1 │        │Chiplet 3 │
+└──────────┘        └──────────┘
+     ↑↓                  ↑↓
+┌──────────┐        ┌──────────┐
+│Chiplet 4 │←──────→│Chiplet 6 │
+│Chiplet 5 │        │Chiplet 7 │
+└──────────┘        └──────────┘
+FPGA-3              FPGA-4
+
+FPGA间互联：
+
+- 高速串行链路（10-28 Gbps）
+- 时分复用减少物理连线
+- 协议桥接保持时序关系
+</code></pre></div>
+
+<p><strong>性能标定与关联</strong></p>
+<p>FPGA原型与实际芯片的性能关联：
+$$T_{silicon} = T_{FPGA} \times \frac{f_{FPGA}}{f_{target}} \times K_{overhead}$$
+其中：</p>
+<ul>
+<li>$K_{overhead}$：FPGA额外开销系数（1.2-2.0）</li>
+<li>$f_{FPGA}$：FPGA运行频率（50-200MHz）</li>
+<li>$f_{target}$：目标芯片频率（1-3GHz）</li>
+</ul>
+<h3 id="1034">10.3.4 后硅验证策略</h3>
+<p>后硅验证是Chiplet系统验证的最后关卡：</p>
+<p><strong>测试向量生成</strong></p>
+<div class="codehilite"><pre><span></span><code>测试类型           覆盖目标           测试时间
+-------------------------------------------------
+结构测试（ATPG）   &gt;99%故障覆盖       秒级
+功能测试           主要使用场景        分钟级
+随机测试           边角场景           小时级
+压力测试           极限条件           天级
+老化测试           可靠性验证         周级
+</code></pre></div>
+
+<p><strong>调试与诊断基础设施</strong></p>
+<div class="codehilite"><pre><span></span><code>片上调试功能：
+
+1. 扫描链访问
+   - JTAG接口
+   - 边界扫描（IEEE 1149.1）
+   - 内部扫描链
+
+2. 追踪与监控
+   - 事务级追踪
+   - 性能计数器
+   - 协议检查器
+
+3. 内建自测试
+   - MBIST（存储器）
+   - LBIST（逻辑）
+   - PBIST（可编程）
+
+4. 调试触发机制
+   - 断点设置
+   - 事件触发
+   - 条件捕获
+</code></pre></div>
+
+<h2 id="104">10.4 可靠性设计</h2>
+<p>Chiplet系统的可靠性设计需要考虑多芯粒集成带来的新挑战，包括更多的互联点、复杂的热管理和系统级容错。</p>
+<h3 id="1041">10.4.1 冗余与容错设计</h3>
+<p><strong>芯粒级冗余策略</strong></p>
+<div class="codehilite"><pre><span></span><code>冗余类型        开销      可靠性提升    适用场景
+-------------------------------------------------
+冷备份（Cold）   +100%     2×           成本不敏感
+温备份（Warm）   +100%     1.8×         快速切换
+热备份（Hot）    +100%     1.5×         零中断
+N+1冗余         +1/N      1.2-1.5×     大规模系统
+选择性冗余       +20-50%   1.3-1.6×     关键路径
+</code></pre></div>
+
+<p><strong>互联冗余设计</strong></p>
+<p>Die-to-die互联的冗余机制：</p>
+<div class="codehilite"><pre><span></span><code>原始配置：16 lanes @ 16 Gbps = 256 Gbps
+
+冗余配置选项：
+
+1. Lane级冗余
+   - 18 lanes (16+2备用)
+   - 动态lane映射
+   - 自动故障切换
+
+2. Link级冗余
+   - 双link配置
+   - 主备切换
+   - 负载均衡模式
+
+3. 路径冗余
+   - 多路径路由
+   - 自适应选路
+   - 拥塞避免
+</code></pre></div>
+
+<p><strong>错误检测与纠正（ECC）</strong></p>
+<p>多级ECC保护策略：
+$$P_{error} = P_{uncorrectable} \times P_{undetected}$$</p>
+<div class="codehilite"><pre><span></span><code>保护级别        纠错能力    检测能力    开销
+------------------------------------------------
+奇偶校验        0-bit      1-bit      12.5%
+SEC-DED        1-bit      2-bit      12.5%
+CHIPKILL       1-chip     2-chip     25%
+Reed-Solomon   t-symbol   2t-symbol  可配置
+</code></pre></div>
+
+<h3 id="1042">10.4.2 老化管理</h3>
+<p><strong>老化机制与模型</strong></p>
+<p>主要老化机制及其影响：</p>
+<ol>
+<li><strong>电迁移（EM）</strong></li>
+</ol>
+<p>平均失效时间（MTTF）：
+$$MTTF_{EM} = \frac{A}{J^n} \times e^{\frac{E_a}{kT}}$$
+其中：</p>
+<ul>
+<li>$J$：电流密度</li>
+<li>$n$：电流密度指数（1.5-2）</li>
+<li>$E_a$：激活能（0.6-0.9 eV）</li>
+<li>$T$：温度</li>
+</ul>
+<ol start="2">
+<li><strong>偏压温度不稳定性（BTI）</strong></li>
+</ol>
+<p>阈值电压漂移：
+$$\Delta V_{th} = A \times t^n \times e^{-\frac{E_a}{kT}}$$</p>
+<ul>
+<li>时间指数$n$：0.16-0.25</li>
+<li>恢复效应：断电可部分恢复</li>
+</ul>
+<ol start="3">
+<li><strong>热载流子注入（HCI）</strong>
+   - 影响：晶体管性能退化
+   - 缓解：降低电压摆幅</li>
+</ol>
+<p><strong>动态老化监控</strong></p>
+<div class="codehilite"><pre><span></span><code>监控架构：
+┌─────────────────────────────────────┐
+│          老化管理控制器              │
+├─────────────────────────────────────┤
+│  ┌──────┐  ┌──────┐  ┌──────┐     │
+│  │Ring  │  │Delay │  │Leakage│     │
+│  │Osc.  │  │Chain │  │Monitor│     │
+│  └──────┘  └──────┘  └──────┘     │
+│                                     │
+│  老化预测模型                        │
+│  ├── 性能退化曲线                   │
+│  ├── 剩余寿命估计                   │
+│  └── 维护建议                       │
+└─────────────────────────────────────┘
+
+监控参数：
+
+- 振荡器频率：检测全局老化
+- 关键路径延迟：检测时序退化
+- 漏电流：检测BTI效应
+- 错误率：检测实际影响
+</code></pre></div>
+
+<h3 id="1043">10.4.3 现场可维护性</h3>
+<p><strong>故障隔离与诊断</strong></p>
+<div class="codehilite"><pre><span></span><code>故障定位精度层次：
+
+1. 系统级：哪个节点故障
+2. 板级：哪个模块故障
+3. 封装级：哪个Chiplet故障
+4. 芯片级：哪个功能块故障
+5. 电路级：具体故障位置
+
+诊断流程：
+Start → BIST测试 → 故障签名分析 → 
+故障字典匹配 → 故障定位 → 修复决策
+</code></pre></div>
+
+<p><strong>在线修复机制</strong></p>
+<ol>
+<li><strong>备用资源激活</strong></li>
+</ol>
+<div class="codehilite"><pre><span></span><code>资源类型        备用比例    切换时间
+-----------------------------------------
+计算单元        5-10%       &lt; 1ms
+存储器行/列     2-5%        &lt; 10μs
+IO lanes       10-20%      &lt; 100ms
+电源轨道        10%         &lt; 1s
+</code></pre></div>
+
+<ol start="2">
+<li><strong>性能降级策略</strong>
+   - 降低工作频率
+   - 关闭故障模块
+   - 重新分配负载
+   - 激活备用路径</li>
+</ol>
+<p><strong>预测性维护</strong></p>
+<p>基于机器学习的故障预测：</p>
+<div class="codehilite"><pre><span></span><code>输入特征：
+
+- 温度历史
+- 电压波动
+- 错误率趋势
+- 性能退化曲线
+
+预测输出：
+
+- 剩余使用寿命（RUL）
+- 故障概率分布
+- 维护时间窗口
+- 备件需求预测
+</code></pre></div>
+
+<h2 id="_2">工具链介绍</h2>
+<h3 id="synopsys-3dic-compiler">Synopsys 3DIC Compiler</h3>
+<p><strong>主要功能</strong></p>
+<ul>
+<li>3D/2.5D协同设计</li>
+<li>热分析与优化</li>
+<li>TSV插入与优化</li>
+<li>跨芯粒时序分析</li>
+</ul>
+<p><strong>设计流程</strong></p>
+<div class="codehilite"><pre><span></span><code>输入文件 → 3D规划 → 布局布线 → 
+TSV优化 → 热/应力分析 → 签核
+</code></pre></div>
+
+<h3 id="cadence-integrity-3d-ic">Cadence Integrity 3D-IC</h3>
+<p><strong>关键特性</strong></p>
+<ul>
+<li>系统级规划</li>
+<li>多物理场仿真</li>
+<li>Chiplet接口验证</li>
+<li>系统级优化</li>
+</ul>
+<p><strong>集成流程</strong></p>
+<div class="codehilite"><pre><span></span><code>架构探索 → 系统规划 → 实现 → 
+分析验证 → 系统集成 → 签核
+</code></pre></div>
+
+<h2 id="_3">本章小结</h2>
+<p>本章系统地介绍了Chiplet集成与验证的完整流程。关键要点包括：</p>
+<ol>
+<li>
+<p><strong>协同设计流程</strong>：成功的Chiplet系统需要早期定义清晰的接口规范，包括物理层、协议层的详细参数。时序收敛需要考虑跨芯粒路径和CDC处理。功耗预算必须在系统级协调，确保不超过封装散热能力。</p>
+</li>
+<li>
+<p><strong>集成技术选择</strong>：2.5D和3D集成各有优势，选择需要综合考虑性能需求（带宽、延迟）、成本因素（芯粒、封装、测试）和制造可行性（产能、良率、供应链）。关键决策因素包括互联密度需求、热管理挑战和上市时间压力。</p>
+</li>
+<li>
+<p><strong>验证策略</strong>：采用分层验证方法，从IP块到系统级逐步验证。混合抽象级别仿真平衡精度和速度。FPGA原型提供硬件级验证能力。后硅验证需要完善的调试基础设施。</p>
+</li>
+<li>
+<p><strong>可靠性保障</strong>：通过冗余设计、老化管理和现场可维护性确保系统长期稳定运行。ECC保护、动态监控和预测性维护是关键技术。</p>
+</li>
+</ol>
+<p>关键公式回顾：</p>
+<ul>
+<li>亚稳态MTBF：$MTBF = \frac{e^{t_{res}/\tau}}{T_w \cdot f_{clk} \cdot f_{data}}$</li>
+<li>良率模型：$Y_{die} = \left[\frac{1 - e^{-D_0 \times A}}{D_0 \times A}\right]^2$</li>
+<li>电迁移MTTF：$MTTF_{EM} = \frac{A}{J^n} \times e^{\frac{E_a}{kT}}$</li>
+</ul>
+<h2 id="_4">练习题</h2>
+<h3 id="_5">基础题</h3>
+<p><strong>题目 10.1</strong> 
+一个Chiplet系统包含4个计算芯粒（每个40W）、2个IO芯粒（每个25W）和4个HBM（每个12W），Interposer损耗为15W。如果封装的最大散热能力为300W，系统是否可以全速运行？如需降频，计算所需的功耗降低百分比。</p>
+<details>
+<summary>提示</summary>
+<p>计算总功耗并与散热能力比较，功耗降低可通过降频实现，功耗与频率近似成正比。</p>
+</details>
+<details>
+<summary>答案</summary>
+<p>总功耗 = 4×40W + 2×25W + 4×12W + 15W = 160W + 50W + 48W + 15W = 273W &lt; 300W
+系统可以全速运行，有27W的裕量（9%）。</p>
+</details>
+<p><strong>题目 10.2</strong>
+某Die-to-die接口工作在1GHz，setup时间要求200ps，hold时间要求150ps。如果跨Interposer的最大延迟为650ps，最小延迟为450ps，计算setup和hold裕量。</p>
+<details>
+<summary>提示</summary>
+<p>Setup裕量 = 时钟周期 - 最大延迟 - Setup时间；Hold裕量 = 最小延迟 - Hold时间</p>
+</details>
+<details>
+<summary>答案</summary>
+<p>时钟周期 = 1000ps (1GHz)
+Setup裕量 = 1000ps - 650ps - 200ps = 150ps（满足要求）
+Hold裕量 = 450ps - 150ps = 300ps（满足要求）</p>
+</details>
+<p><strong>题目 10.3</strong>
+使用5nm工艺，晶圆成本$17000，300mm晶圆可切割400个100mm²的芯粒。如果缺陷密度为0.1/cm²，计算单个芯粒的成本。</p>
+<details>
+<summary>提示</summary>
+<p>使用Murphy良率模型计算良率，然后计算有效芯粒成本</p>
+</details>
+<details>
+<summary>答案</summary>
+<p>芯粒面积A = 100mm² = 1cm²
+良率 Y = [(1 - e^(-0.1×1))/(0.1×1)]² = [(1 - 0.9048)/0.1]² = [0.952]² = 0.906
+单芯粒成本 = $17000/(400×0.906) = $17000/362.4 = $46.9</p>
+</details>
+<h3 id="_6">进阶题</h3>
+<p><strong>题目 10.4</strong>
+设计一个16-lane UCIe接口的冗余方案。原始配置为16个数据lane，每lane 32Gbps。要求在2个lane失效时仍能保持至少400Gbps的总带宽。计算需要的冗余lane数量和带宽效率。</p>
+<details>
+<summary>提示</summary>
+<p>考虑N+M冗余，其中N=16是原始lane数，M是冗余lane数。失效后的带宽=(总lane数-失效数)×单lane带宽</p>
+</details>
+<details>
+<summary>答案</summary>
+<p>原始带宽 = 16 × 32Gbps = 512Gbps
+失效2个lane后最少需要：400Gbps ÷ 32Gbps = 12.5个lane，取13个
+因此总共需要：13 + 2 = 15个lane才能容忍2个失效
+但原始是16个，所以实际上16个lane失效2个后剩14个，带宽=14×32=448Gbps &gt; 400Gbps
+结论：16个lane本身就满足要求，无需额外冗余
+带宽效率 = 400/512 = 78.1%</p>
+</details>
+<p><strong>题目 10.5</strong>
+某Chiplet系统采用2.5D CoWoS封装，Interposer面积2000mm²，成本$150/cm²。8个计算芯粒每个100mm²，良率95%，成本$50/个。封装良率96%。计算系统总成本和良率。</p>
+<details>
+<summary>提示</summary>
+<p>系统良率 = 各部分良率的乘积；总成本需要考虑良率损失</p>
+</details>
+<details>
+<summary>答案</summary>
+<p>Interposer成本 = 2000mm² × ($150/100mm²) = $300
+芯粒成本 = 8 × $50 = $400
+封装前成本 = $300 + $400 = $700
+系统良率 = 0.95^8 × 0.96 = 0.6634 × 0.96 = 0.637
+考虑良率的总成本 = $700 / 0.637 = $1099</p>
+</details>
+<h3 id="_7">挑战题</h3>
+<p><strong>题目 10.6</strong>
+设计一个Chiplet系统的验证策略，包含4个计算芯粒、2个IO芯粒和4个HBM。每个芯粒有不同的时钟域（计算：2GHz，IO：1GHz，HBM：1.6GHz）。描述CDC验证策略和FPGA原型分割方案。</p>
+<details>
+<summary>提示</summary>
+<p>考虑时钟域交叉点的数量、同步器设计、FPGA资源限制和验证覆盖率</p>
+</details>
+<details>
+<summary>答案</summary>
+<p>CDC验证策略：</p>
+<ol>
+<li>识别所有CDC路径：计算-IO（8个交叉）、计算-HBM（16个交叉）、IO-HBM（8个交叉）</li>
+<li>每个交叉点使用双触发器同步器（单bit）或异步FIFO（数据流）</li>
+<li>MTBF分析确保 &gt; 10年</li>
+<li>使用CDC验证工具进行静态检查</li>
+</ol>
+<p>FPGA原型分割（假设4个FPGA）：</p>
+<ul>
+<li>FPGA1：2个计算芯粒 + 1个HBM</li>
+<li>FPGA2：2个计算芯粒 + 1个HBM  </li>
+<li>FPGA3：1个IO芯粒 + 1个HBM</li>
+<li>FPGA4：1个IO芯粒 + 1个HBM
+跨FPGA使用高速串行链路，时分复用降低引脚数</li>
+</ul>
+</details>
+<p><strong>题目 10.7</strong>
+某AI训练系统采用Chiplet架构，在连续运行6个月后观察到性能下降5%。Ring oscillator频率降低3%，关键路径延迟增加4%。预测系统剩余寿命，并提出延长寿命的策略。假设老化遵循幂律模型：退化 = A × t^0.2。</p>
+<details>
+<summary>提示</summary>
+<p>使用幂律模型外推，考虑温度对老化的指数影响，评估不同缓解策略的效果</p>
+</details>
+<details>
+<summary>答案</summary>
+<p>当前退化分析：</p>
+<ul>
+<li>6个月时退化5%：0.05 = A × (6)^0.2 = A × 1.43</li>
+<li>因此 A = 0.035</li>
+</ul>
+<p>剩余寿命预测（假设10%退化为失效阈值）：</p>
+<ul>
+<li>0.10 = 0.035 × t^0.2</li>
+<li>t^0.2 = 2.86</li>
+<li>t = 2.86^5 = 191个月 ≈ 16年总寿命</li>
+<li>剩余寿命 = 16年 - 6个月 = 15.5年</li>
+</ul>
+<p>延长寿命策略：</p>
+<ol>
+<li>降低温度10°C：寿命延长约2倍（Arrhenius定律）</li>
+<li>降频10%：降低电流密度，减缓电迁移</li>
+<li>电压调节：补偿阈值电压漂移</li>
+<li>负载均衡：轮换使用不同芯粒</li>
+<li>定期"恢复"周期：缓解BTI效应</li>
+</ol>
+</details>
+<h2 id="_8">常见陷阱与错误</h2>
+<h3 id="_9">接口定义陷阱</h3>
+<ol>
+<li>
+<p><strong>时序约束不完整</strong>
+   - 错误：只定义setup/hold，忽略jitter预算
+   - 正确：完整定义所有时序参数，包括抖动、偏斜容限</p>
+</li>
+<li>
+<p><strong>忽略PVT变化</strong>
+   - 错误：只在典型条件下验证
+   - 正确：覆盖所有Process、Voltage、Temperature组合</p>
+</li>
+<li>
+<p><strong>CDC处理不当</strong>
+   - 错误：直接跨时钟域传递多bit数据
+   - 正确：使用Gray码或异步FIFO</p>
+</li>
+</ol>
+<h3 id="_10">集成选择陷阱</h3>
+<ol start="4">
+<li>
+<p><strong>过度优化单一指标</strong>
+   - 错误：只追求最高带宽，忽略成本和功耗
+   - 正确：平衡性能、成本、功耗、可制造性</p>
+</li>
+<li>
+<p><strong>忽略供应链风险</strong>
+   - 错误：选择单一供应商的专有技术
+   - 正确：考虑second source和技术迁移路径</p>
+</li>
+</ol>
+<h3 id="_11">验证陷阱</h3>
+<ol start="6">
+<li>
+<p><strong>验证覆盖不足</strong>
+   - 错误：只验证功能，忽略性能和功耗
+   - 正确：功能、性能、功耗、可靠性全面覆盖</p>
+</li>
+<li>
+<p><strong>过度依赖仿真</strong>
+   - 错误：认为仿真通过就没问题
+   - 正确：结合仿真、FPGA原型、后硅验证</p>
+</li>
+</ol>
+<h3 id="_12">可靠性陷阱</h3>
+<ol start="8">
+<li>
+<p><strong>静态冗余设计</strong>
+   - 错误：固定的冗余配置
+   - 正确：动态可配置的冗余策略</p>
+</li>
+<li>
+<p><strong>忽略老化效应</strong>
+   - 错误：按初始性能设计裕量
+   - 正确：考虑全生命周期的性能退化</p>
+</li>
+<li>
+<p><strong>测试覆盖盲区</strong></p>
+<ul>
+<li>错误：只测试单个芯粒</li>
+<li>正确：系统级测试覆盖所有交互场景</li>
+</ul>
+</li>
+</ol>
+<h2 id="_13">最佳实践检查清单</h2>
+<h3 id="_14">设计阶段</h3>
+<ul>
+<li>[ ] 明确定义所有芯粒间接口规范</li>
+<li>[ ] 建立完整的时序预算和功耗预算</li>
+<li>[ ] 选择标准化的D2D接口（如UCIe）</li>
+<li>[ ] 预留足够的设计裕量（时序、功耗、热）</li>
+<li>[ ] 定义清晰的测试和调试接口</li>
+</ul>
+<h3 id="_15">验证阶段</h3>
+<ul>
+<li>[ ] 建立分层验证计划</li>
+<li>[ ] 实现混合抽象级别仿真环境</li>
+<li>[ ] 完成CDC验证和时序签核</li>
+<li>[ ] 执行系统级功能和性能验证</li>
+<li>[ ] 准备FPGA原型验证平台</li>
+</ul>
+<h3 id="_16">集成阶段</h3>
+<ul>
+<li>[ ] 完成封装设计规则检查（DRC）</li>
+<li>[ ] 验证热和机械应力</li>
+<li>[ ] 确认供电网络设计</li>
+<li>[ ] 实施信号完整性分析</li>
+<li>[ ] 制定测试和筛选流程</li>
+</ul>
+<h3 id="_17">可靠性保障</h3>
+<ul>
+<li>[ ] 实施多级冗余策略</li>
+<li>[ ] 部署老化监控机制</li>
+<li>[ ] 建立故障诊断流程</li>
+<li>[ ] 实现在线修复能力</li>
+<li>[ ] 制定预测性维护计划</li>
+</ul>
+<h3 id="_18">项目管理</h3>
+<ul>
+<li>[ ] 确保供应链稳定性</li>
+<li>[ ] 管理多方协作和IP集成</li>
+<li>[ ] 控制成本和进度风险</li>
+<li>[ ] 准备量产转移计划</li>
+<li>[ ] 建立质量保证体系</li>
+</ul>
+            </article>
+            
+            <nav class="page-nav"><a href="chapter9.html" class="nav-link prev">← 第9章：Chiplet系统架构</a><a href="chapter11.html" class="nav-link next">第11章：HBM架构基础 →</a></nav>
+        </main>
+    </div>
+</body>
+</html>

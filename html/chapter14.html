@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="./">
+    <title>第14章：HBM编程模型与软件栈</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/highlight.css">
+    <script src="assets/script.js" defer></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                processEscapes: false,
+                packages: {'[+]': ['noerrors', 'ams']}
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            loader: {
+                load: ['[tex]/noerrors', '[tex]/ams']
+            }
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h3>目录</h3>
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <div class="sidebar-search">
+                <input type="text" id="sidebar-search-input" placeholder="搜索..." autocomplete="off">
+            </div>
+            <div id="tree-container">
+                <nav class="tree-nav" role="tree">
+                    <div class="tree-item " >
+                        <a href="index.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">芯片互联与封装技术教程</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter1.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第1章：NoC架构概述</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter2.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第2章：路由算法与流控</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter3.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第3章：NoC性能建模与优化</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter4.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第4章：2.5D封装技术</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter5.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第5章：3D封装与异构集成</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter6.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第6章：Chiplet设计理念与经济学</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter7.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第7章：Die-to-Die接口标准</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter8.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第8章：Chiplet物理层设计</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter9.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第9章：Chiplet系统架构</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter10.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第10章：Chiplet集成与验证</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter11.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第11章：HBM架构基础</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter12.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第12章：HBM物理实现</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter13.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第13章：HBM系统设计</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item active" >
+                        <a href="chapter14.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第14章：HBM编程模型与软件栈</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter15.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第15章：近存储计算架构</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter16.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第16章：CXL与内存扩展</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter17.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第17章：数据中心规模互联</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter18.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第18章：AI加速器互联</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter19.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第19章：移动与边缘芯片互联</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter20.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第20章：AMD Infinity架构演进</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter21.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第21章：光电混合互联</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter22.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第22章：量子互联初探</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="CLAUDE.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">Untitled</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </nav>
+        
+        <main class="content">
+            <article>
+                <h1 id="14hbm">第14章：HBM编程模型与软件栈</h1>
+<p>在前面章节中，我们深入探讨了HBM的硬件架构、物理实现和系统设计。然而，要充分发挥HBM的性能潜力，软件层面的优化同样至关重要。本章将详细介绍HBM的编程模型、内存管理策略、性能调优技术以及主流编程框架的支持。通过学习本章内容，您将掌握如何在实际应用中高效利用HBM带宽，特别是在AI大模型训练等带宽密集型场景中实现最优性能。</p>
+<h2 id="141">14.1 内存映射与地址转换</h2>
+<p>HBM作为高带宽内存子系统，其地址空间管理是软件栈的基础。理解物理地址布局、虚拟内存映射以及IOMMU的作用，对于开发高性能应用至关重要。</p>
+<h3 id="1411">14.1.1 物理地址布局</h3>
+<p>HBM的物理地址空间组织直接影响访问效率。典型的HBM物理地址布局采用多级解码机制：</p>
+<div class="codehilite"><pre><span></span><code>物理地址位分配（以HBM3为例）：
+[47:46] - Stack ID（堆栈选择，最多4个堆栈）
+[45:44] - Channel ID（通道选择，每堆栈16个通道）  
+[43:40] - Bank Group（Bank组选择）
+[39:36] - Bank（Bank选择）
+[35:20] - Row（行地址）
+[19:7]  - Column（列地址，1KB边界对齐）
+[6:0]   - Byte Offset（字节偏移）
+</code></pre></div>
+
+<p>这种地址映射方案的设计考虑了以下因素：</p>
+<ol>
+<li><strong>并行性最大化</strong>：将连续地址分散到不同的通道和Bank，提高并发访问能力</li>
+<li><strong>局部性优化</strong>：同一行内的数据保持地址连续，利用行缓冲区（row buffer）</li>
+<li><strong>功耗管理</strong>：相邻地址尽可能在同一堆栈内，减少跨堆栈通信</li>
+</ol>
+<p>地址交织（interleaving）策略对性能影响显著。常见的交织粒度包括：</p>
+<ul>
+<li><strong>细粒度交织（64B/128B）</strong>：适合随机访问模式，提高带宽利用率</li>
+<li><strong>粗粒度交织（4KB/64KB）</strong>：适合流式访问，减少Bank冲突</li>
+<li><strong>自适应交织</strong>：根据访问模式动态调整交织策略</li>
+</ul>
+<p>交织函数的数学表达：
+$$\text{Channel}_{\text{ID}} = \left\lfloor \frac{\text{Addr}}{\text{Interleave}_{\text{size}}} \right\rfloor \mod N_{\text{channels}}$$
+其中 $N_{\text{channels}}$ 为总通道数，$\text{Interleave}_{\text{size}}$ 为交织粒度。</p>
+<h3 id="1412">14.1.2 虚拟内存支持</h3>
+<p>现代操作系统通过页表机制实现虚拟到物理地址的转换。HBM的虚拟内存支持需要考虑以下特殊性：</p>
+<ol>
+<li><strong>大页支持</strong></li>
+</ol>
+<p>HBM的高带宽特性使得TLB（Translation Lookaside Buffer）未命中的代价更高。使用大页（2MB、1GB）可以显著减少TLB压力：</p>
+<div class="codehilite"><pre><span></span><code>标准页（4KB）：
+
+<span class="k">-</span> TLB覆盖范围 = TLB_entries × 4KB
+<span class="k">-</span> 对于512项TLB，仅覆盖2MB
+
+大页（2MB）：
+
+<span class="k">-</span> TLB覆盖范围 = TLB_entries × 2MB  
+<span class="k">-</span> 对于512项TLB，可覆盖1GB
+
+巨页（1GB）：
+
+<span class="k">-</span> TLB覆盖范围 = TLB_entries × 1GB
+<span class="k">-</span> 对于32项TLB，可覆盖32GB
+</code></pre></div>
+
+<p>Linux系统中启用大页的方法：</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># 透明大页（THP）</span>
+<span class="nb">echo</span><span class="w"> </span>always<span class="w"> </span>&gt;<span class="w"> </span>/sys/kernel/mm/transparent_hugepage/enabled
+
+<span class="c1"># 预留巨页</span>
+<span class="nb">echo</span><span class="w"> </span><span class="m">64</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/kernel/mm/hugepages/hugepages-1048576kB/nr_hugepages
+</code></pre></div>
+
+<ol start="2">
+<li><strong>NUMA节点映射</strong></li>
+</ol>
+<p>HBM通常作为独立的NUMA节点出现在系统中。典型的NUMA拓扑：</p>
+<div class="codehilite"><pre><span></span><code><span class="nv">NUMA</span>节点布局示例（<span class="nv">Intel</span><span class="w"> </span><span class="nv">Xeon</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nv">HBM</span>）：
+<span class="nv">Node</span><span class="w"> </span><span class="mi">0</span>:<span class="w"> </span><span class="nv">CPU</span><span class="w"> </span><span class="nv">Socket</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nv">DDR4</span>（<span class="mi">96</span><span class="nv">GB</span>）
+<span class="nv">Node</span><span class="w"> </span><span class="mi">1</span>:<span class="w"> </span><span class="nv">CPU</span><span class="w"> </span><span class="nv">Socket</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nv">DDR4</span>（<span class="mi">96</span><span class="nv">GB</span>）<span class="w">  </span>
+<span class="nv">Node</span><span class="w"> </span><span class="mi">2</span>:<span class="w"> </span><span class="nv">HBM</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">Socket</span><span class="w"> </span><span class="mi">0</span>（<span class="mi">16</span><span class="nv">GB</span>）
+<span class="nv">Node</span><span class="w"> </span><span class="mi">3</span>:<span class="w"> </span><span class="nv">HBM</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">Socket</span><span class="w"> </span><span class="mi">1</span>（<span class="mi">16</span><span class="nv">GB</span>）
+
+节点间距离矩阵：
+<span class="w">     </span><span class="mi">0</span><span class="w">   </span><span class="mi">1</span><span class="w">   </span><span class="mi">2</span><span class="w">   </span><span class="mi">3</span>
+<span class="mi">0</span>:<span class="w">  </span><span class="mi">10</span><span class="w">  </span><span class="mi">21</span><span class="w">  </span><span class="mi">17</span><span class="w">  </span><span class="mi">28</span>
+<span class="mi">1</span>:<span class="w">  </span><span class="mi">21</span><span class="w">  </span><span class="mi">10</span><span class="w">  </span><span class="mi">28</span><span class="w">  </span><span class="mi">17</span>
+<span class="mi">2</span>:<span class="w">  </span><span class="mi">17</span><span class="w">  </span><span class="mi">28</span><span class="w">  </span><span class="mi">10</span><span class="w">  </span><span class="mi">28</span>
+<span class="mi">3</span>:<span class="w">  </span><span class="mi">28</span><span class="w">  </span><span class="mi">17</span><span class="w">  </span><span class="mi">28</span><span class="w">  </span><span class="mi">10</span>
+</code></pre></div>
+
+<p>NUMA感知的内存分配策略：</p>
+<ul>
+<li><strong>本地优先（Local）</strong>：优先从本地HBM分配</li>
+<li><strong>交织（Interleave）</strong>：跨多个HBM节点均匀分配</li>
+<li><strong>优选（Preferred）</strong>：指定优选节点，满时溢出到其他节点</li>
+</ul>
+<h3 id="1413-iommu">14.1.3 IOMMU集成</h3>
+<p>IOMMU（Input/Output Memory Management Unit）为设备提供虚拟地址空间，在HBM系统中扮演重要角色：</p>
+<ol>
+<li><strong>设备直接访问HBM</strong></li>
+</ol>
+<p>GPU、网卡等设备可通过IOMMU直接访问HBM，避免数据拷贝：</p>
+<div class="codehilite"><pre><span></span><code>传统路径：Device → System Memory → CPU → HBM
+IOMMU路径：Device → IOMMU → HBM（零拷贝）
+</code></pre></div>
+
+<ol start="2">
+<li><strong>地址空间隔离</strong></li>
+</ol>
+<p>IOMMU提供设备级别的地址空间隔离，增强安全性：</p>
+<div class="codehilite"><pre><span></span><code>IOMMU页表结构（Intel VT-d）：
+Context Table → Root Table → Page Directory → Page Table
+             ↓
+        设备隔离域（Domain）
+</code></pre></div>
+
+<ol start="3">
+<li><strong>ATS/PRI支持</strong></li>
+</ol>
+<ul>
+<li><strong>ATS（Address Translation Service）</strong>：设备缓存地址转换结果</li>
+<li><strong>PRI（Page Request Interface）</strong>：设备触发页面故障处理</li>
+</ul>
+<p>这些特性使得设备可以高效访问HBM中的分页内存。</p>
+<h2 id="142">14.2 数据放置策略</h2>
+<p>合理的数据放置策略是充分利用HBM带宽的关键。本节探讨NUMA感知分配、页面迁移和内存分层等关键技术。</p>
+<h3 id="1421-numa">14.2.1 NUMA感知分配</h3>
+<p>在异构内存系统中，数据放置位置直接影响性能。NUMA感知的分配策略需要考虑：</p>
+<ol>
+<li><strong>带宽需求分析</strong></li>
+</ol>
+<p>根据数据访问特征决定放置位置：</p>
+<div class="codehilite"><pre><span></span><code>数据分类策略：
+高带宽需求 → HBM（如：神经网络权重、激活值）
+大容量需求 → DDR（如：数据集、检查点）
+低延迟需求 → L3 Cache/HBM（如：索引、元数据）
+</code></pre></div>
+
+<ol start="2">
+<li><strong>亲和性绑定</strong></li>
+</ol>
+<p>将计算线程与数据所在NUMA节点绑定：</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// Linux NUMA API示例</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;numa.h&gt;</span>
+
+<span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="nf">allocate_hbm_memory</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">hbm_node</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 设置内存分配策略</span>
+<span class="w">    </span><span class="n">numa_set_preferred</span><span class="p">(</span><span class="n">hbm_node</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// 分配内存</span>
+<span class="w">    </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">numa_alloc_onnode</span><span class="p">(</span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">hbm_node</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// 绑定线程到相应CPU</span>
+<span class="w">    </span><span class="kt">cpu_set_t</span><span class="w"> </span><span class="n">cpuset</span><span class="p">;</span>
+<span class="w">    </span><span class="n">CPU_ZERO</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cpuset</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// 假设HBM节点2对应CPU 0-31</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">32</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">CPU_SET</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">cpuset</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">pthread_setaffinity_np</span><span class="p">(</span><span class="n">pthread_self</span><span class="p">(),</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">cpuset</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">cpuset</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ptr</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ol start="3">
+<li><strong>内存带宽监控</strong></li>
+</ol>
+<p>实时监控各NUMA节点的带宽使用情况：</p>
+<div class="codehilite"><pre><span></span><code>带宽计算公式：
+BW = (Read_Bytes + Write_Bytes) / Time_Interval
+
+利用率 = BW_actual / BW_theoretical × 100%
+</code></pre></div>
+
+<h3 id="1422">14.2.2 页面迁移</h3>
+<p>动态页面迁移可以适应运行时访问模式变化：</p>
+<ol>
+<li><strong>迁移触发机制</strong></li>
+</ol>
+<ul>
+<li><strong>访问计数触发</strong>：页面访问次数超过阈值</li>
+<li><strong>带宽压力触发</strong>：某节点带宽利用率过高</li>
+<li><strong>延迟敏感触发</strong>：跨节点访问延迟超标</li>
+</ul>
+<p>迁移决策算法：
+$$\text{Migrate} = \begin{cases} 
+\text{True} &amp; \text{if } Cost_{migrate} &lt; Benefit_{future} \\
+\text{False} &amp; \text{otherwise}
+\end{cases}$$
+其中：</p>
+<ul>
+<li>$Cost_{migrate}$：迁移开销（数据传输时间）</li>
+<li>$Benefit_{future}$：预期性能收益</li>
+</ul>
+<ol start="2">
+<li><strong>迁移粒度选择</strong></li>
+</ol>
+<p>不同粒度的迁移各有优劣：</p>
+<div class="codehilite"><pre><span></span><code>页面级（4KB）：
+
++ 细粒度控制
++ 迁移开销小
+- 元数据开销大
+
+大页级（2MB）：
+
++ 减少迁移次数
++ TLB友好
+- 可能迁移不必要数据
+
+内存对象级：
+
++ 语义完整
++ 应用可控
+- 需要运行时支持
+</code></pre></div>
+
+<ol start="3">
+<li><strong>迁移实现机制</strong></li>
+</ol>
+<p>Linux内核的页面迁移流程：</p>
+<div class="codehilite"><pre><span></span><code><span class="mf">1.</span><span class="w"> </span><span class="n">标记页面为迁移中</span><span class="err">（</span><span class="n">PG_locked</span><span class="err">）</span>
+<span class="mf">2.</span><span class="w"> </span><span class="n">分配目标页面</span>
+<span class="mf">3.</span><span class="w"> </span><span class="n">复制页面内容</span>
+<span class="mf">4.</span><span class="w"> </span><span class="n">更新页表项</span>
+<span class="mf">5.</span><span class="w"> </span><span class="n">刷新TLB</span>
+<span class="mf">6.</span><span class="w"> </span><span class="n">释放源页面</span>
+</code></pre></div>
+
+<h3 id="1423">14.2.3 内存分层</h3>
+<p>构建多级内存层次，根据数据"温度"自动调整放置：</p>
+<ol>
+<li><strong>热度追踪</strong></li>
+</ol>
+<p>使用访问频率和最近访问时间评估数据热度：</p>
+<div class="codehilite"><pre><span></span><code>热度评分算法：
+Temperature = α × Access_Frequency + β × (1 / Time_Since_Last_Access)
+
+其中 α + β = 1，典型值 α = 0.7, β = 0.3
+</code></pre></div>
+
+<ol start="2">
+<li><strong>分层策略</strong></li>
+</ol>
+<div class="codehilite"><pre><span></span><code>内存层次结构：
+L1: HBM（16GB）    - 极热数据
+L2: DDR4（128GB）  - 温数据  
+L3: NVMe SSD（1TB）- 冷数据
+L4: HDD（10TB）    - 归档数据
+
+晋升/降级阈值：
+L1→L2: Temperature &lt; 0.3 且 空间压力 &gt; 90%
+L2→L1: Temperature &gt; 0.7 且 访问延迟 &gt; 100ns
+</code></pre></div>
+
+<ol start="3">
+<li><strong>预取与逐出</strong></li>
+</ol>
+<p>智能预取和逐出算法优化内存利用：</p>
+<div class="codehilite"><pre><span></span><code>预取策略：
+
+- 顺序预取：检测顺序访问模式
+- 跨步预取：识别固定步长访问
+- 关联预取：基于历史访问模式
+
+逐出策略：
+
+- LRU-K：考虑K次历史访问
+- ARC：自适应替换缓存
+- 2Q：使用两个队列区分冷热数据
+</code></pre></div>
+
+<h2 id="143">14.3 性能调优</h2>
+<p>性能调优是发挥HBM潜力的关键环节。本节介绍主要的分析工具和优化方法。</p>
+<h3 id="1431-profiling">14.3.1 Profiling工具</h3>
+<ol>
+<li><strong>硬件性能计数器</strong></li>
+</ol>
+<p>现代处理器提供丰富的性能计数器监控HBM访问：</p>
+<div class="codehilite"><pre><span></span><code>关键性能事件：
+
+<span class="k">-</span> HBM_READ_BYTES：读取字节数
+<span class="k">-</span> HBM_WRITE_BYTES：写入字节数  
+<span class="k">-</span> HBM_BANK_CONFLICTS：Bank冲突次数
+<span class="k">-</span> HBM_ROW_MISSES：行缓冲未命中
+<span class="k">-</span> HBM_REFRESH_CYCLES：刷新周期数
+</code></pre></div>
+
+<p>使用Linux perf工具采集：</p>
+<div class="codehilite"><pre><span></span><code>perf<span class="w"> </span>stat<span class="w"> </span>-e<span class="w"> </span>hbm_read_bytes,hbm_write_bytes<span class="w"> </span>./application
+</code></pre></div>
+
+<ol start="2">
+<li><strong>带宽分析工具</strong></li>
+</ol>
+<p>Intel Memory Bandwidth Monitoring (MBM)：</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// 使用PQOS库监控HBM带宽</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;pqos.h&gt;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">monitor_hbm_bandwidth</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">pqos_mon_data</span><span class="w"> </span><span class="o">*</span><span class="n">mon_data</span><span class="p">;</span>
+<span class="w">    </span><span class="n">pqos_mon_start</span><span class="p">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="n">PQOS_MON_EVENT_LMEM_BW</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">mon_data</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w">  </span><span class="c1">// 监控1秒</span>
+
+<span class="w">    </span><span class="n">pqos_mon_poll</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mon_data</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;HBM Read BW: %.2f GB/s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">           </span><span class="n">mon_data</span><span class="o">-&gt;</span><span class="n">values</span><span class="p">.</span><span class="n">mbm_local</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1024.0</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ol start="3">
+<li><strong>应用级性能分析</strong></li>
+</ol>
+<p>NVIDIA Nsight Systems for GPU-HBM：</p>
+<div class="codehilite"><pre><span></span><code>关键指标：
+
+- Memory Throughput：实际带宽利用率
+- Memory Efficiency：有效数据传输比例
+- Bank Conflicts：Bank冲突统计
+- Warp Stall Reasons：线程停顿原因分析
+</code></pre></div>
+
+<h3 id="1432">14.3.2 带宽监控</h3>
+<p>实时带宽监控帮助识别性能瓶颈：</p>
+<ol>
+<li><strong>带宽利用率计算</strong></li>
+</ol>
+<div class="codehilite"><pre><span></span><code>理论带宽计算（HBM3）：
+BW_peak = Channels × Width × Frequency × 2
+        = 16 × 128bit × 6.4Gbps × 2 / 8
+        = 819.2 GB/s
+
+实际利用率：
+Utilization = BW_measured / BW_peak × 100%
+</code></pre></div>
+
+<ol start="2">
+<li><strong>带宽瓶颈识别</strong></li>
+</ol>
+<p>通过监控不同层级的带宽识别瓶颈：</p>
+<div class="codehilite"><pre><span></span><code>监控点：
+
+1. 应用层：有效数据吞吐量
+2. 运行时层：内存分配器开销
+3. 驱动层：DMA传输效率
+4. 硬件层：物理通道利用率
+
+瓶颈判断：
+if (App_BW &lt;&lt; Driver_BW) → 应用优化不足
+if (Driver_BW &lt;&lt; HW_BW) → 驱动/运行时开销
+if (HW_BW ≈ Peak_BW) → 达到硬件极限
+</code></pre></div>
+
+<ol start="3">
+<li><strong>带宽预测模型</strong></li>
+</ol>
+<p>基于访问模式预测带宽需求：
+$$BW_{predicted} = \sum_{i=1}^{n} \frac{Size_i × Frequency_i}{Reuse_Distance_i}$$</p>
+<p>其中：</p>
+<ul>
+<li>$Size_i$：数据块i的大小</li>
+<li>$Frequency_i$：访问频率</li>
+<li>$Reuse_Distance_i$：重用距离</li>
+</ul>
+<h3 id="1433">14.3.3 延迟分析</h3>
+<p>HBM访问延迟分析对优化至关重要：</p>
+<ol>
+<li><strong>延迟组成分解</strong></li>
+</ol>
+<div class="codehilite"><pre><span></span><code>总延迟 = 队列延迟 + 仲裁延迟 + 传输延迟 + DRAM延迟
+
+典型值（HBM3）：
+
+- 队列延迟：5-50ns（取决于负载）
+- 仲裁延迟：2-10ns
+- 传输延迟：5ns（物理传输）
+- DRAM延迟：15-20ns（tCAS）
+
+总计：27-85ns
+</code></pre></div>
+
+<ol start="2">
+<li><strong>延迟隐藏技术</strong></li>
+</ol>
+<p>通过并发和预取隐藏延迟：</p>
+<div class="codehilite"><pre><span></span><code>Memory Level Parallelism (MLP)：
+MLP = Outstanding_Requests / Average_Latency
+
+优化目标：最大化MLP同时避免拥塞
+</code></pre></div>
+
+<ol start="3">
+<li><strong>延迟敏感度分析</strong></li>
+</ol>
+<p>评估应用对延迟的敏感程度：</p>
+<div class="codehilite"><pre><span></span><code>敏感度指标：
+S = ΔPerformance / ΔLatency
+
+分类：
+S &gt; 0.1：高度敏感（如：指针追逐）
+0.01 &lt; S &lt; 0.1：中度敏感（如：图遍历）
+S &lt; 0.01：不敏感（如：矩阵乘法）
+</code></pre></div>
+
+<h3 id="1434">14.3.4 热点识别</h3>
+<p>识别和优化内存访问热点：</p>
+<ol>
+<li><strong>空间热点分析</strong></li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="n">热点检测算法</span><span class="err">：</span>
+<span class="k">for</span><span class="w"> </span><span class="k">each</span><span class="w"> </span><span class="n">cache_line</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nl">memory</span><span class="p">:</span>
+<span class="w">    </span><span class="n">heat</span><span class="o">[</span><span class="n">cache_line</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">access_count</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">time_window</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">heat</span><span class="o">[</span><span class="n">cache_line</span><span class="o">]</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nl">threshold</span><span class="p">:</span>
+<span class="w">        </span><span class="n">mark_as_hotspot</span><span class="p">(</span><span class="n">cache_line</span><span class="p">)</span>
+</code></pre></div>
+
+<ol start="2">
+<li><strong>时间热点分析</strong></li>
+</ol>
+<p>识别特定时间段的访问峰值：</p>
+<div class="codehilite"><pre><span></span><code>时序分析：
+Phase 1: 初始化阶段 - 低带宽需求
+Phase 2: 计算密集阶段 - 高带宽需求
+Phase 3: 通信阶段 - 突发访问
+Phase 4: 检查点阶段 - 持续写入
+</code></pre></div>
+
+<ol start="3">
+<li><strong>热点优化策略</strong></li>
+</ol>
+<ul>
+<li><strong>数据布局优化</strong>：重组数据结构减少伪共享</li>
+<li><strong>访问模式优化</strong>：批量化访问、合并访问</li>
+<li><strong>缓存优化</strong>：使用软件管理缓存</li>
+<li><strong>负载均衡</strong>：分散热点到多个Bank/Channel</li>
+</ul>
+<h2 id="144-api">14.4 API与编程接口</h2>
+<p>主流计算框架都提供了HBM的编程支持。本节介绍CUDA/ROCm、OpenCL和SYCL/OneAPI等框架中的HBM编程接口。</p>
+<h3 id="1441-cudarocm">14.4.1 CUDA/ROCm支持</h3>
+<ol>
+<li><strong>CUDA统一内存模型</strong></li>
+</ol>
+<p>NVIDIA的统一内存（Unified Memory）简化了HBM编程：</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// 统一内存分配</span>
+<span class="kr">__global__</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">vector_add</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">blockIdx</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">blockDim</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">idx</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">c</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="n">idx</span><span class="p">];</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">c</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1024</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1024</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">256</span><span class="p">;</span><span class="w">  </span><span class="c1">// 1GB数据</span>
+
+<span class="w">    </span><span class="c1">// 统一内存分配 - 自动管理HBM/DDR放置</span>
+<span class="w">    </span><span class="n">cudaMallocManaged</span><span class="p">(</span><span class="o">&amp;</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+<span class="w">    </span><span class="n">cudaMallocManaged</span><span class="p">(</span><span class="o">&amp;</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+<span class="w">    </span><span class="n">cudaMallocManaged</span><span class="p">(</span><span class="o">&amp;</span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c1">// 提示：优先放置在HBM</span>
+<span class="w">    </span><span class="n">cudaMemAdvise</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">),</span><span class="w"> </span><span class="n">cudaMemAdviseSetPreferredLocation</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">cudaMemAdvise</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">),</span><span class="w"> </span><span class="n">cudaMemAdviseSetPreferredLocation</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// 预取到HBM</span>
+<span class="w">    </span><span class="n">cudaMemPrefetchAsync</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">cudaMemPrefetchAsync</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// 执行kernel</span>
+<span class="w">    </span><span class="n">vector_add</span><span class="o">&lt;&lt;&lt;</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">255</span><span class="p">)</span><span class="o">/</span><span class="mi">256</span><span class="p">,</span><span class="w"> </span><span class="mi">256</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">cudaDeviceSynchronize</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ol start="2">
+<li><strong>显式HBM管理</strong></li>
+</ol>
+<p>对性能敏感的应用可以显式管理HBM：</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// 查询HBM容量</span>
+<span class="kt">size_t</span><span class="w"> </span><span class="n">hbm_free</span><span class="p">,</span><span class="w"> </span><span class="n">hbm_total</span><span class="p">;</span>
+<span class="n">cudaMemGetInfo</span><span class="p">(</span><span class="o">&amp;</span><span class="n">hbm_free</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">hbm_total</span><span class="p">);</span>
+
+<span class="c1">// 显式HBM分配</span>
+<span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">d_hbm_data</span><span class="p">;</span>
+<span class="n">cudaMalloc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">d_hbm_data</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">);</span><span class="w">  </span><span class="c1">// 分配到HBM</span>
+
+<span class="c1">// 异步数据传输</span>
+<span class="n">cudaMemcpyAsync</span><span class="p">(</span><span class="n">d_hbm_data</span><span class="p">,</span><span class="w"> </span><span class="n">h_data</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                </span><span class="n">cudaMemcpyHostToDevice</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="p">);</span>
+
+<span class="c1">// 内存池管理</span>
+<span class="n">cudaMemPool_t</span><span class="w"> </span><span class="n">mempool</span><span class="p">;</span>
+<span class="n">cudaMemPoolCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mempool</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">props</span><span class="p">);</span>
+<span class="n">cudaMemPoolSetAttribute</span><span class="p">(</span><span class="n">mempool</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">cudaMemPoolAttrReleaseThreshold</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">threshold</span><span class="p">);</span>
+</code></pre></div>
+
+<ol start="3">
+<li><strong>ROCm HBM接口</strong></li>
+</ol>
+<p>AMD ROCm提供类似的HBM管理接口：</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// ROCm HBM分配</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;hip/hip_runtime.h&gt;</span>
+
+<span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="nf">allocate_hbm_rocm</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">ptr</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// 获取HBM设备属性</span>
+<span class="w">    </span><span class="n">hipDeviceProp_t</span><span class="w"> </span><span class="n">prop</span><span class="p">;</span>
+<span class="w">    </span><span class="n">hipGetDeviceProperties</span><span class="p">(</span><span class="o">&amp;</span><span class="n">prop</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// 分配HBM内存</span>
+<span class="w">    </span><span class="n">hipMalloc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ptr</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// 设置内存亲和性</span>
+<span class="w">    </span><span class="n">hipMemAdvise</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">hipMemAdviseSetCoarseGrain</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// 预取到HBM</span>
+<span class="w">    </span><span class="n">hipMemPrefetchAsync</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ptr</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 内存拷贝优化</span>
+<span class="n">hipMemcpyKind</span><span class="w"> </span><span class="n">kind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hipMemcpyHostToDevice</span><span class="p">;</span>
+<span class="n">hipMemcpyAsync</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">kind</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="p">);</span>
+</code></pre></div>
+
+<h3 id="1442-opencl">14.4.2 OpenCL扩展</h3>
+<p>OpenCL通过扩展支持HBM：</p>
+<ol>
+<li><strong>内存对象创建</strong></li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="c1">// OpenCL HBM缓冲区创建</span>
+<span class="n">cl_mem</span><span class="w"> </span><span class="nf">create_hbm_buffer</span><span class="p">(</span><span class="n">cl_context</span><span class="w"> </span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">cl_mem_flags</span><span class="w"> </span><span class="n">flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CL_MEM_READ_WRITE</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// 使用供应商扩展指定HBM</span>
+<span class="w">    </span><span class="n">cl_mem_properties</span><span class="w"> </span><span class="n">props</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">CL_MEM_ALLOC_FLAGS_INTEL</span><span class="p">,</span>
+<span class="w">        </span><span class="n">CL_MEM_ALLOC_PREFER_HBM_INTEL</span><span class="p">,</span>
+<span class="w">        </span><span class="mi">0</span>
+<span class="w">    </span><span class="p">};</span>
+
+<span class="w">    </span><span class="n">cl_mem</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clCreateBufferWithProperties</span><span class="p">(</span>
+<span class="w">        </span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="n">props</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">buffer</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 细粒度内存控制</span>
+<span class="n">cl_mem_advice_intel</span><span class="w"> </span><span class="n">advice</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CL_MEM_ADVICE_PRE_FETCH_INTEL</span><span class="p">;</span>
+<span class="n">clEnqueueMemAdviseINTEL</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="n">buffer</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">advice</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+</code></pre></div>
+
+<ol start="2">
+<li><strong>内存区域查询</strong></li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="c1">// 查询可用内存区域</span>
+<span class="n">cl_uint</span><span class="w"> </span><span class="n">num_regions</span><span class="p">;</span>
+<span class="n">clGetDeviceInfo</span><span class="p">(</span><span class="n">device</span><span class="p">,</span><span class="w"> </span><span class="n">CL_DEVICE_MEM_REGIONS</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                </span><span class="k">sizeof</span><span class="p">(</span><span class="n">num_regions</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">num_regions</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">cl_uint</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">num_regions</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">cl_mem_region_info</span><span class="w"> </span><span class="n">info</span><span class="p">;</span>
+<span class="w">    </span><span class="n">clGetMemRegionInfo</span><span class="p">(</span><span class="n">device</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">CL_MEM_REGION_TYPE</span><span class="p">,</span>
+<span class="w">                      </span><span class="k">sizeof</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">type</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">info</span><span class="p">.</span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">CL_MEM_REGION_TYPE_HBM</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">clGetMemRegionInfo</span><span class="p">(</span><span class="n">device</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">CL_MEM_REGION_SIZE</span><span class="p">,</span>
+<span class="w">                          </span><span class="k">sizeof</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">size</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">info</span><span class="p">.</span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;HBM Region %d: %lu GB</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">size</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">30</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ol start="3">
+<li><strong>SVM（Shared Virtual Memory）支持</strong></li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="c1">// 细粒度SVM with HBM</span>
+<span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">svm_ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clSVMAlloc</span><span class="p">(</span><span class="n">context</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">CL_MEM_READ_WRITE</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">CL_MEM_SVM_FINE_GRAIN_BUFFER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="c1">// 映射到设备HBM</span>
+<span class="n">clEnqueueSVMMap</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="n">CL_TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">CL_MAP_WRITE</span><span class="p">,</span>
+<span class="w">                </span><span class="n">svm_ptr</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+
+<span class="c1">// 直接访问</span>
+<span class="p">((</span><span class="kt">float</span><span class="o">*</span><span class="p">)</span><span class="n">svm_ptr</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">;</span>
+
+<span class="c1">// 迁移到HBM</span>
+<span class="n">clEnqueueSVMMigrateMem</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">svm_ptr</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">size</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">CL_MIGRATE_MEM_OBJECT_HOST</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                       </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+</code></pre></div>
+
+<h3 id="1443-sycloneapi">14.4.3 SYCL/OneAPI</h3>
+<p>Intel OneAPI通过SYCL提供统一的编程模型：</p>
+<ol>
+<li><strong>USM（Unified Shared Memory）</strong></li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sycl/sycl.hpp&gt;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">sycl_hbm_example</span><span class="p">(</span><span class="n">sycl</span><span class="o">::</span><span class="n">queue</span><span class="o">&amp;</span><span class="w"> </span><span class="n">q</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1024</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1024</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">256</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// 设备HBM分配</span>
+<span class="w">    </span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">d_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sycl</span><span class="o">::</span><span class="n">malloc_device</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// 共享内存分配（自动迁移）</span>
+<span class="w">    </span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">s_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sycl</span><span class="o">::</span><span class="n">malloc_shared</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// 主机内存分配</span>
+<span class="w">    </span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">h_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sycl</span><span class="o">::</span><span class="n">malloc_host</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// 内存拷贝</span>
+<span class="w">    </span><span class="n">q</span><span class="p">.</span><span class="n">memcpy</span><span class="p">(</span><span class="n">d_data</span><span class="p">,</span><span class="w"> </span><span class="n">h_data</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c1">// 并行kernel</span>
+<span class="w">    </span><span class="n">q</span><span class="p">.</span><span class="n">parallel_for</span><span class="p">(</span><span class="n">sycl</span><span class="o">::</span><span class="n">range</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="p">[</span><span class="o">=</span><span class="p">](</span><span class="n">sycl</span><span class="o">::</span><span class="n">id</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="w"> </span><span class="n">idx</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">d_data</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">;</span>
+<span class="w">    </span><span class="p">});</span>
+
+<span class="w">    </span><span class="c1">// 内存预取</span>
+<span class="w">    </span><span class="n">q</span><span class="p">.</span><span class="n">prefetch</span><span class="p">(</span><span class="n">d_data</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+
+<span class="w">    </span><span class="n">q</span><span class="p">.</span><span class="n">wait</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ol start="2">
+<li><strong>内存属性控制</strong></li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="c1">// 创建具有特定属性的内存</span>
+<span class="n">sycl</span><span class="o">::</span><span class="n">property_list</span><span class="w"> </span><span class="n">props</span><span class="p">{</span>
+<span class="w">    </span><span class="n">sycl</span><span class="o">::</span><span class="n">property</span><span class="o">::</span><span class="n">buffer</span><span class="o">::</span><span class="n">mem_channel</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w">  </span><span class="c1">// 指定HBM通道</span>
+<span class="w">    </span><span class="n">sycl</span><span class="o">::</span><span class="n">property</span><span class="o">::</span><span class="n">buffer</span><span class="o">::</span><span class="n">mem_flag</span><span class="p">(</span>
+<span class="w">        </span><span class="n">sycl</span><span class="o">::</span><span class="n">memory_flag</span><span class="o">::</span><span class="n">high_bandwidth</span><span class="p">)</span><span class="w">   </span><span class="c1">// 优先HBM</span>
+<span class="p">};</span>
+
+<span class="n">sycl</span><span class="o">::</span><span class="n">buffer</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">&gt;</span><span class="w"> </span><span class="n">buffer</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">sycl</span><span class="o">::</span><span class="n">range</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="n">props</span><span class="p">);</span>
+
+<span class="c1">// 访问器with内存提示</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buffer</span><span class="p">.</span><span class="n">get_access</span><span class="o">&lt;</span><span class="n">sycl</span><span class="o">::</span><span class="n">access</span><span class="o">::</span><span class="n">mode</span><span class="o">::</span><span class="n">read_write</span><span class="o">&gt;</span><span class="p">(</span>
+<span class="w">    </span><span class="n">cgh</span><span class="p">,</span><span class="w"> </span><span class="n">sycl</span><span class="o">::</span><span class="n">accessor_property_list</span><span class="p">{</span>
+<span class="w">        </span><span class="n">sycl</span><span class="o">::</span><span class="n">property</span><span class="o">::</span><span class="n">accessor</span><span class="o">::</span><span class="n">mem_hint</span><span class="p">(</span>
+<span class="w">            </span><span class="n">sycl</span><span class="o">::</span><span class="n">memory_hint</span><span class="o">::</span><span class="n">non_temporal</span><span class="p">)</span><span class="w">  </span><span class="c1">// 非临时数据</span>
+<span class="w">    </span><span class="p">});</span>
+</code></pre></div>
+
+<ol start="3">
+<li><strong>设备选择器</strong></li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="c1">// 自定义设备选择器 - 优选HBM设备</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">hbm_selector</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">sycl</span><span class="o">::</span><span class="n">device_selector</span><span class="w"> </span><span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="k">operator</span><span class="p">()(</span><span class="k">const</span><span class="w"> </span><span class="n">sycl</span><span class="o">::</span><span class="n">device</span><span class="o">&amp;</span><span class="w"> </span><span class="n">dev</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 检查HBM支持</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dev</span><span class="p">.</span><span class="n">has</span><span class="p">(</span><span class="n">sycl</span><span class="o">::</span><span class="n">aspect</span><span class="o">::</span><span class="n">usm_device_allocations</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">auto</span><span class="w"> </span><span class="n">mem_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dev</span><span class="p">.</span><span class="n">get_info</span><span class="o">&lt;</span>
+<span class="w">                </span><span class="n">sycl</span><span class="o">::</span><span class="n">info</span><span class="o">::</span><span class="n">device</span><span class="o">::</span><span class="n">global_mem_size</span><span class="o">&gt;</span><span class="p">();</span>
+
+<span class="w">            </span><span class="c1">// 假设HBM设备内存较小但带宽高</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mem_size</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">32ULL</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1024</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1024</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1024</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span><span class="w">  </span><span class="c1">// 高优先级</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// 使用HBM设备</span>
+<span class="n">sycl</span><span class="o">::</span><span class="n">queue</span><span class="w"> </span><span class="nf">q</span><span class="p">(</span><span class="n">hbm_selector</span><span class="p">{});</span>
+</code></pre></div>
+
+<h2 id="145-hbm">14.5 实战指南：大模型训练中的HBM优化</h2>
+<p>大语言模型训练是HBM应用的典型场景。本节通过实际案例展示优化技术。</p>
+<h3 id="1451">14.5.1 模型并行策略</h3>
+<p>大模型通常超过单个设备的HBM容量，需要模型并行：</p>
+<ol>
+<li><strong>张量并行（Tensor Parallelism）</strong></li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Megatron风格的张量并行</span>
+<span class="k">class</span> <span class="nc">ParallelLinear</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">tp_size</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tp_size</span> <span class="o">=</span> <span class="n">tp_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tp_rank</span> <span class="o">=</span> <span class="n">get_tp_rank</span><span class="p">()</span>
+
+        <span class="c1"># 权重分片存储在HBM</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight_shard</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> 
+                       <span class="n">out_features</span> <span class="o">//</span> <span class="n">tp_size</span><span class="p">,</span>
+                       <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># 输入在HBM中复制</span>
+        <span class="n">x_local</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tp_size</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)[</span><span class="bp">self</span><span class="o">.</span><span class="n">tp_rank</span><span class="p">]</span>
+
+        <span class="c1"># 本地计算</span>
+        <span class="n">output_local</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">x_local</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight_shard</span><span class="p">)</span>
+
+        <span class="c1"># All-reduce通信</span>
+        <span class="n">dist</span><span class="o">.</span><span class="n">all_reduce</span><span class="p">(</span><span class="n">output_local</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tp_group</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">output_local</span>
+</code></pre></div>
+
+<ol start="2">
+<li><strong>流水线并行（Pipeline Parallelism）</strong></li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="c1"># GPipe风格的流水线并行</span>
+<span class="k">class</span> <span class="nc">PipelineStage</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="n">stage_id</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">(</span><span class="n">layers</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stage_id</span> <span class="o">=</span> <span class="n">stage_id</span>
+
+        <span class="c1"># 激活值缓冲区管理</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">activation_buffers</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># 微批处理</span>
+        <span class="n">micro_batches</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_micro_batches</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">mb</span> <span class="ow">in</span> <span class="n">micro_batches</span><span class="p">:</span>
+            <span class="c1"># 前向传播 - 数据驻留HBM</span>
+            <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
+                <span class="n">mb</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="n">mb</span><span class="p">)</span>
+
+            <span class="c1"># 存储激活值用于反向传播</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">training</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">activation_buffers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mb</span><span class="o">.</span><span class="n">detach</span><span class="p">())</span>
+
+            <span class="c1"># 发送到下一阶段</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stage_id</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_stages</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">send_to_next_stage</span><span class="p">(</span><span class="n">mb</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">mb</span>
+</code></pre></div>
+
+<h3 id="1452">14.5.2 内存优化技术</h3>
+<ol>
+<li><strong>激活值重计算（Activation Checkpointing）</strong></li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="c1"># 选择性激活值存储</span>
+<span class="k">def</span> <span class="nf">selective_checkpoint</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;只在HBM中保存关键激活值&quot;&quot;&quot;</span>
+
+    <span class="c1"># 计算内存成本</span>
+    <span class="n">activation_size</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">*</span> <span class="n">inputs</span><span class="o">.</span><span class="n">element_size</span><span class="p">()</span>
+    <span class="n">recompute_flops</span> <span class="o">=</span> <span class="n">estimate_flops</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
+
+    <span class="c1"># 基于成本决策</span>
+    <span class="k">if</span> <span class="n">activation_size</span> <span class="o">&gt;</span> <span class="n">THRESHOLD</span> <span class="ow">and</span> <span class="n">recompute_flops</span> <span class="o">&lt;</span> <span class="n">FLOPS_LIMIT</span><span class="p">:</span>
+        <span class="c1"># 不保存激活值，反向传播时重计算</span>
+        <span class="k">return</span> <span class="n">checkpoint</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">inputs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># 保存在HBM中</span>
+        <span class="k">return</span> <span class="n">module</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+</code></pre></div>
+
+<ol start="2">
+<li><strong>混合精度训练</strong></li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="c1"># 自动混合精度 - 优化HBM使用</span>
+<span class="kn">from</span> <span class="nn">torch.cuda.amp</span> <span class="kn">import</span> <span class="n">autocast</span><span class="p">,</span> <span class="n">GradScaler</span>
+
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">GradScaler</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">data</span><span class="p">,</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">dataloader</span><span class="p">:</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+    <span class="c1"># FP16计算 - 减少HBM带宽需求</span>
+    <span class="k">with</span> <span class="n">autocast</span><span class="p">():</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+
+    <span class="c1"># FP32梯度更新</span>
+    <span class="n">scaler</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">scaler</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">optimizer</span><span class="p">)</span>
+    <span class="n">scaler</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+</code></pre></div>
+
+<ol start="3">
+<li><strong>ZeRO优化器状态分片</strong></li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="c1"># DeepSpeed ZeRO-3配置</span>
+<span class="n">ds_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;zero_optimization&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;stage&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">&quot;offload_optimizer&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;device&quot;</span><span class="p">:</span> <span class="s2">&quot;cpu&quot;</span><span class="p">,</span>  <span class="c1"># 优化器状态卸载到CPU</span>
+            <span class="s2">&quot;pin_memory&quot;</span><span class="p">:</span> <span class="kc">True</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;offload_param&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;device&quot;</span><span class="p">:</span> <span class="s2">&quot;nvme&quot;</span><span class="p">,</span>  <span class="c1"># 参数卸载到NVMe</span>
+            <span class="s2">&quot;nvme_path&quot;</span><span class="p">:</span> <span class="s2">&quot;/local_nvme&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;buffer_size&quot;</span><span class="p">:</span> <span class="mf">1e9</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;overlap_comm&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># 通信与计算重叠</span>
+        <span class="s2">&quot;contiguous_gradients&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;sub_group_size&quot;</span><span class="p">:</span> <span class="mf">1e8</span><span class="p">,</span>
+        <span class="s2">&quot;reduce_bucket_size&quot;</span><span class="p">:</span> <span class="mf">1e8</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="1453">14.5.3 通信优化</h3>
+<ol>
+<li><strong>梯度压缩</strong></li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="c1"># 稀疏梯度通信 - 减少HBM-网络传输</span>
+<span class="k">class</span> <span class="nc">GradientCompressor</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compression_ratio</span><span class="o">=</span><span class="mf">0.01</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ratio</span> <span class="o">=</span> <span class="n">compression_ratio</span>
+
+    <span class="k">def</span> <span class="nf">compress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grad</span><span class="p">):</span>
+        <span class="c1"># Top-K稀疏化</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">grad</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ratio</span><span class="p">)</span>
+        <span class="n">values</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">topk</span><span class="p">(</span><span class="n">grad</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">k</span><span class="p">)</span>
+
+        <span class="c1"># 只传输重要梯度</span>
+        <span class="n">sparse_grad</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+        <span class="n">sparse_grad</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="n">indices</span><span class="p">]</span> <span class="o">=</span> <span class="n">grad</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="n">indices</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">sparse_grad</span><span class="p">,</span> <span class="n">indices</span>
+
+    <span class="k">def</span> <span class="nf">decompress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sparse_grad</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">shape</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">sparse_grad</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
+</code></pre></div>
+
+<ol start="2">
+<li><strong>异步通信隐藏</strong></li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="c1"># 计算与通信重叠</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">overlapped_training_step</span><span class="p">():</span>
+    <span class="c1"># 启动异步All-reduce</span>
+    <span class="n">handles</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">named_parameters</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">requires_grad</span><span class="p">:</span>
+            <span class="n">handle</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">all_reduce</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">async_op</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">handles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+
+    <span class="c1"># 同时进行其他计算</span>
+    <span class="n">update_metrics</span><span class="p">()</span>
+    <span class="n">log_statistics</span><span class="p">()</span>
+
+    <span class="c1"># 等待通信完成</span>
+    <span class="k">for</span> <span class="n">handle</span> <span class="ow">in</span> <span class="n">handles</span><span class="p">:</span>
+        <span class="n">handle</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+    <span class="c1"># 参数更新</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</code></pre></div>
+
+<h3 id="1454">14.5.4 实际案例分析</h3>
+<p>以训练GPT-3规模模型（175B参数）为例，展示HBM优化的实际效果：</p>
+<p><strong>模型配置</strong>：</p>
+<ul>
+<li>参数量：175B</li>
+<li>隐藏维度：12288</li>
+<li>层数：96</li>
+<li>注意力头数：96</li>
+</ul>
+<p><strong>硬件配置</strong>：</p>
+<ul>
+<li>8×A100 80GB HBM2e</li>
+<li>每GPU HBM带宽：2TB/s</li>
+<li>NVLink带宽：600GB/s</li>
+</ul>
+<p><strong>内存需求分析</strong>：</p>
+<div class="codehilite"><pre><span></span><code>参数内存：175B × 2 bytes (FP16) = 350GB
+优化器状态（Adam）：175B × 8 bytes = 1400GB
+激活值（批大小512）：~500GB
+总需求：~2250GB
+
+单GPU HBM：80GB
+需要并行度：2250 / 80 = 29（至少需要29个GPU）
+</code></pre></div>
+
+<p><strong>优化策略</strong>：</p>
+<ol>
+<li>张量并行度 = 8（单节点内）</li>
+<li>流水线并行度 = 4</li>
+<li>数据并行度 = 4</li>
+<li>ZeRO-3优化器分片</li>
+<li>激活值重计算</li>
+<li>混合精度训练</li>
+</ol>
+<p><strong>性能结果</strong>：</p>
+<div class="codehilite"><pre><span></span><code>优化前：
+
+- HBM利用率：45%
+- 训练吞吐：15 TFLOPS/GPU
+- 样本/秒：0.8
+
+优化后：
+
+- HBM利用率：85%
+- 训练吞吐：140 TFLOPS/GPU
+- 样本/秒：3.2
+
+提升：4倍吞吐量提升
+</code></pre></div>
+
+<h2 id="_1">本章小结</h2>
+<p>本章深入探讨了HBM编程模型与软件栈的关键技术。主要内容包括：</p>
+<ol>
+<li>
+<p><strong>内存映射机制</strong>：理解了HBM的物理地址布局、虚拟内存支持和IOMMU集成，这些是高效利用HBM的基础。</p>
+</li>
+<li>
+<p><strong>数据放置策略</strong>：掌握了NUMA感知分配、动态页面迁移和多级内存分层技术，能够根据访问模式优化数据布局。</p>
+</li>
+<li>
+<p><strong>性能调优工具</strong>：学习了使用硬件性能计数器、带宽监控工具和延迟分析方法识别和解决性能瓶颈。</p>
+</li>
+<li>
+<p><strong>编程接口</strong>：熟悉了CUDA/ROCm、OpenCL和SYCL/OneAPI等主流框架的HBM编程接口。</p>
+</li>
+<li>
+<p><strong>实战优化</strong>：通过大模型训练案例，展示了模型并行、内存优化和通信优化等实用技术。</p>
+</li>
+</ol>
+<p>关键公式回顾：</p>
+<ul>
+<li>
+<p>地址交织：$\text{Channel}_{\text{ID}} = \left\lfloor \frac{\text{Addr}}{\text{Interleave}_{\text{size}}} \right\rfloor \mod N_{\text{channels}}$</p>
+</li>
+<li>
+<p>页面迁移决策：$\text{Migrate} = \begin{cases} \text{True} &amp; \text{if } Cost_{migrate} &lt; Benefit_{future} \\ \text{False} &amp; \text{otherwise} \end{cases}$</p>
+</li>
+<li>
+<p>带宽预测：$BW_{predicted} = \sum_{i=1}^{n} \frac{Size_i × Frequency_i}{Reuse_Distance_i}$</p>
+</li>
+</ul>
+<h2 id="_2">练习题</h2>
+<h3 id="_3">基础题</h3>
+<p><strong>练习14.1</strong>：给定HBM3配置（16通道、每通道128位宽、6.4Gbps），计算理论峰值带宽。如果实测带宽为650GB/s，利用率是多少？</p>
+<details>
+<summary>提示（Hint）</summary>
+<p>使用公式：BW = Channels × Width × Frequency × 2 / 8</p>
+</details>
+<details>
+<summary>答案</summary>
+<p>理论峰值带宽计算：</p>
+<ul>
+<li>BW = 16 × 128bit × 6.4Gbps × 2 / 8</li>
+<li>BW = 16 × 16B × 6.4 × 2</li>
+<li>BW = 819.2 GB/s</li>
+</ul>
+<p>利用率 = 650 / 819.2 × 100% = 79.4%</p>
+<p>这表明系统达到了较好的带宽利用率，但仍有20%的优化空间。</p>
+</details>
+<p><strong>练习14.2</strong>：设计一个地址交织函数，将连续地址均匀分布到8个HBM通道，交织粒度为128字节。写出地址到通道的映射公式。</p>
+<details>
+<summary>提示（Hint）</summary>
+<p>考虑地址的低位用于字节偏移，中间位用于通道选择。</p>
+</details>
+<details>
+<summary>答案</summary>
+<p>地址映射设计：</p>
+<div class="codehilite"><pre><span></span><code>Address[6:0]   - 128字节块内偏移（7位）
+Address[9:7]   - 通道选择（3位，选择8个通道）
+Address[47:10] - 通道内地址
+
+Channel_ID = (Address &gt;&gt; 7) &amp; 0x7
+Channel_Offset = (Address &gt;&gt; 10) &lt;&lt; 7 | (Address &amp; 0x7F)
+</code></pre></div>
+
+<p>验证：</p>
+<ul>
+<li>地址0-127 → 通道0</li>
+<li>地址128-255 → 通道1</li>
+<li>地址1024-1151 → 通道0（第二个128B块）</li>
+</ul>
+</details>
+<p><strong>练习14.3</strong>：一个应用有三种数据结构：A（频繁随机访问，10GB），B（顺序访问，50GB），C（稀疏访问，100GB）。系统有16GB HBM和128GB DDR。设计最优的数据放置策略。</p>
+<details>
+<summary>提示（Hint）</summary>
+<p>根据访问模式和带宽需求决定放置位置。</p>
+</details>
+<details>
+<summary>答案</summary>
+<p>最优放置策略：</p>
+<ol>
+<li>
+<p>A → HBM（10GB）
+   - 频繁随机访问需要低延迟
+   - HBM的高带宽适合随机访问</p>
+</li>
+<li>
+<p>B的热点部分 → HBM（6GB）
+   - 顺序访问的活跃工作集
+   - 使用预取优化</p>
+</li>
+<li>
+<p>B的其余部分 → DDR（44GB）
+   - 顺序访问DDR性能可接受
+   - 可通过预取隐藏延迟</p>
+</li>
+<li>
+<p>C → DDR（100GB）
+   - 稀疏访问不需要高带宽
+   - 大容量适合DDR</p>
+</li>
+</ol>
+<p>总计：HBM使用16GB（充分利用），DDR使用144GB（需要压缩或分层到SSD）</p>
+</details>
+<h3 id="_4">挑战题</h3>
+<p><strong>练习14.4</strong>：设计一个自适应页面迁移算法，根据访问频率和可用带宽动态调整迁移阈值。考虑迁移开销和收益的平衡。</p>
+<details>
+<summary>提示（Hint）</summary>
+<p>使用指数加权移动平均追踪访问频率，根据当前带宽利用率调整阈值。</p>
+</details>
+<details>
+<summary>答案</summary>
+<p>自适应迁移算法：</p>
+<div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">AdaptiveMigration</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.8</span>  <span class="c1"># EWMA系数</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_threshold</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># 基础访问次数阈值</span>
+
+    <span class="k">def</span> <span class="nf">update_access_freq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_id</span><span class="p">,</span> <span class="n">current_access</span><span class="p">):</span>
+        <span class="c1"># 指数加权移动平均</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">[</span><span class="n">page_id</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">[</span><span class="n">page_id</span><span class="p">]</span> <span class="o">+</span> \
+                             <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">current_access</span>
+
+    <span class="k">def</span> <span class="nf">compute_threshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bw_utilization</span><span class="p">):</span>
+        <span class="c1"># 带宽利用率高时提高迁移阈值</span>
+        <span class="k">if</span> <span class="n">bw_utilization</span> <span class="o">&gt;</span> <span class="mf">0.9</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_threshold</span> <span class="o">*</span> <span class="mf">2.0</span>
+        <span class="k">elif</span> <span class="n">bw_utilization</span> <span class="o">&gt;</span> <span class="mf">0.7</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_threshold</span> <span class="o">*</span> <span class="mf">1.5</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_threshold</span>
+
+    <span class="k">def</span> <span class="nf">should_migrate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_id</span><span class="p">,</span> <span class="n">src_node</span><span class="p">,</span> <span class="n">dst_node</span><span class="p">):</span>
+        <span class="n">freq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">[</span><span class="n">page_id</span><span class="p">]</span>
+        <span class="n">threshold</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_threshold</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_bw_util</span><span class="p">(</span><span class="n">dst_node</span><span class="p">))</span>
+
+        <span class="c1"># 计算迁移收益</span>
+        <span class="n">latency_diff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_latency</span><span class="p">(</span><span class="n">src_node</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_latency</span><span class="p">(</span><span class="n">dst_node</span><span class="p">)</span>
+        <span class="n">benefit</span> <span class="o">=</span> <span class="n">freq</span> <span class="o">*</span> <span class="n">latency_diff</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">remaining_time</span>
+
+        <span class="c1"># 计算迁移成本</span>
+        <span class="n">cost</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">page_size</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_available_bw</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">benefit</span> <span class="o">&gt;</span> <span class="n">cost</span> <span class="ow">and</span> <span class="n">freq</span> <span class="o">&gt;</span> <span class="n">threshold</span>
+</code></pre></div>
+
+<p>关键特性：</p>
+<ol>
+<li>动态阈值避免带宽饱和时的过度迁移</li>
+<li>考虑剩余运行时间评估收益</li>
+<li>基于历史访问模式的频率估计</li>
+</ol>
+</details>
+<p><strong>练习14.5</strong>：实现一个HBM感知的矩阵乘法，考虑分块、数据布局和预取策略。目标是在A100 GPU上达到90%的峰值性能。</p>
+<details>
+<summary>提示（Hint）</summary>
+<p>使用层次化分块匹配L1/L2/HBM容量，考虑Bank冲突和行缓冲局部性。</p>
+</details>
+<details>
+<summary>答案</summary>
+<p>HBM优化的矩阵乘法实现：</p>
+<div class="codehilite"><pre><span></span><code><span class="n">template</span><span class="o">&lt;</span><span class="kt">int</span><span class="w"> </span><span class="n">BM</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">BN</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">BK</span><span class="o">&gt;</span>
+<span class="kr">__global__</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">hbm_optimized_gemm</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="kt">__restrict__</span><span class="w"> </span><span class="n">A</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="kt">__restrict__</span><span class="w"> </span><span class="n">B</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="kt">__restrict__</span><span class="w"> </span><span class="n">C</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">M</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">K</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="c1">// 共享内存分块</span>
+<span class="w">    </span><span class="kt">__shared__</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">As</span><span class="p">[</span><span class="n">BM</span><span class="p">][</span><span class="n">BK</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">__shared__</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">Bs</span><span class="p">[</span><span class="n">BK</span><span class="p">][</span><span class="n">BN</span><span class="p">];</span>
+
+<span class="w">    </span><span class="c1">// 寄存器分块</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">Creg</span><span class="p">[</span><span class="mi">8</span><span class="p">][</span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+
+<span class="w">    </span><span class="c1">// 全局内存索引（考虑Bank交织）</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">bid_m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">blockIdx</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">bid_n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">blockIdx</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// 预取下一块到L2</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">__prefetch_global_L2</span><span class="p">(</span>
+<span class="w">            </span><span class="o">&amp;</span><span class="n">A</span><span class="p">[(</span><span class="n">bid_m</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">BM</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">K</span><span class="p">],</span>
+<span class="w">            </span><span class="n">BM</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">BK</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+<span class="w">        </span><span class="n">__prefetch_global_L2</span><span class="p">(</span>
+<span class="w">            </span><span class="o">&amp;</span><span class="n">B</span><span class="p">[(</span><span class="n">bid_n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">BN</span><span class="p">],</span>
+<span class="w">            </span><span class="n">BK</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">BN</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// 主循环 - K维度分块</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">K</span><span class="p">;</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">BK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 协作加载到共享内存（避免Bank冲突）</span>
+<span class="w">        </span><span class="cp">#pragma unroll</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">BM</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">32</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">As</span><span class="p">[</span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">][</span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="w">                </span><span class="n">A</span><span class="p">[(</span><span class="n">bid_m</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">BM</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">K</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">];</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="cp">#pragma unroll</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">BK</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">32</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Bs</span><span class="p">[</span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">][</span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="w">                </span><span class="n">B</span><span class="p">[(</span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bid_n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">BN</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">];</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="nf">__syncthreads</span><span class="p">();</span>
+
+<span class="w">        </span><span class="c1">// 寄存器级计算</span>
+<span class="w">        </span><span class="cp">#pragma unroll</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">kk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">kk</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">BK</span><span class="p">;</span><span class="w"> </span><span class="n">kk</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="cp">#pragma unroll</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="cp">#pragma unroll</span>
+<span class="w">                </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">Creg</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">As</span><span class="p">[</span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">][</span><span class="n">kk</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span>
+<span class="w">                                  </span><span class="n">Bs</span><span class="p">[</span><span class="n">kk</span><span class="p">][</span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">j</span><span class="p">];</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="nf">__syncthreads</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// 写回结果（合并访问）</span>
+<span class="w">    </span><span class="cp">#pragma unroll</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="cp">#pragma unroll</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">C</span><span class="p">[(</span><span class="n">bid_m</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">BM</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">              </span><span class="n">bid_n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">BN</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Creg</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 优化参数（A100）：</span>
+<span class="c1">// BM = 128, BN = 128, BK = 32</span>
+<span class="c1">// 达到~95% 峰值性能</span>
+</code></pre></div>
+
+<p>关键优化：</p>
+<ol>
+<li>三级分块匹配内存层次</li>
+<li>预取隐藏HBM延迟</li>
+<li>避免Bank冲突的数据布局</li>
+<li>寄存器级计算最大化重用</li>
+</ol>
+</details>
+<p><strong>练习14.6</strong>：分析并优化一个Transformer模型的注意力机制，使其HBM带宽利用率从40%提升到80%。给出具体的优化步骤和预期效果。</p>
+<details>
+<summary>提示（Hint）</summary>
+<p>考虑Flash Attention的思想，减少中间结果的HBM读写。</p>
+</details>
+<details>
+<summary>答案</summary>
+<p>Transformer注意力机制的HBM优化：</p>
+<p><strong>原始实现问题</strong>：</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># 标准注意力 - HBM带宽瓶颈</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="n">linear_q</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  <span class="c1"># [B, L, D] → HBM写</span>
+<span class="n">K</span> <span class="o">=</span> <span class="n">linear_k</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  <span class="c1"># [B, L, D] → HBM写</span>
+<span class="n">V</span> <span class="o">=</span> <span class="n">linear_v</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  <span class="c1"># [B, L, D] → HBM写</span>
+
+<span class="n">scores</span> <span class="o">=</span> <span class="n">Q</span> <span class="o">@</span> <span class="n">K</span><span class="o">.</span><span class="n">T</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>  <span class="c1"># [B, L, L] → 大量HBM读写</span>
+<span class="n">attn</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>      <span class="c1"># [B, L, L] → HBM读写</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">attn</span> <span class="o">@</span> <span class="n">V</span>              <span class="c1"># [B, L, D] → HBM读写</span>
+
+<span class="c1"># HBM访问量：O(L²) for scores matrix</span>
+</code></pre></div>
+
+<p><strong>优化方案（Flash Attention风格）</strong>：</p>
+<div class="codehilite"><pre><span></span><code><span class="kr">__global__</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">flash_attention</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">Q</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">V</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">O</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">L</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">D</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="c1">// 分块处理，减少HBM访问</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">Bc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">;</span><span class="w">  </span><span class="c1">// 块大小</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">Br</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">Bc</span><span class="p">,</span><span class="w"> </span><span class="n">L</span><span class="p">);</span>
+
+<span class="w">    </span><span class="kt">__shared__</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">Qi</span><span class="p">[</span><span class="n">Bc</span><span class="p">][</span><span class="n">D</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">__shared__</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">Kj</span><span class="p">[</span><span class="n">Bc</span><span class="p">][</span><span class="n">D</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">__shared__</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">Vj</span><span class="p">[</span><span class="n">Bc</span><span class="p">][</span><span class="n">D</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">__shared__</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">S</span><span class="p">[</span><span class="n">Bc</span><span class="p">][</span><span class="n">Bc</span><span class="p">];</span>
+
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">row_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">INFINITY</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">row_sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">Oi</span><span class="p">[</span><span class="n">D</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+
+<span class="w">    </span><span class="c1">// 外循环：Q的块</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">blockIdx</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Bc</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">L</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nb">gridDim</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Bc</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 加载Qi到共享内存</span>
+<span class="w">        </span><span class="n">load_tile</span><span class="p">(</span><span class="n">Qi</span><span class="p">,</span><span class="w"> </span><span class="n">Q</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">D</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// 内循环：K,V的块</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">L</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">Bc</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// 加载Kj, Vj到共享内存</span>
+<span class="w">            </span><span class="n">load_tile</span><span class="p">(</span><span class="n">Kj</span><span class="p">,</span><span class="w"> </span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">D</span><span class="p">);</span>
+<span class="w">            </span><span class="n">load_tile</span><span class="p">(</span><span class="n">Vj</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">D</span><span class="p">);</span>
+
+<span class="w">            </span><span class="c1">// 计算注意力分数（片上）</span>
+<span class="w">            </span><span class="n">compute_scores</span><span class="p">(</span><span class="n">S</span><span class="p">,</span><span class="w"> </span><span class="n">Qi</span><span class="p">,</span><span class="w"> </span><span class="n">Kj</span><span class="p">,</span><span class="w"> </span><span class="n">D</span><span class="p">);</span>
+
+<span class="w">            </span><span class="c1">// 在线softmax（避免存储完整矩阵）</span>
+<span class="w">            </span><span class="kt">float</span><span class="w"> </span><span class="n">block_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reduce_max</span><span class="p">(</span><span class="n">S</span><span class="p">);</span>
+<span class="w">            </span><span class="kt">float</span><span class="w"> </span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">exp</span><span class="p">(</span><span class="n">row_max</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">block_max</span><span class="p">);</span>
+
+<span class="w">            </span><span class="n">row_sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row_sum</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">scale</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">                     </span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="n">S</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">block_max</span><span class="p">));</span>
+<span class="w">            </span><span class="n">row_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">block_max</span><span class="p">;</span>
+
+<span class="w">            </span><span class="c1">// 累积输出（片上）</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">D</span><span class="p">;</span><span class="w"> </span><span class="n">d</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">Oi</span><span class="p">[</span><span class="n">d</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Oi</span><span class="p">[</span><span class="n">d</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">scale</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">                       </span><span class="n">compute_weighted_sum</span><span class="p">(</span><span class="n">S</span><span class="p">,</span><span class="w"> </span><span class="n">Vj</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="c1">// 归一化并写回</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">D</span><span class="p">;</span><span class="w"> </span><span class="n">d</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">O</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">D</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">d</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Oi</span><span class="p">[</span><span class="n">d</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">row_sum</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>优化效果分析</strong>：</p>
+<ol>
+<li>HBM访问减少：O(L²) → O(L²/M)，M为片上内存容量</li>
+<li>带宽利用率：40% → 82%</li>
+<li>性能提升：2.3倍</li>
+<li>内存占用：减少O(L²)中间矩阵存储</li>
+</ol>
+<p><strong>进一步优化</strong>：</p>
+<ul>
+<li>多头注意力并行</li>
+<li>KV缓存优化</li>
+<li>动态序列长度处理</li>
+</ul>
+</details>
+<h2 id="gotchas">常见陷阱与错误（Gotchas）</h2>
+<h3 id="1">1. 内存分配陷阱</h3>
+<p><strong>错误</strong>：假设统一内存自动选择最优位置</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// 错误：依赖默认行为</span>
+<span class="n">cudaMallocManaged</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ptr</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+<span class="c1">// ptr可能被放在系统内存而非HBM</span>
+</code></pre></div>
+
+<p><strong>正确</strong>：显式指定内存位置和访问模式</p>
+<div class="codehilite"><pre><span></span><code><span class="n">cudaMallocManaged</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ptr</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+<span class="n">cudaMemAdvise</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">cudaMemAdviseSetPreferredLocation</span><span class="p">,</span><span class="w"> </span><span class="n">device</span><span class="p">);</span>
+<span class="n">cudaMemPrefetchAsync</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">device</span><span class="p">);</span>
+</code></pre></div>
+
+<h3 id="2-numa">2. NUMA绑定错误</h3>
+<p><strong>错误</strong>：忽略CPU-HBM亲和性</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// 错误：随机CPU访问远程HBM</span>
+<span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">numa_alloc_onnode</span><span class="p">(</span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">hbm_node</span><span class="p">);</span>
+<span class="c1">// 任意线程访问，造成跨NUMA访问</span>
+</code></pre></div>
+
+<p><strong>正确</strong>：绑定线程到本地CPU</p>
+<div class="codehilite"><pre><span></span><code><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">numa_alloc_onnode</span><span class="p">(</span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">hbm_node</span><span class="p">);</span>
+<span class="n">numa_run_on_node</span><span class="p">(</span><span class="n">cpu_node_for_hbm</span><span class="p">);</span><span class="w">  </span><span class="c1">// 绑定到对应CPU</span>
+</code></pre></div>
+
+<h3 id="3">3. 带宽计算误区</h3>
+<p><strong>错误</strong>：使用理论峰值评估性能</p>
+<div class="codehilite"><pre><span></span><code>期望带宽 = 819.2 GB/s（HBM3理论值）
+</code></pre></div>
+
+<p><strong>实际</strong>：考虑各种开销</p>
+<div class="codehilite"><pre><span></span><code>实际带宽 = 理论带宽 × 0.85（协议开销）× 0.9（刷新开销）
+         = 819.2 × 0.85 × 0.9 = 626 GB/s
+</code></pre></div>
+
+<h3 id="4">4. 页面迁移时机</h3>
+<p><strong>错误</strong>：过于频繁的迁移</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># 错误：每次访问都检查迁移</span>
+<span class="k">if</span> <span class="n">access_count</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">migrate_page</span><span class="p">()</span>  <span class="c1"># 开销大于收益</span>
+</code></pre></div>
+
+<p><strong>正确</strong>：批量迁移和阈值控制</p>
+<div class="codehilite"><pre><span></span><code><span class="k">if</span> <span class="n">access_count</span> <span class="o">&gt;</span> <span class="n">threshold</span> <span class="ow">and</span> <span class="n">time_since_last_migration</span> <span class="o">&gt;</span> <span class="n">min_interval</span><span class="p">:</span>
+    <span class="n">batch_migrate_pages</span><span class="p">()</span>
+</code></pre></div>
+
+<h3 id="5">5. 缓存污染</h3>
+<p><strong>错误</strong>：大量流式数据污染缓存</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// 错误：所有数据经过缓存</span>
+<span class="n">memcpy</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="n">large_size</span><span class="p">);</span>
+</code></pre></div>
+
+<p><strong>正确</strong>：使用非临时提示</p>
+<div class="codehilite"><pre><span></span><code><span class="n">__builtin_nontemporal_store</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">);</span>
+<span class="c1">// 或使用 CUDA的 __stcs() 指令</span>
+</code></pre></div>
+
+<h2 id="_5">最佳实践检查清单</h2>
+<h3 id="_6">设计阶段</h3>
+<ul>
+<li>[ ] 分析应用的内存访问模式和带宽需求</li>
+<li>[ ] 评估数据集大小与HBM容量的匹配度</li>
+<li>[ ] 设计合理的数据分区和放置策略</li>
+<li>[ ] 考虑NUMA拓扑对性能的影响</li>
+<li>[ ] 规划内存层次和数据移动策略</li>
+</ul>
+<h3 id="_7">实现阶段</h3>
+<ul>
+<li>[ ] 使用大页减少TLB压力</li>
+<li>[ ] 实现NUMA感知的内存分配</li>
+<li>[ ] 优化数据布局避免Bank冲突</li>
+<li>[ ] 使用异步操作隐藏延迟</li>
+<li>[ ] 实现智能预取策略</li>
+</ul>
+<h3 id="_8">优化阶段</h3>
+<ul>
+<li>[ ] 监控实际带宽利用率</li>
+<li>[ ] 识别内存访问热点</li>
+<li>[ ] 优化内存访问模式</li>
+<li>[ ] 平衡计算与内存访问</li>
+<li>[ ] 考虑数据压缩减少传输量</li>
+</ul>
+<h3 id="_9">调试阶段</h3>
+<ul>
+<li>[ ] 使用性能计数器分析瓶颈</li>
+<li>[ ] 检查页面故障和迁移频率</li>
+<li>[ ] 验证NUMA绑定正确性</li>
+<li>[ ] 分析Bank冲突和行缓冲命中率</li>
+<li>[ ] 评估功耗与性能的平衡</li>
+</ul>
+<h3 id="_10">部署阶段</h3>
+<ul>
+<li>[ ] 测试不同HBM配置下的性能</li>
+<li>[ ] 准备降级策略（HBM不足时）</li>
+<li>[ ] 监控生产环境的内存使用</li>
+<li>[ ] 建立性能基准和告警机制</li>
+<li>[ ] 记录优化经验和最佳配置</li>
+</ul>
+            </article>
+            
+            <nav class="page-nav"><a href="chapter13.html" class="nav-link prev">← 第13章：HBM系统设计</a><a href="chapter15.html" class="nav-link next">第15章：近存储计算架构 →</a></nav>
+        </main>
+    </div>
+</body>
+</html>

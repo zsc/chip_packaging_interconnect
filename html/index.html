@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="./">
+    <title>芯片互联与封装技术教程</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/highlight.css">
+    <script src="assets/script.js" defer></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                processEscapes: false,
+                packages: {'[+]': ['noerrors', 'ams']}
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            loader: {
+                load: ['[tex]/noerrors', '[tex]/ams']
+            }
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h3>目录</h3>
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <div class="sidebar-search">
+                <input type="text" id="sidebar-search-input" placeholder="搜索..." autocomplete="off">
+            </div>
+            <div id="tree-container">
+                <nav class="tree-nav" role="tree">
+                    <div class="tree-item active" >
+                        <a href="index.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">芯片互联与封装技术教程</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter1.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第1章：NoC架构概述</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter2.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第2章：路由算法与流控</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter3.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第3章：NoC性能建模与优化</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter4.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第4章：2.5D封装技术</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter5.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第5章：3D封装与异构集成</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter6.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第6章：Chiplet设计理念与经济学</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter7.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第7章：Die-to-Die接口标准</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter8.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第8章：Chiplet物理层设计</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter9.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第9章：Chiplet系统架构</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter10.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第10章：Chiplet集成与验证</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter11.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第11章：HBM架构基础</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter12.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第12章：HBM物理实现</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter13.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第13章：HBM系统设计</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter14.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第14章：HBM编程模型与软件栈</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter15.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第15章：近存储计算架构</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter16.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第16章：CXL与内存扩展</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter17.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第17章：数据中心规模互联</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter18.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第18章：AI加速器互联</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter19.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第19章：移动与边缘芯片互联</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter20.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第20章：AMD Infinity架构演进</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter21.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第21章：光电混合互联</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter22.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第22章：量子互联初探</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="CLAUDE.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">Untitled</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </nav>
+        
+        <main class="content">
+            <article>
+                <h1 id="_1">芯片互联与封装技术教程</h1>
+<h2 id="_2">前言</h2>
+<p>本教程深入探讨现代芯片设计中的关键技术：片上网络（NoC）、先进封装技术、以及片间互联架构。随着摩尔定律放缓和Chiplet技术的兴起，这些技术成为突破性能瓶颈的关键路径。</p>
+<h3 id="_3">目标读者</h3>
+<ul>
+<li>资深程序员和AI科学家</li>
+<li>芯片架构研究人员</li>
+<li>系统设计工程师</li>
+</ul>
+<h3 id="_4">学习目标</h3>
+<p>完成本教程后，您将能够：</p>
+<ol>
+<li>设计和优化片上网络架构</li>
+<li>评估不同封装技术的权衡</li>
+<li>分析业界先进互联方案</li>
+<li>解决实际系统中的互联挑战</li>
+</ol>
+<h3 id="_5">先修知识</h3>
+<ul>
+<li>计算机体系结构基础</li>
+<li>数字电路设计概念</li>
+<li>基本的排队论和概率论</li>
+</ul>
+<hr />
+<h2 id="noc">第一部分：片上网络（NoC）基础</h2>
+<h3 id="1noc"><a href="chapter1.html">第1章：NoC架构概述</a></h3>
+<ul>
+<li>NoC的起源与发展历程</li>
+<li>与传统总线架构的对比</li>
+<li>拓扑结构：Mesh、Torus、Fat Tree、Dragonfly</li>
+<li>路由器微架构设计</li>
+<li>虚拟通道与流控机制</li>
+<li>功耗管理策略</li>
+<li><strong>案例研究</strong>：Intel Mesh Interconnect、ARM CMN-700</li>
+</ul>
+<h3 id="2"><a href="chapter2.html">第2章：路由算法与流控</a></h3>
+<ul>
+<li>确定性路由：XY、YX、West-First</li>
+<li>自适应路由：Odd-Even、Turn Model</li>
+<li>死锁避免与恢复机制</li>
+<li>虚拟通道分配策略</li>
+<li>信用流控与背压机制</li>
+<li>QoS与优先级调度</li>
+<li><strong>案例研究</strong>：NVIDIA NVSwitch路由策略</li>
+</ul>
+<h3 id="3noc"><a href="chapter3.html">第3章：NoC性能建模与优化</a></h3>
+<ul>
+<li>延迟模型：零负载延迟、排队延迟</li>
+<li>吞吐量分析与饱和点预测</li>
+<li>功耗模型：动态功耗、静态功耗</li>
+<li>热点缓解技术</li>
+<li>拥塞控制算法</li>
+<li>仿真方法论：cycle-accurate vs analytical</li>
+<li><strong>工具介绍</strong>：BookSim、Garnet、DSENT</li>
+</ul>
+<hr />
+<h2 id="_6">第二部分：先进封装技术</h2>
+<h3 id="425d"><a href="chapter4.html">第4章：2.5D封装技术</a></h3>
+<ul>
+<li>Silicon Interposer技术原理</li>
+<li>CoWoS技术演进：CoWoS-S/R/L</li>
+<li>Intel EMIB桥接技术</li>
+<li>微凸点（μbump）与TSV技术</li>
+<li>信号完整性挑战</li>
+<li>热管理方案</li>
+<li><strong>深度分析</strong>：TSMC CoWoS vs Intel EMIB权衡</li>
+</ul>
+<h3 id="53d"><a href="chapter5.html">第5章：3D封装与异构集成</a></h3>
+<ul>
+<li>3D堆叠技术：Face-to-Face、Face-to-Back</li>
+<li>Intel Foveros与Co-EMIB</li>
+<li>Hybrid Bonding技术</li>
+<li>功率传输网络（PDN）设计</li>
+<li>热耦合与散热挑战</li>
+<li>测试与良率管理</li>
+<li><strong>案例研究</strong>：AMD 3D V-Cache实现</li>
+</ul>
+<h3 id="6chiplet"><a href="chapter6.html">第6章：Chiplet设计理念与经济学</a></h3>
+<ul>
+<li>Chiplet起源与发展历程</li>
+<li>摩尔定律终结与解决方案</li>
+<li>大芯片制造的良率挑战</li>
+<li>Chiplet经济学模型</li>
+<li>成本分析：掩膜、流片、封装</li>
+<li>良率计算与KGD（Known Good Die）</li>
+<li>最优die尺寸决策</li>
+<li>IP复用策略</li>
+<li>供应链管理与多源采购</li>
+<li><strong>案例分析</strong>：AMD Zen架构成本收益分析</li>
+</ul>
+<h3 id="7die-to-die"><a href="chapter7.html">第7章：Die-to-Die接口标准</a></h3>
+<ul>
+<li>UCIe（Universal Chiplet Interconnect Express）</li>
+<li>协议栈架构</li>
+<li>物理层规范：Standard vs Advanced Package</li>
+<li>Die-to-Die适配层</li>
+<li>协议层支持：PCIe、CXL、Streaming</li>
+<li>BoW（Bunch of Wires）</li>
+<li>AIB（Advanced Interface Bus）演进</li>
+<li>物理层实现</li>
+<li>时钟架构</li>
+<li>OpenHBI（Open High Bandwidth Interconnect）</li>
+<li>并行接口设计</li>
+<li>信号映射</li>
+<li>XSR（Extra Short Reach）标准</li>
+<li><strong>对比分析</strong>：各标准带宽、功耗、延迟权衡</li>
+</ul>
+<h3 id="8chiplet"><a href="chapter8.html">第8章：Chiplet物理层设计</a></h3>
+<ul>
+<li>PHY架构设计</li>
+<li>并行vs串行接口</li>
+<li>时钟方案：源同步、嵌入式时钟</li>
+<li>均衡技术：FFE、DFE、CTLE</li>
+<li>封装内信号完整性</li>
+<li>传输线效应</li>
+<li>串扰与噪声</li>
+<li>阻抗匹配</li>
+<li>电源与接地设计</li>
+<li>PDN（Power Delivery Network）</li>
+<li>去耦电容策略</li>
+<li>电源噪声隔离</li>
+<li>测试与调试</li>
+<li>BIST（Built-In Self Test）</li>
+<li>边界扫描</li>
+<li>在线监控</li>
+<li><strong>深度分析</strong>：UCIe PHY实现细节</li>
+</ul>
+<h3 id="9chiplet"><a href="chapter9.html">第9章：Chiplet系统架构</a></h3>
+<ul>
+<li>芯片划分策略</li>
+<li>功能划分：计算、IO、内存</li>
+<li>同构vs异构设计</li>
+<li>粒度选择</li>
+<li>互联拓扑设计</li>
+<li>Star、Ring、Mesh拓扑</li>
+<li>多级互联架构</li>
+<li>全局路由策略</li>
+<li>缓存一致性</li>
+<li>目录协议扩展</li>
+<li>NUMA感知</li>
+<li>一致性域管理</li>
+<li>中断与异常处理</li>
+<li>功耗管理</li>
+<li>电压岛设计</li>
+<li>动态功耗调节</li>
+<li>Chiplet级别休眠</li>
+<li><strong>案例研究</strong>：Intel Ponte Vecchio 47-Tile设计</li>
+</ul>
+<h3 id="10chiplet"><a href="chapter10.html">第10章：Chiplet集成与验证</a></h3>
+<ul>
+<li>协同设计流程</li>
+<li>接口定义与验证</li>
+<li>时序收敛</li>
+<li>功耗预算</li>
+<li>3D/2.5D集成选择</li>
+<li>性能需求分析</li>
+<li>成本考量</li>
+<li>制造可行性</li>
+<li>系统级验证</li>
+<li>仿真策略：混合抽象级别</li>
+<li>FPGA原型验证</li>
+<li>后硅验证</li>
+<li>可靠性设计</li>
+<li>冗余与容错</li>
+<li>老化管理</li>
+<li>现场可维护性</li>
+<li><strong>工具链</strong>：Synopsys 3DIC Compiler、Cadence Integrity 3D-IC</li>
+</ul>
+<hr />
+<h2 id="_7">第三部分：存储器集成</h2>
+<h3 id="11hbm"><a href="chapter11.html">第11章：HBM架构基础</a></h3>
+<ul>
+<li>HBM标准演进历程</li>
+<li>HBM1：128GB/s起点</li>
+<li>HBM2/2E：256-410GB/s提升</li>
+<li>HBM3：600-819GB/s突破</li>
+<li>HBM3E：1.2TB/s新高度</li>
+<li>堆叠架构详解</li>
+<li>Base Die功能</li>
+<li>DRAM Die组织</li>
+<li>TSV布局与密度</li>
+<li>通道架构</li>
+<li>独立通道模式</li>
+<li>伪通道（Pseudo Channel）模式</li>
+<li>通道交织策略</li>
+<li>物理接口</li>
+<li>1024位数据总线</li>
+<li>时钟架构</li>
+<li>命令/地址接口</li>
+<li><strong>深度对比</strong>：HBM vs GDDR6/6X vs DDR5</li>
+</ul>
+<h3 id="12hbm"><a href="chapter12.html">第12章：HBM物理实现</a></h3>
+<ul>
+<li>TSV技术深度解析</li>
+<li>Via-First vs Via-Last工艺</li>
+<li>TSV尺寸与间距优化</li>
+<li>应力管理</li>
+<li>可靠性挑战</li>
+<li>Microbump互联</li>
+<li>凸点材料与结构</li>
+<li>间距缩放趋势</li>
+<li>热压键合工艺</li>
+<li>电迁移防护</li>
+<li>信号完整性优化</li>
+<li>阻抗控制</li>
+<li>串扰抑制</li>
+<li>电源完整性</li>
+<li>抖动预算</li>
+<li>热管理方案</li>
+<li>热阻路径分析</li>
+<li>热界面材料（TIM）</li>
+<li>主动散热策略</li>
+<li><strong>实践案例</strong>：NVIDIA A100 HBM2E集成</li>
+</ul>
+<h3 id="13hbm"><a href="chapter13.html">第13章：HBM系统设计</a></h3>
+<ul>
+<li>内存控制器架构</li>
+<li>调度算法</li>
+<li>刷新管理</li>
+<li>ECC实现</li>
+<li>PHY训练序列</li>
+<li>功耗优化技术</li>
+<li>低功耗模式：Self-Refresh、Power-Down</li>
+<li>DQ终端优化</li>
+<li>时钟门控</li>
+<li>电压/频率调节</li>
+<li>带宽利用优化</li>
+<li>访问模式分析</li>
+<li>Bank并行性</li>
+<li>预取策略</li>
+<li>写合并</li>
+<li>RAS（Reliability, Availability, Serviceability）</li>
+<li>ECC与数据保护</li>
+<li>修复机制</li>
+<li>故障预测</li>
+<li>现场诊断</li>
+<li><strong>性能分析</strong>：HBM3在AI训练中的瓶颈</li>
+</ul>
+<h3 id="14hbm"><a href="chapter14.html">第14章：HBM编程模型与软件栈</a></h3>
+<ul>
+<li>内存映射与地址转换</li>
+<li>物理地址布局</li>
+<li>虚拟内存支持</li>
+<li>IOMMU集成</li>
+<li>数据放置策略</li>
+<li>NUMA感知分配</li>
+<li>页面迁移</li>
+<li>内存分层</li>
+<li>性能调优</li>
+<li>Profiling工具</li>
+<li>带宽监控</li>
+<li>延迟分析</li>
+<li>热点识别</li>
+<li>API与编程接口</li>
+<li>CUDA/ROCm支持</li>
+<li>OpenCL扩展</li>
+<li>SYCL/OneAPI</li>
+<li><strong>实战指南</strong>：大模型训练中的HBM优化</li>
+</ul>
+<h3 id="15"><a href="chapter15.html">第15章：近存储计算架构</a></h3>
+<ul>
+<li>Processing-in-Memory (PIM)概念</li>
+<li>Samsung HBM-PIM实现</li>
+<li>逻辑层设计与计算单元</li>
+<li>编程模型与软件栈</li>
+<li>应用场景：AI推理、图计算</li>
+<li>内存一致性挑战</li>
+<li><strong>案例研究</strong>：SK Hynix AiM技术</li>
+</ul>
+<h3 id="16cxl"><a href="chapter16.html">第16章：CXL与内存扩展</a></h3>
+<ul>
+<li>CXL协议栈：CXL.io、CXL.cache、CXL.mem</li>
+<li>Type 1/2/3设备架构</li>
+<li>内存池化与共享</li>
+<li>一致性协议与目录设计</li>
+<li>延迟优化策略</li>
+<li>故障隔离与RAS特性</li>
+<li><strong>实践案例</strong>：Samsung CXL Memory Expander</li>
+</ul>
+<hr />
+<h2 id="_8">第四部分：业界实践</h2>
+<h3 id="17"><a href="chapter17.html">第17章：数据中心规模互联</a></h3>
+<ul>
+<li>Google TPU互联架构</li>
+<li>NVIDIA DGX系统拓扑</li>
+<li>光互联技术：Silicon Photonics</li>
+<li>交换机架构：Dragonfly+、Fat Tree</li>
+<li>拥塞控制：ECN、PFC、DCQCN</li>
+<li>故障容错与动态路由</li>
+<li><strong>深度分析</strong>：Google TPU v4 3D Torus拓扑</li>
+</ul>
+<h3 id="18ai"><a href="chapter18.html">第18章：AI加速器互联</a></h3>
+<ul>
+<li>Cerebras Wafer-Scale Engine</li>
+<li>eFabric架构详解</li>
+<li>跨reticle通信</li>
+<li>功耗与时钟分布</li>
+<li>Tesla Dojo D1芯片</li>
+<li>训练节点互联</li>
+<li>Z-plane接口</li>
+<li>系统级扩展</li>
+<li>Graphcore IPU互联</li>
+<li>IPU-Fabric技术</li>
+<li>BSP同步模型</li>
+<li><strong>性能分析</strong>：大模型训练中的通信瓶颈</li>
+</ul>
+<h3 id="19"><a href="chapter19.html">第19章：移动与边缘芯片互联</a></h3>
+<ul>
+<li>Apple UltraFusion互联</li>
+<li>M1 Ultra架构分析</li>
+<li>Die-to-die带宽优化</li>
+<li>功耗管理策略</li>
+<li>Qualcomm多die方案</li>
+<li>Samsung Exynos互联</li>
+<li>异构计算调度</li>
+<li>功耗与性能平衡</li>
+<li><strong>对比研究</strong>：Apple vs AMD Chiplet策略</li>
+</ul>
+<h3 id="20amd-infinity"><a href="chapter20.html">第20章：AMD Infinity架构演进</a></h3>
+<ul>
+<li>Infinity Fabric概述</li>
+<li>EPYC服务器互联拓扑</li>
+<li>Ryzen桌面处理器CCD/IOD设计</li>
+<li>MI300异构集成</li>
+<li>CPU+GPU统一架构</li>
+<li>共享内存模型</li>
+<li>缓存一致性协议</li>
+<li>Infinity Cache实现</li>
+<li>XGMI与PCIe共存</li>
+<li><strong>深度分析</strong>：MI300A架构创新</li>
+</ul>
+<hr />
+<h2 id="_9">第五部分：前沿技术与未来展望</h2>
+<h3 id="21"><a href="chapter21.html">第21章：光电混合互联</a></h3>
+<ul>
+<li>Silicon Photonics基础</li>
+<li>光调制器与探测器</li>
+<li>波分复用（WDM）技术</li>
+<li>光电协同封装（CPO）</li>
+<li>热稳定性挑战</li>
+<li>标准化进展</li>
+<li><strong>案例研究</strong>：Intel光互联路线图</li>
+</ul>
+<h3 id="22"><a href="chapter22.html">第22章：量子互联初探</a></h3>
+<ul>
+<li>量子比特互联需求</li>
+<li>低温环境挑战</li>
+<li>经典-量子接口</li>
+<li>控制电路集成</li>
+<li>误差传播与纠错</li>
+<li>扩展性限制</li>
+<li><strong>前沿研究</strong>：Google Sycamore互联架构</li>
+</ul>
+<hr />
+<h2 id="_10">附录</h2>
+<h3 id="a"><a href="appendix_a.html">附录A：互联标准对比</a></h3>
+<ul>
+<li>PCIe Gen 6</li>
+<li>CXL 3.0</li>
+<li>UCIe 1.1</li>
+<li>NVLink 4.0</li>
+<li>Infinity Fabric 3.0</li>
+<li>性能、功耗、成本权衡表</li>
+</ul>
+<h3 id="b"><a href="appendix_b.html">附录B：仿真工具使用指南</a></h3>
+<ul>
+<li>gem5 NoC仿真</li>
+<li>SystemC建模</li>
+<li>SPICE互联分析</li>
+<li>热仿真工具</li>
+</ul>
+<h3 id="c"><a href="appendix_c.html">附录C：术语表</a></h3>
+<ul>
+<li>中英文对照</li>
+<li>缩略语详解</li>
+<li>关键概念索引</li>
+</ul>
+<h3 id="d"><a href="appendix_d.html">附录D：参考文献</a></h3>
+<ul>
+<li>学术论文</li>
+<li>工业白皮书</li>
+<li>标准规范</li>
+<li>推荐阅读</li>
+</ul>
+<hr />
+<h2 id="_11">学习路径建议</h2>
+<h3 id="2_1">快速入门路径（2周）</h3>
+<ol>
+<li>第1章：NoC架构概述</li>
+<li>第4章：2.5D封装技术</li>
+<li>第6章：Chiplet架构设计</li>
+<li>第11章：AI加速器互联（选读）</li>
+</ol>
+<h3 id="6">系统学习路径（6周）</h3>
+<ul>
+<li>第1周：第1-2章（NoC基础）</li>
+<li>第2周：第3章（性能建模）</li>
+<li>第3周：第4-5章（封装技术）</li>
+<li>第4周：第6-7章（Chiplet与HBM）</li>
+<li>第5周：第10-11章（数据中心与AI）</li>
+<li>第6周：第12-13章（业界实践）</li>
+</ul>
+<h3 id="8">研究导向路径（8周）</h3>
+<ul>
+<li>完整学习所有章节</li>
+<li>深入研究每章的案例分析</li>
+<li>完成所有练习题</li>
+<li>阅读推荐论文</li>
+</ul>
+<hr />
+<h2 id="_12">版权与贡献</h2>
+<p>本教程采用 CC BY-SA 4.0 许可证。欢迎提交Issue和Pull Request。</p>
+<p>最后更新：2024年1月</p>
+            </article>
+            
+            <nav class="page-nav"><a href="chapter1.html" class="nav-link next">第1章：NoC架构概述 →</a></nav>
+        </main>
+    </div>
+</body>
+</html>
