@@ -5,6 +5,7 @@
 文件组织是 index.md + chapter1.md + ...
 要覆盖 NoC 主要架构、互联算法、chiplet, cowos 。
 以及 芯片dram合封，flipchip, hbm 话题，以及apple chiplet, AMD chiplet, cerebras, dojo 等玩家
+数学公式用 latex 表示
 
 ## Audience
 verteran programmer and AI scientists
